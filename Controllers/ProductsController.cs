@@ -288,17 +288,11 @@ public class ProductsController : ControllerBase
             if (request.FichaTecnica != null)
                 product.FichaTecnica = request.FichaTecnica;
 
-            if (request.ImagenPrincipal != null)
-                product.ImagenPrincipal = request.ImagenPrincipal;
-
-            if (request.Imagen2 != null)
-                product.Imagen2 = request.Imagen2;
-
-            if (request.Imagen3 != null)
-                product.Imagen3 = request.Imagen3;
-
-            if (request.Imagen4 != null)
-                product.Imagen4 = request.Imagen4;
+            // Actualizar imágenes (permitir null para eliminarlas)
+            product.ImagenPrincipal = request.ImagenPrincipal;
+            product.Imagen2 = request.Imagen2;
+            product.Imagen3 = request.Imagen3;
+            product.Imagen4 = request.Imagen4;
 
             if (request.CategoryId.HasValue)
             {
