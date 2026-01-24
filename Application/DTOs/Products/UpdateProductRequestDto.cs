@@ -13,16 +13,10 @@ public class UpdateProductRequestDto
     [StringLength(300, ErrorMessage = "El nombre del producto no puede exceder 300 caracteres")]
     public string? Producto { get; set; }
 
-    [StringLength(500, ErrorMessage = "La URL de imagen no puede exceder 500 caracteres")]
+    // Imágenes en Base64 o URLs - sin límite de longitud
     public string? ImagenPrincipal { get; set; }
-
-    [StringLength(500, ErrorMessage = "La URL de imagen no puede exceder 500 caracteres")]
     public string? Imagen2 { get; set; }
-
-    [StringLength(500, ErrorMessage = "La URL de imagen no puede exceder 500 caracteres")]
     public string? Imagen3 { get; set; }
-
-    [StringLength(500, ErrorMessage = "La URL de imagen no puede exceder 500 caracteres")]
     public string? Imagen4 { get; set; }
 
     [StringLength(5000, ErrorMessage = "La descripción no puede exceder 5000 caracteres")]

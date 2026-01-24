@@ -25,16 +25,16 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasMaxLength(300);
 
         builder.Property(p => p.ImagenPrincipal)
-            .HasMaxLength(500);
+            .HasColumnType("NVARCHAR(MAX)");
 
         builder.Property(p => p.Imagen2)
-            .HasMaxLength(500);
+            .HasColumnType("NVARCHAR(MAX)");
 
         builder.Property(p => p.Imagen3)
-            .HasMaxLength(500);
+            .HasColumnType("NVARCHAR(MAX)");
 
         builder.Property(p => p.Imagen4)
-            .HasMaxLength(500);
+            .HasColumnType("NVARCHAR(MAX)");
 
         builder.Property(p => p.IsActive)
             .IsRequired()
