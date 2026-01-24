@@ -1,0 +1,6 @@
+@backendORCinverisones_HostAddress = http://localhost:5095
+
+GET {{backendORCinverisones_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
