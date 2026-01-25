@@ -94,14 +94,22 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// CORS (opcional)
+// CORS - Configurado para ngrok y desarrollo local
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
     {
-        policy.AllowAnyOrigin()
+        policy.WithOrigins(
+                "http://localhost:5173",
+                "http://192.168.1.68:5173",
+                "https://kiara-unascendant-trustingly.ngrok-free.dev",
+                "https://*.ngrok-free.dev",
+                "https://*.ngrok.io",
+                "https://*.ngrok-free.app"
+              )
               .AllowAnyMethod()
-              .AllowAnyHeader();
+              .AllowAnyHeader()
+              .AllowCredentials();
     });
 });
 
@@ -117,7 +125,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// Comentado para desarrollo con ngrok (usa HTTP en red local)
+// app.UseHttpsRedirection();
 
 app.UseCors("AllowAll");
 

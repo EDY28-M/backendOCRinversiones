@@ -61,6 +61,101 @@ public class ProductsController : ControllerBase
         return Ok(response);
     }
 
+    /// <summary>
+    /// Obtiene productos disponibles (con al menos 1 imagen válida) con paginación
+    /// </summary>
+    [HttpGet("available")]
+    public async Task<IActionResult> GetAvailable(
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 12,
+        [FromQuery] string? q = null,
+        [FromQuery] int? categoryId = null,
+        [FromQuery] bool onlyWithImages = true)
+    {
+        try
+        {
+            var allProducts = await _productRepository.GetAllAsync();
+            var query = allProducts.AsQueryable();
+
+            // Filtro: solo productos con al menos 1 imagen válida
+            if (onlyWithImages)
+            {
+                query = query.Where(p =>
+                    (!string.IsNullOrWhiteSpace(p.ImagenPrincipal)) ||
+                    (!string.IsNullOrWhiteSpace(p.Imagen2)) ||
+                    (!string.IsNullOrWhiteSpace(p.Imagen3)) ||
+                    (!string.IsNullOrWhiteSpace(p.Imagen4))
+                );
+            }
+
+            // Filtro de búsqueda
+            if (!string.IsNullOrWhiteSpace(q))
+            {
+                var searchTerm = q.ToLower();
+                query = query.Where(p =>
+                    p.Producto.ToLower().Contains(searchTerm) ||
+                    p.Codigo.ToLower().Contains(searchTerm) ||
+                    p.CodigoComer.ToLower().Contains(searchTerm) ||
+                    (p.Descripcion != null && p.Descripcion.ToLower().Contains(searchTerm))
+                );
+            }
+
+            // Filtro por categoría
+            if (categoryId.HasValue)
+            {
+                query = query.Where(p => p.CategoryId == categoryId.Value);
+            }
+
+            // Solo productos activos
+            query = query.Where(p => p.IsActive);
+
+            // Calcular total
+            var total = query.Count();
+
+            // Ordenar y paginar
+            var items = query
+                .OrderByDescending(p => p.CreatedAt)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select(p => new ProductResponseDto
+                {
+                    Id = p.Id,
+                    Codigo = p.Codigo,
+                    CodigoComer = p.CodigoComer,
+                    Producto = p.Producto,
+                    Descripcion = p.Descripcion,
+                    FichaTecnica = p.FichaTecnica,
+                    ImagenPrincipal = p.ImagenPrincipal,
+                    Imagen2 = p.Imagen2,
+                    Imagen3 = p.Imagen3,
+                    Imagen4 = p.Imagen4,
+                    IsActive = p.IsActive,
+                    CreatedAt = p.CreatedAt,
+                    UpdatedAt = p.UpdatedAt,
+                    CategoryId = p.CategoryId,
+                    CategoryName = p.Category.Name,
+                    MarcaId = p.MarcaId,
+                    MarcaNombre = p.Marca.Nombre
+                })
+                .ToList();
+
+            var response = new PaginatedProductsResponseDto
+            {
+                Items = items,
+                Page = page,
+                PageSize = pageSize,
+                Total = total
+            };
+
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error al obtener productos disponibles");
+            return StatusCode(500, new { message = "Error al obtener productos disponibles", error = ex.Message });
+        }
+    }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
