@@ -458,6 +458,110 @@ public class ProductsController : ControllerBase
         return Ok(new { message = "Producto eliminado correctamente" });
     }
 
+    /// <summary>
+    /// Obtiene productos disponibles públicos (solo activos con imágenes) sin autenticación
+    /// </summary>
+    [HttpGet("public/active")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetPublicActive(
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 16,
+        [FromQuery] string? q = null,
+        [FromQuery] int? categoryId = null,
+        [FromQuery] string? brandIds = null)
+    {
+        try
+        {
+            var allProducts = await _productRepository.GetAllAsync();
+            var query = allProducts.AsQueryable();
+
+            // Filtro: solo productos con al menos 1 imagen válida
+            query = query.Where(p =>
+                (!string.IsNullOrWhiteSpace(p.ImagenPrincipal)) ||
+                (!string.IsNullOrWhiteSpace(p.Imagen2)) ||
+                (!string.IsNullOrWhiteSpace(p.Imagen3)) ||
+                (!string.IsNullOrWhiteSpace(p.Imagen4))
+            );
+
+            // Filtro de búsqueda
+            if (!string.IsNullOrWhiteSpace(q))
+            {
+                var searchTerm = q.ToLower();
+                query = query.Where(p =>
+                    p.Producto.ToLower().Contains(searchTerm) ||
+                    p.Codigo.ToLower().Contains(searchTerm) ||
+                    p.CodigoComer.ToLower().Contains(searchTerm) ||
+                    (p.Descripcion != null && p.Descripcion.ToLower().Contains(searchTerm))
+                );
+            }
+
+            // Filtro por categoría
+            if (categoryId.HasValue)
+            {
+                query = query.Where(p => p.CategoryId == categoryId.Value);
+            }
+
+            // Filtro por marcas
+            if (!string.IsNullOrEmpty(brandIds))
+            {
+                var brandIdsArray = brandIds.Split(',')
+                    .Where(s => !string.IsNullOrWhiteSpace(s))
+                    .Select(int.Parse)
+                    .ToArray();
+
+                query = query.Where(p => brandIdsArray.Contains(p.MarcaId));
+            }
+
+            // Solo productos activos
+            query = query.Where(p => p.IsActive);
+
+            // Calcular total
+            var total = query.Count();
+
+            // Ordenar y paginar
+            var items = query
+                .OrderByDescending(p => p.CreatedAt)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select(p => new ProductResponseDto
+                {
+                    Id = p.Id,
+                    Codigo = p.Codigo,
+                    CodigoComer = p.CodigoComer,
+                    Producto = p.Producto,
+                    Descripcion = p.Descripcion,
+                    FichaTecnica = p.FichaTecnica,
+                    ImagenPrincipal = p.ImagenPrincipal,
+                    Imagen2 = p.Imagen2,
+                    Imagen3 = p.Imagen3,
+                    Imagen4 = p.Imagen4,
+                    IsActive = p.IsActive,
+                    CreatedAt = p.CreatedAt,
+                    UpdatedAt = p.UpdatedAt,
+                    CategoryId = p.CategoryId,
+                    CategoryName = p.Category.Name,
+                    MarcaId = p.MarcaId,
+                    MarcaNombre = p.Marca.Nombre
+                })
+                .ToList();
+
+            var response = new PaginatedProductsResponseDto
+            {
+                Items = items,
+                Page = page,
+                PageSize = pageSize,
+                Total = total
+            };
+
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error al obtener productos disponibles públicos");
+            return StatusCode(500, new { message = "Error al obtener productos disponibles", error = ex.Message });
+        }
+    }
+
     [HttpPost("bulk-import")]
     [Authorize(Roles = "Administrador,Vendedor")]
     public async Task<IActionResult> BulkImport([FromBody] BulkImportProductRequestDto request)
@@ -637,5 +741,105 @@ public class ProductsController : ControllerBase
             User.Identity?.Name, result.Imported, result.Failed, result.Duplicates, result.MarcasCreated, result.CategoriasCreated);
 
         return Ok(result);
+    }
+
+    /// <summary>
+    /// Obtiene todas las marcas activas públicamente (sin autenticación)
+    /// Solo devuelve marcas que tienen productos activos con imágenes
+    /// </summary>
+    [HttpGet("public/brands")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetPublicBrands()
+    {
+        try
+        {
+            var allProducts = await _productRepository.GetAllAsync();
+
+            // Filtrar productos activos con al menos una imagen
+            var activeProductsWithImages = allProducts.Where(p =>
+                p.IsActive &&
+                (!string.IsNullOrWhiteSpace(p.ImagenPrincipal) ||
+                 !string.IsNullOrWhiteSpace(p.Imagen2) ||
+                 !string.IsNullOrWhiteSpace(p.Imagen3) ||
+                 !string.IsNullOrWhiteSpace(p.Imagen4))
+            ).ToList();
+
+            // Obtener IDs de marcas que tienen productos activos con imágenes
+            var marcaIdsWithActiveProducts = activeProductsWithImages
+                .Select(p => p.MarcaId)
+                .Distinct()
+                .ToList();
+
+            // Obtener todas las marcas y filtrar solo las que tienen productos activos con imágenes
+            var allMarcas = await _nombreMarcaRepository.GetAllAsync();
+            var activeMarcasWithProducts = allMarcas
+                .Where(m => m.IsActive && marcaIdsWithActiveProducts.Contains(m.Id))
+                .Select(m => new
+                {
+                    Id = m.Id,
+                    Nombre = m.Nombre
+                })
+                .ToList();
+
+            return Ok(activeMarcasWithProducts);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error al obtener marcas públicas");
+            return StatusCode(500, new { message = "Error al obtener marcas", error = ex.Message });
+        }
+    }
+
+    /// <summary>
+    /// Obtiene todas las categorías activas públicamente con conteo de productos activos (sin autenticación)
+    /// Solo devuelve categorías que tienen productos activos con imágenes
+    /// </summary>
+    [HttpGet("public/categories")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetPublicCategories()
+    {
+        try
+        {
+            var allProducts = await _productRepository.GetAllAsync();
+
+            // Filtrar productos activos con al menos una imagen
+            var activeProductsWithImages = allProducts.Where(p =>
+                p.IsActive &&
+                (!string.IsNullOrWhiteSpace(p.ImagenPrincipal) ||
+                 !string.IsNullOrWhiteSpace(p.Imagen2) ||
+                 !string.IsNullOrWhiteSpace(p.Imagen3) ||
+                 !string.IsNullOrWhiteSpace(p.Imagen4))
+            ).ToList();
+
+            // Obtener IDs de categorías que tienen productos activos con imágenes
+            var categoryIdsWithActiveProducts = activeProductsWithImages
+                .Select(p => p.CategoryId)
+                .Distinct()
+                .ToList();
+
+            // Agrupar por categoría y contar productos
+            var categoryCounts = activeProductsWithImages
+                .GroupBy(p => p.CategoryId)
+                .ToDictionary(g => g.Key, g => g.Count());
+
+            var categories = await _categoryRepository.GetAllAsync();
+            var activeCategories = categories
+                .Where(c => c.IsActive && categoryIdsWithActiveProducts.Contains(c.Id))
+                .Select(c => new
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    CountActive = categoryCounts.ContainsKey(c.Id) ? categoryCounts[c.Id] : 0
+                })
+                .OrderBy(c => c.Name)
+                .ToList();
+
+            return Ok(activeCategories);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error al obtener categorías públicas");
+            return StatusCode(500, new { message = "Error al obtener categorías", error = ex.Message });
+        }
     }
 }
