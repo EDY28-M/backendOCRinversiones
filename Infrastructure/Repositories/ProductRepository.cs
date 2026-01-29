@@ -187,6 +187,14 @@ public class ProductRepository : Repository<Product>, IProductRepository
         return await query.AnyAsync();
     }
 
+    public async Task UpdateStatusAsync(int id, bool isActive)
+    {
+        await _dbSet.Where(p => p.Id == id)
+            .ExecuteUpdateAsync(s => s
+                .SetProperty(p => p.IsActive, isActive)
+                .SetProperty(p => p.UpdatedAt, DateTime.UtcNow));
+    }
+
     public async Task<IEnumerable<int>> GetDistinctCategoryIdsWithActiveProductsAsync()
     {
         return await _dbSet

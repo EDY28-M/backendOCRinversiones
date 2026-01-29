@@ -16,9 +16,12 @@ public interface IProductRepository : IRepository<Product>
     Task<(IEnumerable<Product> Items, int Total)> GetPublicActiveProductsPagedAsync(
         int page, int pageSize, string? searchTerm, int? categoryId, int[]? brandIds);
 
-    Task<bool> IsCodigoExistsAsync(string codigo, int? excludeProductId);
-    Task<bool> IsCodigoComercialExistsAsync(string codigoComer, int? excludeProductId);
+        Task<bool> IsCodigoExistsAsync(string codigo, int? excludeProductId);
 
-    Task<IEnumerable<int>> GetDistinctCategoryIdsWithActiveProductsAsync();
+        Task<bool> IsCodigoComercialExistsAsync(string codigoComer, int? excludeProductId);
+
+        Task UpdateStatusAsync(int id, bool isActive);
+
+        Task<IEnumerable<int>> GetDistinctCategoryIdsWithActiveProductsAsync();
     Task<IEnumerable<int>> GetDistinctBrandIdsWithActiveProductsAsync();
 }

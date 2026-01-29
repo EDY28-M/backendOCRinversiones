@@ -408,6 +408,31 @@ public class ProductsController : ControllerBase
         }
     }
 
+    [HttpPatch("{id}/status")]
+    [Authorize(Roles = "Administrador,Vendedor")]
+    public async Task<IActionResult> UpdateStatus(int id, [FromBody] UpdateProductStatusRequestDto request)
+    {
+        try
+        {
+            await _productRepository.UpdateStatusAsync(id, request.IsActive);
+            
+            _logger.LogInformation("Estado de producto {Id} actualizado a {Status} por {CurrentUser}", 
+                id, request.IsActive, User.Identity?.Name);
+
+            // Invalidar caches
+            _cacheService.RemoveByPrefix(CacheKeys.ProductsPrefix);
+            _cacheService.Remove(CacheKeys.PublicBrands);
+            _cacheService.Remove(CacheKeys.PublicCategories);
+
+            return Ok(new { message = "Estado actualizado correctamente" });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error al actualizar estado del producto");
+            return StatusCode(500, new { message = "Error al actualizar estado", error = ex.Message });
+        }
+    }
+
     [HttpDelete("{id}")]
     [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> Delete(int id)
