@@ -88,7 +88,7 @@ public class ProductsController : ControllerBase
                 );
             }
 
-            // Filtro de búsqueda
+            // Filtro de búsqueda - busca en nombre, código, descripción, categoría y marca
             if (!string.IsNullOrWhiteSpace(q))
             {
                 var searchTerm = q.ToLower();
@@ -96,7 +96,9 @@ public class ProductsController : ControllerBase
                     p.Producto.ToLower().Contains(searchTerm) ||
                     p.Codigo.ToLower().Contains(searchTerm) ||
                     p.CodigoComer.ToLower().Contains(searchTerm) ||
-                    (p.Descripcion != null && p.Descripcion.ToLower().Contains(searchTerm))
+                    (p.Descripcion != null && p.Descripcion.ToLower().Contains(searchTerm)) ||
+                    p.Category.Name.ToLower().Contains(searchTerm) || // ✅ Búsqueda en categoría
+                    p.Marca.Nombre.ToLower().Contains(searchTerm)     // ✅ Búsqueda en marca
                 );
             }
 
@@ -106,7 +108,7 @@ public class ProductsController : ControllerBase
                 query = query.Where(p => p.CategoryId == categoryId.Value);
             }
 
-            // Solo productos activos
+            // ✅ Filtro IsActive - solo productos activos
             query = query.Where(p => p.IsActive);
 
             // Calcular total
@@ -512,7 +514,8 @@ public class ProductsController : ControllerBase
                 query = query.Where(p => brandIdsArray.Contains(p.MarcaId));
             }
 
-            // Solo productos activos
+            // ✅ Filtrar por IsActive Y por imágenes
+            // Un producto se publica cuando: IsActive=true AND tiene imágenes
             query = query.Where(p => p.IsActive);
 
             // Calcular total
@@ -755,9 +758,9 @@ public class ProductsController : ControllerBase
         {
             var allProducts = await _productRepository.GetAllAsync();
 
-            // Filtrar productos activos con al menos una imagen
+            // ✅ Filtrar por IsActive Y por imágenes
             var activeProductsWithImages = allProducts.Where(p =>
-                p.IsActive &&
+                p.IsActive && // Solo productos activos
                 (!string.IsNullOrWhiteSpace(p.ImagenPrincipal) ||
                  !string.IsNullOrWhiteSpace(p.Imagen2) ||
                  !string.IsNullOrWhiteSpace(p.Imagen3) ||
@@ -802,9 +805,9 @@ public class ProductsController : ControllerBase
         {
             var allProducts = await _productRepository.GetAllAsync();
 
-            // Filtrar productos activos con al menos una imagen
+            // ✅ Filtrar por IsActive Y por imágenes
             var activeProductsWithImages = allProducts.Where(p =>
-                p.IsActive &&
+                p.IsActive && // Solo productos activos
                 (!string.IsNullOrWhiteSpace(p.ImagenPrincipal) ||
                  !string.IsNullOrWhiteSpace(p.Imagen2) ||
                  !string.IsNullOrWhiteSpace(p.Imagen3) ||
