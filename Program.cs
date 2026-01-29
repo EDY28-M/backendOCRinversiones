@@ -30,6 +30,11 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<ICodeGeneratorService, CodeGeneratorService>();
 
+// Memory Cache and Response Caching
+builder.Services.AddMemoryCache();
+builder.Services.AddResponseCaching();
+builder.Services.AddSingleton<ICacheService, CacheService>();
+
 // JWT Authentication
 var jwtKey = builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key not configured");
 var key = Encoding.UTF8.GetBytes(jwtKey);
@@ -129,6 +134,8 @@ if (app.Environment.IsDevelopment())
 // app.UseHttpsRedirection();
 
 app.UseCors("AllowAll");
+
+app.UseResponseCaching();
 
 app.UseAuthentication();
 app.UseAuthorization();

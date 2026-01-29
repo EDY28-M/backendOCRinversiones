@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("backendORCinverisones")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+614c5f0e8ad345f65b6e67cf3a60fd29051a5142")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+98eb7377774707e411dced708d7c049606998c0f")]
 [assembly: System.Reflection.AssemblyProductAttribute("backendORCinverisones")]
 [assembly: System.Reflection.AssemblyTitleAttribute("backendORCinverisones")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

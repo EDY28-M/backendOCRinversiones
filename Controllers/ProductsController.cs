@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using backendORCinverisones.Application.DTOs.Products;
 using backendORCinverisones.Application.Interfaces.Repositories;
 using backendORCinverisones.Application.Interfaces.Services;
+using backendORCinverisones.Application.Constants;
 using backendORCinverisones.Domain.Entities;
 using backendORCinverisones.Infrastructure.Repositories;
 
@@ -17,6 +18,7 @@ public class ProductsController : ControllerBase
     private readonly ICategoryRepository _categoryRepository;
     private readonly INombreMarcaRepository _nombreMarcaRepository;
     private readonly ICodeGeneratorService _codeGeneratorService;
+    private readonly ICacheService _cacheService;
     private readonly ILogger<ProductsController> _logger;
 
     public ProductsController(
@@ -24,12 +26,14 @@ public class ProductsController : ControllerBase
         ICategoryRepository categoryRepository,
         INombreMarcaRepository nombreMarcaRepository,
         ICodeGeneratorService codeGeneratorService,
+        ICacheService cacheService,
         ILogger<ProductsController> logger)
     {
         _productRepository = productRepository;
         _categoryRepository = categoryRepository;
         _nombreMarcaRepository = nombreMarcaRepository;
         _codeGeneratorService = codeGeneratorService;
+        _cacheService = cacheService;
         _logger = logger;
     }
 
@@ -74,52 +78,12 @@ public class ProductsController : ControllerBase
     {
         try
         {
-            var allProducts = await _productRepository.GetAllAsync();
-            var query = allProducts.AsQueryable();
+            var (items, total) = await _productRepository.GetAvailableProductsPagedAsync(
+                page, pageSize, q, categoryId, onlyWithImages, onlyActive: true);
 
-            // Filtro: solo productos con al menos 1 imagen válida
-            if (onlyWithImages)
+            var response = new PaginatedProductsResponseDto
             {
-                query = query.Where(p =>
-                    (!string.IsNullOrWhiteSpace(p.ImagenPrincipal)) ||
-                    (!string.IsNullOrWhiteSpace(p.Imagen2)) ||
-                    (!string.IsNullOrWhiteSpace(p.Imagen3)) ||
-                    (!string.IsNullOrWhiteSpace(p.Imagen4))
-                );
-            }
-
-            // Filtro de búsqueda - busca en nombre, código, descripción, categoría y marca
-            if (!string.IsNullOrWhiteSpace(q))
-            {
-                var searchTerm = q.ToLower();
-                query = query.Where(p =>
-                    p.Producto.ToLower().Contains(searchTerm) ||
-                    p.Codigo.ToLower().Contains(searchTerm) ||
-                    p.CodigoComer.ToLower().Contains(searchTerm) ||
-                    (p.Descripcion != null && p.Descripcion.ToLower().Contains(searchTerm)) ||
-                    p.Category.Name.ToLower().Contains(searchTerm) || // ✅ Búsqueda en categoría
-                    p.Marca.Nombre.ToLower().Contains(searchTerm)     // ✅ Búsqueda en marca
-                );
-            }
-
-            // Filtro por categoría
-            if (categoryId.HasValue)
-            {
-                query = query.Where(p => p.CategoryId == categoryId.Value);
-            }
-
-            // ✅ Filtro IsActive - solo productos activos
-            query = query.Where(p => p.IsActive);
-
-            // Calcular total
-            var total = query.Count();
-
-            // Ordenar y paginar
-            var items = query
-                .OrderByDescending(p => p.CreatedAt)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .Select(p => new ProductResponseDto
+                Items = items.Select(p => new ProductResponseDto
                 {
                     Id = p.Id,
                     Codigo = p.Codigo,
@@ -138,12 +102,7 @@ public class ProductsController : ControllerBase
                     CategoryName = p.Category.Name,
                     MarcaId = p.MarcaId,
                     MarcaNombre = p.Marca.Nombre
-                })
-                .ToList();
-
-            var response = new PaginatedProductsResponseDto
-            {
-                Items = items,
+                }).ToList(),
                 Page = page,
                 PageSize = pageSize,
                 Total = total
@@ -268,15 +227,14 @@ public class ProductsController : ControllerBase
                 return BadRequest(ModelState);
 
             // Validar que el código no exista
-            var products = await _productRepository.GetAllAsync();
-            var codigoExists = products.Any(p => p.Codigo.ToUpper() == request.Codigo.ToUpper());
-                
+            var codigoExists = await _productRepository.IsCodigoExistsAsync(request.Codigo, null);
+
             if (codigoExists)
                 return BadRequest(new { message = $"El código '{request.Codigo}' ya existe" });
 
             // Validar que el código comercial no exista
-            var codigoComercialExists = products.Any(p => p.CodigoComer.ToUpper() == request.CodigoComer.ToUpper());
-                
+            var codigoComercialExists = await _productRepository.IsCodigoComercialExistsAsync(request.CodigoComer, null);
+
             if (codigoComercialExists)
                 return BadRequest(new { message = $"El código comercial '{request.CodigoComer}' ya existe" });
 
@@ -307,6 +265,9 @@ public class ProductsController : ControllerBase
 
             await _productRepository.AddAsync(product);
             _logger.LogInformation("Producto {Codigo} creado por {CurrentUser}", product.Codigo, User.Identity?.Name);
+
+            // Invalidar caches
+            _cacheService.RemoveByPrefix(CacheKeys.ProductsPrefix);
 
             var createdProduct = await _productRepository.GetByIdWithCategoryAsync(product.Id);
             var response = new ProductResponseDto
@@ -355,24 +316,22 @@ public class ProductsController : ControllerBase
             // Validar código si se está actualizando
             if (request.Codigo != null && request.Codigo.ToUpper() != product.Codigo.ToUpper())
             {
-                var allProducts = await _productRepository.GetAllAsync();
-                var codigoExists = allProducts.Any(p => p.Id != id && p.Codigo.ToUpper() == request.Codigo.ToUpper());
-                    
+                var codigoExists = await _productRepository.IsCodigoExistsAsync(request.Codigo, id);
+
                 if (codigoExists)
                     return BadRequest(new { message = $"El código '{request.Codigo}' ya existe" });
-                    
+
                 product.Codigo = request.Codigo.ToUpper();
             }
 
             // Validar código comercial si se está actualizando
             if (request.CodigoComer != null && request.CodigoComer.ToUpper() != product.CodigoComer.ToUpper())
             {
-                var allProducts = await _productRepository.GetAllAsync();
-                var codigoComercialExists = allProducts.Any(p => p.Id != id && p.CodigoComer.ToUpper() == request.CodigoComer.ToUpper());
-                    
+                var codigoComercialExists = await _productRepository.IsCodigoComercialExistsAsync(request.CodigoComer, id);
+
                 if (codigoComercialExists)
                     return BadRequest(new { message = $"El código comercial '{request.CodigoComer}' ya existe" });
-                    
+
                 product.CodigoComer = request.CodigoComer.ToUpper();
             }
 
@@ -414,6 +373,9 @@ public class ProductsController : ControllerBase
 
             await _productRepository.UpdateAsync(product);
             _logger.LogInformation("Producto {Codigo} actualizado por {CurrentUser}", product.Codigo, User.Identity?.Name);
+
+            // Invalidar caches
+            _cacheService.RemoveByPrefix(CacheKeys.ProductsPrefix);
 
             var updatedProduct = await _productRepository.GetByIdWithCategoryAsync(id);
             var response = new ProductResponseDto
@@ -457,6 +419,9 @@ public class ProductsController : ControllerBase
         await _productRepository.DeleteAsync(product);
         _logger.LogInformation("Producto {Codigo} eliminado por {CurrentUser}", product.Codigo, User.Identity?.Name);
 
+        // Invalidar caches
+        _cacheService.RemoveByPrefix(CacheKeys.ProductsPrefix);
+
         return Ok(new { message = "Producto eliminado correctamente" });
     }
 
@@ -474,59 +439,22 @@ public class ProductsController : ControllerBase
     {
         try
         {
-            var allProducts = await _productRepository.GetAllAsync();
-            var query = allProducts.AsQueryable();
-
-            // Filtro: solo productos con al menos 1 imagen válida
-            query = query.Where(p =>
-                (!string.IsNullOrWhiteSpace(p.ImagenPrincipal)) ||
-                (!string.IsNullOrWhiteSpace(p.Imagen2)) ||
-                (!string.IsNullOrWhiteSpace(p.Imagen3)) ||
-                (!string.IsNullOrWhiteSpace(p.Imagen4))
-            );
-
-            // Filtro de búsqueda
-            if (!string.IsNullOrWhiteSpace(q))
-            {
-                var searchTerm = q.ToLower();
-                query = query.Where(p =>
-                    p.Producto.ToLower().Contains(searchTerm) ||
-                    p.Codigo.ToLower().Contains(searchTerm) ||
-                    p.CodigoComer.ToLower().Contains(searchTerm) ||
-                    (p.Descripcion != null && p.Descripcion.ToLower().Contains(searchTerm))
-                );
-            }
-
-            // Filtro por categoría
-            if (categoryId.HasValue)
-            {
-                query = query.Where(p => p.CategoryId == categoryId.Value);
-            }
-
-            // Filtro por marcas
+            // Parse brand IDs
+            int[]? brandIdsArray = null;
             if (!string.IsNullOrEmpty(brandIds))
             {
-                var brandIdsArray = brandIds.Split(',')
+                brandIdsArray = brandIds.Split(',')
                     .Where(s => !string.IsNullOrWhiteSpace(s))
                     .Select(int.Parse)
                     .ToArray();
-
-                query = query.Where(p => brandIdsArray.Contains(p.MarcaId));
             }
 
-            // ✅ Filtrar por IsActive Y por imágenes
-            // Un producto se publica cuando: IsActive=true AND tiene imágenes
-            query = query.Where(p => p.IsActive);
+            var (items, total) = await _productRepository.GetPublicActiveProductsPagedAsync(
+                page, pageSize, q, categoryId, brandIdsArray);
 
-            // Calcular total
-            var total = query.Count();
-
-            // Ordenar y paginar
-            var items = query
-                .OrderByDescending(p => p.CreatedAt)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .Select(p => new ProductResponseDto
+            var response = new PaginatedProductsResponseDto
+            {
+                Items = items.Select(p => new ProductResponseDto
                 {
                     Id = p.Id,
                     Codigo = p.Codigo,
@@ -545,12 +473,7 @@ public class ProductsController : ControllerBase
                     CategoryName = p.Category.Name,
                     MarcaId = p.MarcaId,
                     MarcaNombre = p.Marca.Nombre
-                })
-                .ToList();
-
-            var response = new PaginatedProductsResponseDto
-            {
-                Items = items,
+                }).ToList(),
                 Page = page,
                 PageSize = pageSize,
                 Total = total
@@ -756,35 +679,19 @@ public class ProductsController : ControllerBase
     {
         try
         {
-            var allProducts = await _productRepository.GetAllAsync();
+            var brands = await _cacheService.GetOrCreateAsync(CacheKeys.PublicBrands, async () =>
+            {
+                var brandIds = await _productRepository.GetDistinctBrandIdsWithActiveProductsAsync();
 
-            // ✅ Filtrar por IsActive Y por imágenes
-            var activeProductsWithImages = allProducts.Where(p =>
-                p.IsActive && // Solo productos activos
-                (!string.IsNullOrWhiteSpace(p.ImagenPrincipal) ||
-                 !string.IsNullOrWhiteSpace(p.Imagen2) ||
-                 !string.IsNullOrWhiteSpace(p.Imagen3) ||
-                 !string.IsNullOrWhiteSpace(p.Imagen4))
-            ).ToList();
+                var allMarcas = await _nombreMarcaRepository.GetAllAsync();
 
-            // Obtener IDs de marcas que tienen productos activos con imágenes
-            var marcaIdsWithActiveProducts = activeProductsWithImages
-                .Select(p => p.MarcaId)
-                .Distinct()
-                .ToList();
+                return allMarcas
+                    .Where(m => m.IsActive && brandIds.Contains(m.Id))
+                    .Select(m => new { Id = m.Id, Nombre = m.Nombre })
+                    .ToList();
+            }, CacheExpiration.PublicMetadata);
 
-            // Obtener todas las marcas y filtrar solo las que tienen productos activos con imágenes
-            var allMarcas = await _nombreMarcaRepository.GetAllAsync();
-            var activeMarcasWithProducts = allMarcas
-                .Where(m => m.IsActive && marcaIdsWithActiveProducts.Contains(m.Id))
-                .Select(m => new
-                {
-                    Id = m.Id,
-                    Nombre = m.Nombre
-                })
-                .ToList();
-
-            return Ok(activeMarcasWithProducts);
+            return Ok(brands);
         }
         catch (Exception ex)
         {
@@ -803,39 +710,22 @@ public class ProductsController : ControllerBase
     {
         try
         {
-            var allProducts = await _productRepository.GetAllAsync();
+            var activeCategories = await _cacheService.GetOrCreateAsync(CacheKeys.PublicCategories, async () =>
+            {
+                var categoryIds = await _productRepository.GetDistinctCategoryIdsWithActiveProductsAsync();
 
-            // ✅ Filtrar por IsActive Y por imágenes
-            var activeProductsWithImages = allProducts.Where(p =>
-                p.IsActive && // Solo productos activos
-                (!string.IsNullOrWhiteSpace(p.ImagenPrincipal) ||
-                 !string.IsNullOrWhiteSpace(p.Imagen2) ||
-                 !string.IsNullOrWhiteSpace(p.Imagen3) ||
-                 !string.IsNullOrWhiteSpace(p.Imagen4))
-            ).ToList();
+                var categories = await _categoryRepository.GetAllAsync();
 
-            // Obtener IDs de categorías que tienen productos activos con imágenes
-            var categoryIdsWithActiveProducts = activeProductsWithImages
-                .Select(p => p.CategoryId)
-                .Distinct()
-                .ToList();
-
-            // Agrupar por categoría y contar productos
-            var categoryCounts = activeProductsWithImages
-                .GroupBy(p => p.CategoryId)
-                .ToDictionary(g => g.Key, g => g.Count());
-
-            var categories = await _categoryRepository.GetAllAsync();
-            var activeCategories = categories
-                .Where(c => c.IsActive && categoryIdsWithActiveProducts.Contains(c.Id))
-                .Select(c => new
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    CountActive = categoryCounts.ContainsKey(c.Id) ? categoryCounts[c.Id] : 0
-                })
-                .OrderBy(c => c.Name)
-                .ToList();
+                return categories
+                    .Where(c => c.IsActive && categoryIds.Contains(c.Id))
+                    .Select(c => new
+                    {
+                        Id = c.Id,
+                        Name = c.Name
+                    })
+                    .OrderBy(c => c.Name)
+                    .ToList();
+            }, CacheExpiration.PublicMetadata);
 
             return Ok(activeCategories);
         }
