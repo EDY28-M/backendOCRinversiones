@@ -343,29 +343,29 @@ public class ProductsController : ControllerBase
             // Invalidar caches
             _cacheService.RemoveByPrefix(CacheKeys.ProductsPrefix);
 
-            var updatedProduct = await _productRepository.GetByIdWithCategoryAsync(id);
+            // ✅ OPTIMIZADO: Reutilizar datos ya cargados (category y marca) en lugar de hacer otro GetByIdWithCategoryAsync
             var response = new ProductResponseDto
             {
-                Id = updatedProduct!.Id,
-                Codigo = updatedProduct.Codigo,
-                CodigoComer = updatedProduct.CodigoComer,
-                Producto = updatedProduct.Producto,
-                Descripcion = updatedProduct.Descripcion,
-                FichaTecnica = updatedProduct.FichaTecnica,
-                ImagenPrincipal = updatedProduct.ImagenPrincipal,
-                Imagen2 = updatedProduct.Imagen2,
-                Imagen3 = updatedProduct.Imagen3,
-                Imagen4 = updatedProduct.Imagen4,
-            IsActive = updatedProduct.IsActive,
-            CreatedAt = updatedProduct.CreatedAt,
-            UpdatedAt = updatedProduct.UpdatedAt,
-            CategoryId = updatedProduct.CategoryId,
-            CategoryName = updatedProduct.Category.Name,
-            MarcaId = updatedProduct.MarcaId,
-            MarcaNombre = updatedProduct.Marca.Nombre
-        };
+                Id = product.Id,
+                Codigo = product.Codigo,
+                CodigoComer = product.CodigoComer,
+                Producto = product.Producto,
+                Descripcion = product.Descripcion,
+                FichaTecnica = product.FichaTecnica,
+                ImagenPrincipal = product.ImagenPrincipal,
+                Imagen2 = product.Imagen2,
+                Imagen3 = product.Imagen3,
+                Imagen4 = product.Imagen4,
+                IsActive = product.IsActive,
+                CreatedAt = product.CreatedAt,
+                UpdatedAt = product.UpdatedAt,
+                CategoryId = product.CategoryId,
+                CategoryName = category?.Name ?? product.Category?.Name ?? "",
+                MarcaId = product.MarcaId,
+                MarcaNombre = marca?.Nombre ?? product.Marca?.Nombre ?? ""
+            };
 
-        return Ok(response);
+            return Ok(response);
         }
         catch (Exception ex)
         {
@@ -674,10 +674,10 @@ public class ProductsController : ControllerBase
             {
                 var brandIds = await _productRepository.GetDistinctBrandIdsWithActiveProductsAsync();
 
-                var allMarcas = await _nombreMarcaRepository.GetAllAsync();
+                // ✅ OPTIMIZADO: Filtra directamente en BD en lugar de cargar todas y filtrar en memoria
+                var marcas = await _nombreMarcaRepository.GetActiveByIdsAsync(brandIds);
 
-                return allMarcas
-                    .Where(m => m.IsActive && brandIds.Contains(m.Id))
+                return marcas
                     .Select(m => new { Id = m.Id, Nombre = m.Nombre })
                     .ToList();
             }, CacheExpiration.PublicMetadata);
@@ -705,16 +705,15 @@ public class ProductsController : ControllerBase
             {
                 var categoryIds = await _productRepository.GetDistinctCategoryIdsWithActiveProductsAsync();
 
-                var categories = await _categoryRepository.GetAllAsync();
+                // ✅ OPTIMIZADO: Filtra directamente en BD en lugar de cargar todas y filtrar en memoria
+                var categories = await _categoryRepository.GetActiveByIdsAsync(categoryIds);
 
                 return categories
-                    .Where(c => c.IsActive && categoryIds.Contains(c.Id))
                     .Select(c => new
                     {
                         Id = c.Id,
                         Name = c.Name
                     })
-                    .OrderBy(c => c.Name)
                     .ToList();
             }, CacheExpiration.PublicMetadata);
 

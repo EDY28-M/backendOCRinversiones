@@ -47,9 +47,27 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.UpdatedAt)
             .IsRequired(false);
 
-        // Índices - Codigo es el principal
-        builder.HasIndex(p => p.Codigo);
-        builder.HasIndex(p => p.CodigoComer);
+        // ✅ ÍNDICES OPTIMIZADOS para queries comunes
+
+        // Índices únicos para códigos (búsquedas exactas)
+        builder.HasIndex(p => p.Codigo).IsUnique();
+        builder.HasIndex(p => p.CodigoComer).IsUnique();
+
+        // ✅ Índice compuesto para filtros por categoría activa (GetAvailableProductsPagedAsync)
+        builder.HasIndex(p => new { p.IsActive, p.CategoryId })
+            .HasDatabaseName("IX_Products_IsActive_CategoryId");
+
+        // ✅ Índice compuesto para filtros por marca activa (GetPublicActiveProductsPagedAsync)
+        builder.HasIndex(p => new { p.IsActive, p.MarcaId })
+            .HasDatabaseName("IX_Products_IsActive_MarcaId");
+
+        // ✅ Índice para ordenamiento por fecha (usado en paginación)
+        builder.HasIndex(p => p.CreatedAt)
+            .HasDatabaseName("IX_Products_CreatedAt");
+
+        // ✅ Índice compuesto para búsquedas públicas (IsActive + CreatedAt)
+        builder.HasIndex(p => new { p.IsActive, p.CreatedAt })
+            .HasDatabaseName("IX_Products_IsActive_CreatedAt");
 
         // Relaciones
         builder.HasOne(p => p.Category)

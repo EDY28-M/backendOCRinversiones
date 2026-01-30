@@ -94,29 +94,37 @@ public class CodeGeneratorService : ICodeGeneratorService
         var codesByLetters = validCodes.GroupBy(c => c.letters).OrderBy(g => g.Key).ToList();
         foreach (var group in codesByLetters)
         {
-            var usedNumbers = group.Select(c => c.number).OrderBy(n => n).ToList();
-            for (int i = 1; i <= usedNumbers.Max(); i++)
+            // ✅ OPTIMIZADO: Usa HashSet para búsqueda O(1) en lugar de List O(n)
+            var usedNumbersSet = new HashSet<int>(group.Select(c => c.number));
+            var maxNumber = usedNumbersSet.Max();
+
+            // Buscar primer hueco disponible
+            for (int i = 1; i <= maxNumber; i++)
             {
-                if (!usedNumbers.Contains(i))
+                if (!usedNumbersSet.Contains(i))
                     return $"{group.Key}-{i:D4}";
             }
-            if (usedNumbers.Max() < 9999)
-                return $"{group.Key}-{(usedNumbers.Max() + 1):D4}";
+
+            // Si no hay huecos, retornar el siguiente
+            if (maxNumber < 9999)
+                return $"{group.Key}-{(maxNumber + 1):D4}";
         }
         string lastLetters = codesByLetters.Last().Key;
         return $"{IncrementLetters(lastLetters)}-0001";
     }
     
+    /// <summary>
+    /// Verifica disponibilidad de código usando query optimizada (NO carga todas las entidades)
+    /// </summary>
     public async Task<bool> IsCodigoAvailableAsync(string codigo)
     {
         if (string.IsNullOrWhiteSpace(codigo))
             return false;
-            
+
         try
         {
-            var products = await _productRepository.GetAllAsync();
-            var exists = products.Any(p => p.Codigo.ToUpper() == codigo.ToUpper());
-                
+            // ✅ OPTIMIZADO: Usa AnyAsync() directo en BD en lugar de cargar todos los productos
+            var exists = await _productRepository.IsCodigoExistsAsync(codigo, null);
             return !exists;
         }
         catch (Exception ex)
@@ -124,17 +132,19 @@ public class CodeGeneratorService : ICodeGeneratorService
             throw new ApplicationException($"Error al verificar disponibilidad del código: {codigo}", ex);
         }
     }
-    
+
+    /// <summary>
+    /// Verifica disponibilidad de código comercial usando query optimizada (NO carga todas las entidades)
+    /// </summary>
     public async Task<bool> IsCodigoComercialAvailableAsync(string codigoComer)
     {
         if (string.IsNullOrWhiteSpace(codigoComer))
             return false;
-            
+
         try
         {
-            var products = await _productRepository.GetAllAsync();
-            var exists = products.Any(p => p.CodigoComer.ToUpper() == codigoComer.ToUpper());
-                
+            // ✅ OPTIMIZADO: Usa AnyAsync() directo en BD en lugar de cargar todos los productos
+            var exists = await _productRepository.IsCodigoComercialExistsAsync(codigoComer, null);
             return !exists;
         }
         catch (Exception ex)

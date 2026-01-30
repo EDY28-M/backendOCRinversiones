@@ -10,4 +10,9 @@ public interface INombreMarcaRepository
     Task<NombreMarca> UpdateAsync(NombreMarca nombreMarca);
     Task<bool> DeleteAsync(int id);
     Task<bool> ExistsByNameAsync(string nombreMarca, int? excludeId = null);
+
+    /// <summary>
+    /// Obtiene marcas activas filtradas por IDs (query optimizada en BD)
+    /// </summary>
+    Task<IEnumerable<NombreMarca>> GetActiveByIdsAsync(IEnumerable<int> ids);
 }
