@@ -13,6 +13,7 @@ public class ProductResponseDto
     public string? Descripcion { get; set; }
     public string? FichaTecnica { get; set; }
     public bool IsActive { get; set; }
+    public bool IsFeatured { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public int CategoryId { get; set; }

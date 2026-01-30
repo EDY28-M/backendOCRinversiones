@@ -28,4 +28,5 @@ public class UpdateProductRequestDto
     public int? CategoryId { get; set; }
     public int? MarcaId { get; set; }
     public bool? IsActive { get; set; }
+    public bool? IsFeatured { get; set; }
 }

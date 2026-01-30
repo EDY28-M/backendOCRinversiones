@@ -28,6 +28,9 @@ public class CreateProductRequestDto
     [StringLength(10000, ErrorMessage = "La ficha técnica no puede exceder 10000 caracteres")]
     public string? FichaTecnica { get; set; }
 
+    // Destacado en home (opcional)
+    public bool IsFeatured { get; set; } = false;
+
     [Required(ErrorMessage = "La categoría es requerida")]
     public int CategoryId { get; set; }
     

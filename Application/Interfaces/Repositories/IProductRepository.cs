@@ -21,17 +21,21 @@ public interface IProductRepository : IRepository<Product>
     Task<(IEnumerable<Product> Items, int Total)> GetPublicActiveProductsPagedAsync(
         int page, int pageSize, string? searchTerm, int? categoryId, int[]? brandIds);
 
-        Task<bool> IsCodigoExistsAsync(string codigo, int? excludeProductId);
+    Task<(IEnumerable<Product> Items, int Total)> GetPublicFeaturedProductsPagedAsync(
+        int page, int pageSize);
 
-        Task<bool> IsCodigoComercialExistsAsync(string codigoComer, int? excludeProductId);
+    Task<bool> IsCodigoExistsAsync(string codigo, int? excludeProductId);
 
-        /// <summary>
-        /// Obtiene solo Codigo y CodigoComer para generación de códigos (una sola lectura, sin includes).
-        /// </summary>
-        Task<IReadOnlyList<(string Codigo, string CodigoComer)>> GetCodigosForGenerationAsync();
+    Task<bool> IsCodigoComercialExistsAsync(string codigoComer, int? excludeProductId);
 
-        Task UpdateStatusAsync(int id, bool isActive);
+    /// <summary>
+    /// Obtiene solo Codigo y CodigoComer para generación de códigos (una sola lectura, sin includes).
+    /// </summary>
+    Task<IReadOnlyList<(string Codigo, string CodigoComer)>> GetCodigosForGenerationAsync();
 
-        Task<IEnumerable<int>> GetDistinctCategoryIdsWithActiveProductsAsync();
+    Task UpdateStatusAsync(int id, bool isActive);
+    Task UpdateFeaturedAsync(int id, bool isFeatured);
+
+    Task<IEnumerable<int>> GetDistinctCategoryIdsWithActiveProductsAsync();
     Task<IEnumerable<int>> GetDistinctBrandIdsWithActiveProductsAsync();
 }

@@ -55,6 +55,7 @@ public class ProductRepository : Repository<Product>, IProductRepository
                 Imagen3 = p.Imagen3,
                 Imagen4 = p.Imagen4,
                 IsActive = p.IsActive,
+                IsFeatured = p.IsFeatured,
                 CreatedAt = p.CreatedAt,
                 UpdatedAt = p.UpdatedAt,
                 CategoryId = p.CategoryId,
@@ -191,6 +192,31 @@ public class ProductRepository : Repository<Product>, IProductRepository
         return (items, total);
     }
 
+    public async Task<(IEnumerable<Product> Items, int Total)> GetPublicFeaturedProductsPagedAsync(
+        int page, int pageSize)
+    {
+        var query = _dbSet
+            .AsNoTracking()
+            .Include(p => p.Category)
+            .Include(p => p.Marca)
+            .Where(p => p.IsActive && p.IsFeatured)
+            .Where(p =>
+                !string.IsNullOrWhiteSpace(p.ImagenPrincipal) ||
+                !string.IsNullOrWhiteSpace(p.Imagen2) ||
+                !string.IsNullOrWhiteSpace(p.Imagen3) ||
+                !string.IsNullOrWhiteSpace(p.Imagen4));
+
+        var total = await query.CountAsync();
+
+        var items = await query
+            .OrderByDescending(p => p.CreatedAt)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (items, total);
+    }
+
     public async Task<bool> IsCodigoExistsAsync(string codigo, int? excludeProductId)
     {
         var query = _dbSet.AsNoTracking().Where(p => p.Codigo.ToUpper() == codigo.ToUpper());
@@ -228,6 +254,14 @@ public class ProductRepository : Repository<Product>, IProductRepository
         await _dbSet.Where(p => p.Id == id)
             .ExecuteUpdateAsync(s => s
                 .SetProperty(p => p.IsActive, isActive)
+                .SetProperty(p => p.UpdatedAt, DateTime.UtcNow));
+    }
+
+    public async Task UpdateFeaturedAsync(int id, bool isFeatured)
+    {
+        await _dbSet.Where(p => p.Id == id)
+            .ExecuteUpdateAsync(s => s
+                .SetProperty(p => p.IsFeatured, isFeatured)
                 .SetProperty(p => p.UpdatedAt, DateTime.UtcNow));
     }
 

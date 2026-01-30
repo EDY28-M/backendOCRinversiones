@@ -86,6 +86,7 @@ public class ProductsController : ControllerBase
                     Imagen3 = p.Imagen3,
                     Imagen4 = p.Imagen4,
                     IsActive = p.IsActive,
+                    IsFeatured = p.IsFeatured,
                     CreatedAt = p.CreatedAt,
                     UpdatedAt = p.UpdatedAt,
                     CategoryId = p.CategoryId,
@@ -127,6 +128,7 @@ public class ProductsController : ControllerBase
             Imagen3 = product.Imagen3,
             Imagen4 = product.Imagen4,
             IsActive = product.IsActive,
+            IsFeatured = product.IsFeatured,
             CreatedAt = product.CreatedAt,
             UpdatedAt = product.UpdatedAt,
             CategoryId = product.CategoryId,
@@ -236,7 +238,8 @@ public class ProductsController : ControllerBase
                 CategoryId = request.CategoryId,
                 MarcaId = request.MarcaId,
                 CreatedAt = DateTime.UtcNow,
-                IsActive = true
+                IsActive = true,
+                IsFeatured = request.IsFeatured
             };
 
             await _productRepository.AddAsync(product);
@@ -258,6 +261,7 @@ public class ProductsController : ControllerBase
                 Imagen3 = product.Imagen3,
                 Imagen4 = product.Imagen4,
                 IsActive = product.IsActive,
+                IsFeatured = product.IsFeatured,
                 CreatedAt = product.CreatedAt,
                 UpdatedAt = product.UpdatedAt,
                 CategoryId = product.CategoryId,
@@ -343,6 +347,9 @@ public class ProductsController : ControllerBase
             if (request.IsActive.HasValue)
                 product.IsActive = request.IsActive.Value;
 
+            if (request.IsFeatured.HasValue)
+                product.IsFeatured = request.IsFeatured.Value;
+
             product.UpdatedAt = DateTime.UtcNow;
 
             await _productRepository.UpdateAsync(product);
@@ -365,6 +372,7 @@ public class ProductsController : ControllerBase
                 Imagen3 = updatedProduct.Imagen3,
                 Imagen4 = updatedProduct.Imagen4,
                 IsActive = updatedProduct.IsActive,
+                IsFeatured = updatedProduct.IsFeatured,
                 CreatedAt = updatedProduct.CreatedAt,
                 UpdatedAt = updatedProduct.UpdatedAt,
                 CategoryId = updatedProduct.CategoryId,
@@ -402,6 +410,32 @@ public class ProductsController : ControllerBase
         catch (Exception ex)
         {
             return SecureError(500, "Error al actualizar estado del producto", ex);
+        }
+    }
+
+    [HttpPatch("{id}/featured")]
+    [Authorize(Roles = "Administrador,Vendedor")]
+    public async Task<IActionResult> UpdateFeatured(int id, [FromBody] UpdateProductFeaturedRequestDto request)
+    {
+        try
+        {
+            var product = await _productRepository.GetByIdAsync(id);
+            if (product == null)
+                return NotFound(new { message = "Producto no encontrado" });
+
+            await _productRepository.UpdateFeaturedAsync(id, request.IsFeatured);
+
+            _logger.LogInformation("Destacado de producto {Id} actualizado a {Status} por {CurrentUser}",
+                id, request.IsFeatured, User.Identity?.Name);
+
+            // Invalidar caches
+            _cacheService.RemoveByPrefix(CacheKeys.ProductsPrefix);
+
+            return Ok(new { message = "Destacado actualizado correctamente", isFeatured = request.IsFeatured });
+        }
+        catch (Exception ex)
+        {
+            return SecureError(500, "Error al actualizar destacado del producto", ex);
         }
     }
 
@@ -476,6 +510,7 @@ public class ProductsController : ControllerBase
                     Imagen3 = p.Imagen3,
                     Imagen4 = p.Imagen4,
                     IsActive = p.IsActive,
+                    IsFeatured = p.IsFeatured,
                     CreatedAt = p.CreatedAt,
                     UpdatedAt = p.UpdatedAt,
                     CategoryId = p.CategoryId,
@@ -493,6 +528,55 @@ public class ProductsController : ControllerBase
         catch (Exception ex)
         {
             return SecureError(500, "Error al obtener productos disponibles públicos", ex);
+        }
+    }
+
+    /// <summary>
+    /// Obtiene productos destacados públicos (solo activos con imágenes) sin autenticación
+    /// </summary>
+    [HttpGet("public/featured")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetPublicFeatured(
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 9)
+    {
+        try
+        {
+            var (items, total) = await _productRepository.GetPublicFeaturedProductsPagedAsync(page, pageSize);
+
+            var response = new PaginatedProductsResponseDto
+            {
+                Items = items.Select(p => new ProductResponseDto
+                {
+                    Id = p.Id,
+                    Codigo = p.Codigo,
+                    CodigoComer = p.CodigoComer,
+                    Producto = p.Producto,
+                    Descripcion = p.Descripcion,
+                    FichaTecnica = p.FichaTecnica,
+                    ImagenPrincipal = p.ImagenPrincipal,
+                    Imagen2 = p.Imagen2,
+                    Imagen3 = p.Imagen3,
+                    Imagen4 = p.Imagen4,
+                    IsActive = p.IsActive,
+                    IsFeatured = p.IsFeatured,
+                    CreatedAt = p.CreatedAt,
+                    UpdatedAt = p.UpdatedAt,
+                    CategoryId = p.CategoryId,
+                    CategoryName = p.Category.Name,
+                    MarcaId = p.MarcaId,
+                    MarcaNombre = p.Marca.Nombre
+                }).ToList(),
+                Page = page,
+                PageSize = pageSize,
+                Total = total
+            };
+
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return SecureError(500, "Error al obtener productos destacados públicos", ex);
         }
     }
 
@@ -631,18 +715,19 @@ public class ProductsController : ControllerBase
                 // Usar Codigo como CodigoComer si está vacío
                 var codigoComer = string.IsNullOrWhiteSpace(item.CodigoComer) ? item.Codigo : item.CodigoComer;
 
-                var product = new Product
-                {
-                    Codigo = item.Codigo,
-                    CodigoComer = codigoComer,
-                    Producto = item.Producto,
-                    CategoryId = categoryId,
-                    MarcaId = marcaId,
-                    Descripcion = item.Descripcion,
-                    FichaTecnica = item.FichaTecnica,
-                    CreatedAt = DateTime.UtcNow,
-                    IsActive = true
-                };
+            var product = new Product
+            {
+                Codigo = item.Codigo,
+                CodigoComer = codigoComer,
+                Producto = item.Producto,
+                CategoryId = categoryId,
+                MarcaId = marcaId,
+                Descripcion = item.Descripcion,
+                FichaTecnica = item.FichaTecnica,
+                CreatedAt = DateTime.UtcNow,
+                IsActive = true,
+                IsFeatured = false
+            };
 
                 // Agregar a la lista para bulk insert
                 productsToInsert.Add(product);

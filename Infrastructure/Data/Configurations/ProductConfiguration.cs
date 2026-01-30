@@ -40,6 +40,10 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .IsRequired()
             .HasDefaultValue(true);
 
+        builder.Property(p => p.IsFeatured)
+            .IsRequired()
+            .HasDefaultValue(false);
+
         builder.Property(p => p.CreatedAt)
             .IsRequired()
             .HasDefaultValueSql("GETDATE()");
@@ -68,6 +72,10 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         // ✅ Índice compuesto para búsquedas públicas (IsActive + CreatedAt)
         builder.HasIndex(p => new { p.IsActive, p.CreatedAt })
             .HasDatabaseName("IX_Products_IsActive_CreatedAt");
+
+        // ✅ Índice compuesto para destacados (IsFeatured + IsActive + CreatedAt)
+        builder.HasIndex(p => new { p.IsFeatured, p.IsActive, p.CreatedAt })
+            .HasDatabaseName("IX_Products_IsFeatured_IsActive_CreatedAt");
 
         // Relaciones
         builder.HasOne(p => p.Category)

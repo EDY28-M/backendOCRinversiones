@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backendORCinverisones.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using backendORCinverisones.Infrastructure.Data;
 namespace backendORCinverisones.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260130095000_AddIsFeaturedToProducts")]
+    partial class AddIsFeaturedToProducts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -142,6 +145,11 @@ namespace backendORCinverisones.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
+                    b.Property<bool>("IsFeatured")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
                     b.Property<int>("MarcaId")
                         .HasColumnType("int");
 
@@ -157,25 +165,11 @@ namespace backendORCinverisones.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("Codigo")
-                        .IsUnique();
+                    b.HasIndex("Codigo");
 
-                    b.HasIndex("CodigoComer")
-                        .IsUnique();
-
-                    b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_Products_CreatedAt");
+                    b.HasIndex("CodigoComer");
 
                     b.HasIndex("MarcaId");
-
-                    b.HasIndex("IsActive", "CategoryId")
-                        .HasDatabaseName("IX_Products_IsActive_CategoryId");
-
-                    b.HasIndex("IsActive", "CreatedAt")
-                        .HasDatabaseName("IX_Products_IsActive_CreatedAt");
-
-                    b.HasIndex("IsActive", "MarcaId")
-                        .HasDatabaseName("IX_Products_IsActive_MarcaId");
 
                     b.ToTable("Products", (string)null);
                 });
@@ -214,14 +208,14 @@ namespace backendORCinverisones.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2026, 1, 30, 2, 32, 21, 612, DateTimeKind.Local).AddTicks(3890),
+                            CreatedAt = new DateTime(2026, 1, 23, 23, 59, 0, 418, DateTimeKind.Local).AddTicks(4532),
                             Description = "Acceso total al sistema",
                             Name = "Administrador"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2026, 1, 30, 2, 32, 21, 612, DateTimeKind.Local).AddTicks(3902),
+                            CreatedAt = new DateTime(2026, 1, 23, 23, 59, 0, 418, DateTimeKind.Local).AddTicks(4540),
                             Description = "Acceso restringido a productos",
                             Name = "Vendedor"
                         });
@@ -298,17 +292,6 @@ namespace backendORCinverisones.Migrations
                     b.Navigation("Marca");
                 });
 
-            modelBuilder.Entity("backendORCinverisones.Domain.Entities.User", b =>
-                {
-                    b.HasOne("backendORCinverisones.Domain.Entities.Role", "Role")
-                        .WithMany("Users")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-                });
-
             modelBuilder.Entity("backendORCinverisones.Domain.Entities.Category", b =>
                 {
                     b.Navigation("Products");
@@ -317,11 +300,6 @@ namespace backendORCinverisones.Migrations
             modelBuilder.Entity("backendORCinverisones.Domain.Entities.NombreMarca", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("backendORCinverisones.Domain.Entities.Role", b =>
-                {
-                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }
