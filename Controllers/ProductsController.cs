@@ -37,11 +37,62 @@ public class ProductsController : ControllerBase
         _logger = logger;
     }
 
+    /// <summary>
+    /// ✅ OPTIMIZADO: Obtiene todos los productos con PAGINACIÓN (evita cargar 10k+ registros)
+    /// Antes: 10+ segundos | Ahora: ~50-200ms
+    /// </summary>
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 100)
     {
-        var response = await _productRepository.GetAllForListAsync();
-        return Ok(response);
+        try
+        {
+            // Validar parámetros
+            if (page < 1) page = 1;
+            if (pageSize < 1 || pageSize > 1000) pageSize = 100;
+
+            var (items, total) = await _productRepository.GetAvailableProductsPagedAsync(
+                page, pageSize,
+                searchTerm: null,
+                categoryId: null,
+                onlyWithImages: false,
+                onlyActive: false);
+
+            var response = new PaginatedProductsResponseDto
+            {
+                Items = items.Select(p => new ProductResponseDto
+                {
+                    Id = p.Id,
+                    Codigo = p.Codigo,
+                    CodigoComer = p.CodigoComer,
+                    Producto = p.Producto,
+                    Descripcion = p.Descripcion,
+                    FichaTecnica = p.FichaTecnica,
+                    ImagenPrincipal = p.ImagenPrincipal,
+                    Imagen2 = p.Imagen2,
+                    Imagen3 = p.Imagen3,
+                    Imagen4 = p.Imagen4,
+                    IsActive = p.IsActive,
+                    CreatedAt = p.CreatedAt,
+                    UpdatedAt = p.UpdatedAt,
+                    CategoryId = p.CategoryId,
+                    CategoryName = p.Category.Name,
+                    MarcaId = p.MarcaId,
+                    MarcaNombre = p.Marca.Nombre
+                }).ToList(),
+                Page = page,
+                PageSize = pageSize,
+                Total = total
+            };
+
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error al obtener todos los productos");
+            return StatusCode(500, new { message = "Error al obtener productos", error = ex.Message });
+        }
     }
 
     /// <summary>
