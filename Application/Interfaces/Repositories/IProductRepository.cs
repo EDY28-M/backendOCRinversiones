@@ -1,9 +1,14 @@
+using backendORCinverisones.Application.DTOs.Products;
 using backendORCinverisones.Domain.Entities;
 
 namespace backendORCinverisones.Application.Interfaces.Repositories;
 
 public interface IProductRepository : IRepository<Product>
 {
+    /// <summary>
+    /// Lista optimizada para admin: una sola consulta con proyección (sin cargar entidades completas).
+    /// </summary>
+    Task<IReadOnlyList<ProductResponseDto>> GetAllForListAsync();
     Task<Product?> GetByIdWithCategoryAsync(int id);
     Task<IEnumerable<Product>> GetByCategoryIdAsync(int categoryId);
     Task BulkInsertAsync(IList<Product> products);
@@ -19,6 +24,11 @@ public interface IProductRepository : IRepository<Product>
         Task<bool> IsCodigoExistsAsync(string codigo, int? excludeProductId);
 
         Task<bool> IsCodigoComercialExistsAsync(string codigoComer, int? excludeProductId);
+
+        /// <summary>
+        /// Obtiene solo Codigo y CodigoComer para generación de códigos (una sola lectura, sin includes).
+        /// </summary>
+        Task<IReadOnlyList<(string Codigo, string CodigoComer)>> GetCodigosForGenerationAsync();
 
         Task UpdateStatusAsync(int id, bool isActive);
 

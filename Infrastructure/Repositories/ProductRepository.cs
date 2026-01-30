@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using EFCore.BulkExtensions;
+using backendORCinverisones.Application.DTOs.Products;
 using backendORCinverisones.Application.Interfaces.Repositories;
 using backendORCinverisones.Domain.Entities;
 using backendORCinverisones.Infrastructure.Data;
@@ -34,6 +35,33 @@ public class ProductRepository : Repository<Product>, IProductRepository
         return await _dbSet
             .Include(p => p.Category)
             .Include(p => p.Marca)
+            .ToListAsync();
+    }
+
+    public async Task<IReadOnlyList<ProductResponseDto>> GetAllForListAsync()
+    {
+        return await _dbSet
+            .AsNoTracking()
+            .Select(p => new ProductResponseDto
+            {
+                Id = p.Id,
+                Codigo = p.Codigo,
+                CodigoComer = p.CodigoComer,
+                Producto = p.Producto,
+                Descripcion = p.Descripcion,
+                FichaTecnica = p.FichaTecnica,
+                ImagenPrincipal = p.ImagenPrincipal,
+                Imagen2 = p.Imagen2,
+                Imagen3 = p.Imagen3,
+                Imagen4 = p.Imagen4,
+                IsActive = p.IsActive,
+                CreatedAt = p.CreatedAt,
+                UpdatedAt = p.UpdatedAt,
+                CategoryId = p.CategoryId,
+                CategoryName = p.Category.Name,
+                MarcaId = p.MarcaId,
+                MarcaNombre = p.Marca.Nombre
+            })
             .ToListAsync();
     }
 
@@ -185,6 +213,14 @@ public class ProductRepository : Repository<Product>, IProductRepository
         }
 
         return await query.AnyAsync();
+    }
+
+    public async Task<IReadOnlyList<(string Codigo, string CodigoComer)>> GetCodigosForGenerationAsync()
+    {
+        return await _dbSet
+            .AsNoTracking()
+            .Select(p => new ValueTuple<string, string>(p.Codigo, p.CodigoComer))
+            .ToListAsync();
     }
 
     public async Task UpdateStatusAsync(int id, bool isActive)
