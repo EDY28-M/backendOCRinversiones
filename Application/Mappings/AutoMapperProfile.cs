@@ -3,6 +3,7 @@ using backendORCinverisones.Application.DTOs.Products;
 using backendORCinverisones.Application.DTOs.Users;
 using backendORCinverisones.Application.DTOs.Roles;
 using backendORCinverisones.Application.DTOs.Categories;
+using backendORCinverisones.Application.DTOs.NombreMarcas;
 using backendORCinverisones.Domain.Entities;
 
 namespace backendORCinverisones.Application.Mappings;

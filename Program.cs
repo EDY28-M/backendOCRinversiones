@@ -8,6 +8,7 @@ using Microsoft.OpenApi.Models;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Serilog;
+using AspNetCoreRateLimit;
 using backendORCinverisones.API.Middleware;
 using backendORCinverisones.Application.Interfaces.Repositories;
 using backendORCinverisones.Application.Interfaces.Services;
@@ -83,6 +84,43 @@ builder.Services.AddScoped<IDapperQueryService, DapperQueryService>();
 builder.Services.AddMemoryCache();
 builder.Services.AddResponseCaching();
 builder.Services.AddSingleton<ICacheService, CacheService>();
+
+// ✅ RATE LIMITING - Protección contra DDoS y fuerza bruta
+builder.Services.Configure<IpRateLimitOptions>(options =>
+{
+    options.EnableEndpointRateLimiting = true;
+    options.StackBlockedRequests = false;
+    options.HttpStatusCode = 429;
+    options.RealIpHeader = "X-Real-IP";
+    options.ClientIdHeader = "X-ClientId";
+    options.GeneralRules = new List<RateLimitRule>
+    {
+        new RateLimitRule
+        {
+            Endpoint = "*",
+            Period = "1m",
+            Limit = 100 // 100 requests por minuto por IP (general)
+        },
+        new RateLimitRule
+        {
+            Endpoint = "POST:/api/auth/login",
+            Period = "5m",
+            Limit = 5 // Solo 5 intentos de login cada 5 minutos (anti-brute force)
+        },
+        new RateLimitRule
+        {
+            Endpoint = "POST:/api/products/bulk-import",
+            Period = "1h",
+            Limit = 10 // Solo 10 bulk imports por hora
+        }
+    };
+});
+
+builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+builder.Services.AddInMemoryRateLimiting();
 
 // JWT Authentication
 var jwtKey = builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key not configured");
@@ -174,7 +212,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// CORS - Configurado para ngrok y desarrollo local
+// ✅ CORS - Restringido a orígenes específicos (sin wildcards)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -182,13 +220,12 @@ builder.Services.AddCors(options =>
         policy.WithOrigins(
                 "http://localhost:5173",
                 "http://192.168.1.68:5173",
-                "https://kiara-unascendant-trustingly.ngrok-free.dev",
-                "https://*.ngrok-free.dev",
-                "https://*.ngrok.io",
-                "https://*.ngrok-free.app"
+                "https://kiara-unascendant-trustingly.ngrok-free.dev"
+                // NOTA: En producción, reemplazar con tu dominio real
+                // Ejemplo: "https://tudominio.com", "https://www.tudominio.com"
               )
-              .AllowAnyMethod()
-              .AllowAnyHeader()
+              .WithMethods("GET", "POST", "PUT", "DELETE", "PATCH") // Métodos específicos
+              .WithHeaders("Content-Type", "Authorization", "X-Requested-With") // Headers específicos
               .AllowCredentials();
     });
 });
@@ -197,6 +234,9 @@ var app = builder.Build();
 
 // ✅ Serilog request logging
 app.UseSerilogRequestLogging();
+
+// ✅ Rate Limiting - DEBE IR ANTES de otros middlewares
+app.UseIpRateLimiting();
 
 // Middleware de manejo de errores
 app.UseMiddleware<ErrorHandlingMiddleware>();

@@ -19,6 +19,7 @@ public class ProductsController : ControllerBase
     private readonly INombreMarcaRepository _nombreMarcaRepository;
     private readonly ICodeGeneratorService _codeGeneratorService;
     private readonly ICacheService _cacheService;
+    private readonly IWebHostEnvironment _env;
     private readonly ILogger<ProductsController> _logger;
 
     public ProductsController(
@@ -27,6 +28,7 @@ public class ProductsController : ControllerBase
         INombreMarcaRepository nombreMarcaRepository,
         ICodeGeneratorService codeGeneratorService,
         ICacheService cacheService,
+        IWebHostEnvironment env,
         ILogger<ProductsController> logger)
     {
         _productRepository = productRepository;
@@ -34,7 +36,16 @@ public class ProductsController : ControllerBase
         _nombreMarcaRepository = nombreMarcaRepository;
         _codeGeneratorService = codeGeneratorService;
         _cacheService = cacheService;
+        _env = env;
         _logger = logger;
+    }
+
+    // ✅ SEGURIDAD: Helper para retornar errores sin exponer detalles en producción
+    private ObjectResult SecureError(int statusCode, string message, Exception ex)
+    {
+        _logger.LogError(ex, message);
+        var errorDetails = _env.IsDevelopment() ? ex.Message : "Ha ocurrido un error. Contacte al administrador.";
+        return StatusCode(statusCode, new { message, error = errorDetails });
     }
 
     [HttpGet]
@@ -91,8 +102,7 @@ public class ProductsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error al obtener productos disponibles");
-            return StatusCode(500, new { message = "Error al obtener productos disponibles", error = ex.Message });
+            return SecureError(500, "Error al obtener productos disponibles", ex);
         }
     }
 
@@ -141,8 +151,7 @@ public class ProductsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error al generar códigos automáticos");
-            return StatusCode(500, new { message = "Error al generar códigos automáticos", error = ex.Message });
+            return SecureError(500, "Error al generar códigos automáticos", ex);
         }
     }
 
@@ -261,8 +270,7 @@ public class ProductsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error al crear producto");
-            return StatusCode(500, new { message = "Error al crear el producto", error = ex.Message });
+            return SecureError(500, "Error al crear el producto", ex);
         }
     }
 
@@ -343,34 +351,33 @@ public class ProductsController : ControllerBase
             // Invalidar caches
             _cacheService.RemoveByPrefix(CacheKeys.ProductsPrefix);
 
-            // ✅ OPTIMIZADO: Reutilizar datos ya cargados (category y marca) en lugar de hacer otro GetByIdWithCategoryAsync
+            var updatedProduct = await _productRepository.GetByIdWithCategoryAsync(id);
             var response = new ProductResponseDto
             {
-                Id = product.Id,
-                Codigo = product.Codigo,
-                CodigoComer = product.CodigoComer,
-                Producto = product.Producto,
-                Descripcion = product.Descripcion,
-                FichaTecnica = product.FichaTecnica,
-                ImagenPrincipal = product.ImagenPrincipal,
-                Imagen2 = product.Imagen2,
-                Imagen3 = product.Imagen3,
-                Imagen4 = product.Imagen4,
-                IsActive = product.IsActive,
-                CreatedAt = product.CreatedAt,
-                UpdatedAt = product.UpdatedAt,
-                CategoryId = product.CategoryId,
-                CategoryName = category?.Name ?? product.Category?.Name ?? "",
-                MarcaId = product.MarcaId,
-                MarcaNombre = marca?.Nombre ?? product.Marca?.Nombre ?? ""
+                Id = updatedProduct!.Id,
+                Codigo = updatedProduct.Codigo,
+                CodigoComer = updatedProduct.CodigoComer,
+                Producto = updatedProduct.Producto,
+                Descripcion = updatedProduct.Descripcion,
+                FichaTecnica = updatedProduct.FichaTecnica,
+                ImagenPrincipal = updatedProduct.ImagenPrincipal,
+                Imagen2 = updatedProduct.Imagen2,
+                Imagen3 = updatedProduct.Imagen3,
+                Imagen4 = updatedProduct.Imagen4,
+                IsActive = updatedProduct.IsActive,
+                CreatedAt = updatedProduct.CreatedAt,
+                UpdatedAt = updatedProduct.UpdatedAt,
+                CategoryId = updatedProduct.CategoryId,
+                CategoryName = updatedProduct.Category.Name,
+                MarcaId = updatedProduct.MarcaId,
+                MarcaNombre = updatedProduct.Marca.Nombre
             };
 
             return Ok(response);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error al actualizar producto");
-            return StatusCode(500, new { message = "Error al actualizar el producto", error = ex.Message });
+            return SecureError(500, "Error al actualizar el producto", ex);
         }
     }
 
@@ -394,8 +401,7 @@ public class ProductsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error al actualizar estado del producto");
-            return StatusCode(500, new { message = "Error al actualizar estado", error = ex.Message });
+            return SecureError(500, "Error al actualizar estado del producto", ex);
         }
     }
 
@@ -430,14 +436,26 @@ public class ProductsController : ControllerBase
     {
         try
         {
-            // Parse brand IDs
+            // ✅ SEGURIDAD: Parse brand IDs con validación
             int[]? brandIdsArray = null;
             if (!string.IsNullOrEmpty(brandIds))
             {
-                brandIdsArray = brandIds.Split(',')
-                    .Where(s => !string.IsNullOrWhiteSpace(s))
-                    .Select(int.Parse)
-                    .ToArray();
+                try
+                {
+                    brandIdsArray = brandIds.Split(',')
+                        .Where(s => !string.IsNullOrWhiteSpace(s))
+                        .Select(s =>
+                        {
+                            if (!int.TryParse(s.Trim(), out var id) || id <= 0)
+                                throw new FormatException($"ID de marca inválido: {s}");
+                            return id;
+                        })
+                        .ToArray();
+                }
+                catch (FormatException ex)
+                {
+                    return BadRequest(new { message = "IDs de marca inválidos", error = ex.Message });
+                }
             }
 
             var (items, total) = await _productRepository.GetPublicActiveProductsPagedAsync(
@@ -474,8 +492,7 @@ public class ProductsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error al obtener productos disponibles públicos");
-            return StatusCode(500, new { message = "Error al obtener productos disponibles", error = ex.Message });
+            return SecureError(500, "Error al obtener productos disponibles públicos", ex);
         }
     }
 
@@ -488,6 +505,11 @@ public class ProductsController : ControllerBase
 
         if (request.Products == null || request.Products.Count == 0)
             return BadRequest(new { message = "No hay productos para importar" });
+
+        // ✅ SEGURIDAD: Limitar cantidad máxima de productos por importación
+        const int MAX_BULK_IMPORT = 1000;
+        if (request.Products.Count > MAX_BULK_IMPORT)
+            return BadRequest(new { message = $"Máximo {MAX_BULK_IMPORT} productos por importación. Recibido: {request.Products.Count}" });
 
         var result = new BulkImportResultDto();
         
@@ -686,8 +708,7 @@ public class ProductsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error al obtener marcas públicas");
-            return StatusCode(500, new { message = "Error al obtener marcas", error = ex.Message });
+            return SecureError(500, "Error al obtener marcas públicas", ex);
         }
     }
 
@@ -721,8 +742,7 @@ public class ProductsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error al obtener categorías públicas");
-            return StatusCode(500, new { message = "Error al obtener categorías", error = ex.Message });
+            return SecureError(500, "Error al obtener categorías públicas", ex);
         }
     }
 }

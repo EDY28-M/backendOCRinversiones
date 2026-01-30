@@ -60,6 +60,7 @@ public class NombreMarcasController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> Create([FromBody] CreateNombreMarcaRequestDto dto)
     {
         if (!ModelState.IsValid)
@@ -94,6 +95,7 @@ public class NombreMarcasController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> Update(int id, [FromBody] UpdateNombreMarcaRequestDto dto)
     {
         if (!ModelState.IsValid)
@@ -131,6 +133,7 @@ public class NombreMarcasController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> Delete(int id)
     {
         var result = await _repository.DeleteAsync(id);
