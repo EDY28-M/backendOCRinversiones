@@ -65,4 +65,17 @@ public class NombreMarcaRepository : INombreMarcaRepository
 
         return await query.AnyAsync();
     }
+
+    /// <summary>
+    /// ✅ OPTIMIZADO: Filtra en BD en lugar de cargar todos y filtrar en memoria
+    /// </summary>
+    public async Task<IEnumerable<NombreMarca>> GetActiveByIdsAsync(IEnumerable<int> ids)
+    {
+        var idsList = ids.ToList();
+        return await _context.NombreMarcas
+            .AsNoTracking()
+            .Where(nm => nm.IsActive && idsList.Contains(nm.Id))
+            .OrderBy(nm => nm.Nombre)
+            .ToListAsync();
+    }
 }
