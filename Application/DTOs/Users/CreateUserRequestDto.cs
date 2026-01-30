@@ -13,9 +13,7 @@ public class CreateUserRequestDto
     public string Email { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "La contraseña es requerida")]
-    [StringLength(100, MinimumLength = 12, ErrorMessage = "La contraseña debe tener al menos 12 caracteres")]
-    [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{12,}$",
-        ErrorMessage = "La contraseña debe contener al menos: 1 mayúscula, 1 minúscula, 1 número y 1 carácter especial (@$!%*?&#)")]
+    [StringLength(100, MinimumLength = 6, ErrorMessage = "La contraseña debe tener al menos 6 caracteres")]
     public string Password { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "El rol es requerido")]

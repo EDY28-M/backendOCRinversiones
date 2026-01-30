@@ -265,6 +265,17 @@ public class ProductRepository : Repository<Product>, IProductRepository
                 .SetProperty(p => p.UpdatedAt, DateTime.UtcNow));
     }
 
+    /// <summary>
+    /// Cuenta los productos destacados activos (para validar límite de 9).
+    /// </summary>
+    public async Task<int> CountFeaturedActiveProductsAsync()
+    {
+        return await _dbSet
+            .AsNoTracking()
+            .Where(p => p.IsActive && p.IsFeatured)
+            .CountAsync();
+    }
+
     public async Task<IEnumerable<int>> GetDistinctCategoryIdsWithActiveProductsAsync()
     {
         return await _dbSet

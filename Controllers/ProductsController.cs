@@ -423,6 +423,22 @@ public class ProductsController : ControllerBase
             if (product == null)
                 return NotFound(new { message = "Producto no encontrado" });
 
+            // ✅ VALIDACIÓN: Límite máximo de 9 productos destacados
+            const int MAX_FEATURED_PRODUCTS = 9;
+            if (request.IsFeatured && !product.IsFeatured)
+            {
+                // Solo validar si se está intentando activar (de false a true)
+                var currentFeaturedCount = await _productRepository.CountFeaturedActiveProductsAsync();
+                if (currentFeaturedCount >= MAX_FEATURED_PRODUCTS)
+                {
+                    return BadRequest(new { 
+                        message = $"Solo se permiten {MAX_FEATURED_PRODUCTS} productos destacados. Desactive uno existente antes de activar otro.",
+                        currentCount = currentFeaturedCount,
+                        maxAllowed = MAX_FEATURED_PRODUCTS
+                    });
+                }
+            }
+
             await _productRepository.UpdateFeaturedAsync(id, request.IsFeatured);
 
             _logger.LogInformation("Destacado de producto {Id} actualizado a {Status} por {CurrentUser}",

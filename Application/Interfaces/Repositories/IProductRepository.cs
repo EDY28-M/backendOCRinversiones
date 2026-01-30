@@ -36,6 +36,11 @@ public interface IProductRepository : IRepository<Product>
     Task UpdateStatusAsync(int id, bool isActive);
     Task UpdateFeaturedAsync(int id, bool isFeatured);
 
+    /// <summary>
+    /// Cuenta los productos destacados activos (para validar límite de 9).
+    /// </summary>
+    Task<int> CountFeaturedActiveProductsAsync();
+
     Task<IEnumerable<int>> GetDistinctCategoryIdsWithActiveProductsAsync();
     Task<IEnumerable<int>> GetDistinctBrandIdsWithActiveProductsAsync();
 }
