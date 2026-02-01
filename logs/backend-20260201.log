@@ -1,0 +1,1110 @@
+2026-02-01 00:02:06.466 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products?page=1&pageSize=20&filter=publicar - null null
+2026-02-01 00:02:06.472 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:02:06.473 -05:00 [INF] Route matched with {action = "GetAll", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll(Int32, Int32, System.String, System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-02-01 00:02:06.547 -05:00 [INF] Executed DbCommand (48ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE ([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')
+2026-02-01 00:02:06.613 -05:00 [INF] Executed DbCommand (53ms) [Parameters=[@__p_0='0', @__p_1='20'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[Codigo], [t].[CodigoComer], [t].[Producto], [t].[Descripcion], [t].[FichaTecnica], [t].[ImagenPrincipal], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[IsActive], [t].[IsFeatured], [t].[CreatedAt], [t].[UpdatedAt], [t].[CategoryId], [c].[Name] AS [CategoryName], [t].[MarcaId], [n].[Nombre] AS [MarcaNombre]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE ([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-02-01 00:02:13.595 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-02-01 00:02:13.691 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones) in 7212.6422ms
+2026-02-01 00:02:13.692 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:02:13.693 -05:00 [INF] HTTP GET /api/products responded 200 in 7222.5353 ms
+2026-02-01 00:02:13.695 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products?page=1&pageSize=20&filter=publicar - 200 null application/json; charset=utf-8 7228.9012ms
+2026-02-01 00:02:20.141 -05:00 [INF] Request starting HTTP/1.1 POST http://localhost:5095/api/auth/logout - null 0
+2026-02-01 00:02:20.145 -05:00 [INF] CORS policy execution successful.
+2026-02-01 00:02:20.147 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.AuthController.Logout (backendORCinverisones)'
+2026-02-01 00:02:20.152 -05:00 [INF] Route matched with {action = "Logout", controller = "Auth"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Logout() on controller backendORCinverisones.Controllers.AuthController (backendORCinverisones).
+2026-02-01 00:02:20.159 -05:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType2`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-02-01 00:02:20.164 -05:00 [INF] Executed action backendORCinverisones.Controllers.AuthController.Logout (backendORCinverisones) in 9.764ms
+2026-02-01 00:02:20.166 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.AuthController.Logout (backendORCinverisones)'
+2026-02-01 00:02:20.167 -05:00 [INF] HTTP POST /api/auth/logout responded 200 in 23.0689 ms
+2026-02-01 00:02:20.169 -05:00 [INF] Request finished HTTP/1.1 POST http://localhost:5095/api/auth/logout - 200 null application/json; charset=utf-8 27.9377ms
+2026-02-01 00:02:22.551 -05:00 [INF] Request starting HTTP/1.1 POST http://localhost:5095/api/auth/login - application/json 43
+2026-02-01 00:02:22.557 -05:00 [INF] CORS policy execution successful.
+2026-02-01 00:02:22.558 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.AuthController.Login (backendORCinverisones)'
+2026-02-01 00:02:22.566 -05:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(backendORCinverisones.Application.DTOs.Auth.LoginRequestDto) on controller backendORCinverisones.Controllers.AuthController (backendORCinverisones).
+2026-02-01 00:02:22.621 -05:00 [INF] Executed DbCommand (7ms) [Parameters=[@__username_0='admin' (Size = 50)], CommandType='"Text"', CommandTimeout='60']
+SELECT TOP(1) [u].[Id], [u].[CreatedAt], [u].[Email], [u].[IsActive], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u].[Username], [r].[Id], [r].[CreatedAt], [r].[Description], [r].[Name]
+FROM [Users] AS [u]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[Id]
+WHERE [u].[Username] = @__username_0
+2026-02-01 00:02:22.937 -05:00 [INF] Usuario admin ha iniciado sesión
+2026-02-01 00:02:22.939 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Auth.LoginResponseDto'.
+2026-02-01 00:02:22.941 -05:00 [INF] Executed action backendORCinverisones.Controllers.AuthController.Login (backendORCinverisones) in 373.2606ms
+2026-02-01 00:02:22.944 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.AuthController.Login (backendORCinverisones)'
+2026-02-01 00:02:22.945 -05:00 [INF] HTTP POST /api/auth/login responded 200 in 389.8321 ms
+2026-02-01 00:02:22.947 -05:00 [INF] Request finished HTTP/1.1 POST http://localhost:5095/api/auth/login - 200 null application/json; charset=utf-8 395.7287ms
+2026-02-01 00:02:22.973 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products?page=1&pageSize=20 - null null
+2026-02-01 00:02:22.976 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:02:22.977 -05:00 [INF] Route matched with {action = "GetAll", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll(Int32, Int32, System.String, System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-02-01 00:02:22.986 -05:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+2026-02-01 00:02:22.997 -05:00 [INF] Executed DbCommand (6ms) [Parameters=[@__p_0='0', @__p_1='20'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[Codigo], [t].[CodigoComer], [t].[Producto], [t].[Descripcion], [t].[FichaTecnica], [t].[ImagenPrincipal], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[IsActive], [t].[IsFeatured], [t].[CreatedAt], [t].[UpdatedAt], [t].[CategoryId], [c].[Name] AS [CategoryName], [t].[MarcaId], [n].[Nombre] AS [MarcaNombre]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-02-01 00:02:23.275 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-02-01 00:02:23.279 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:02:23.280 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-02-01 00:02:23.284 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-02-01 00:02:23.287 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:02:23.289 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 7.4076ms
+2026-02-01 00:02:23.291 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:02:23.292 -05:00 [INF] HTTP GET /api/categories responded 200 in 14.5443 ms
+2026-02-01 00:02:23.295 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 19.1805ms
+2026-02-01 00:02:23.356 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-02-01 00:02:23.356 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-02-01 00:02:23.358 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:02:23.360 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:02:23.360 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-02-01 00:02:23.362 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-02-01 00:02:23.366 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-02-01 00:02:23.369 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:02:23.369 -05:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+ORDER BY [n].[Nombre]
+2026-02-01 00:02:23.371 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 6.8496ms
+2026-02-01 00:02:23.373 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:02:23.374 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:02:23.375 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 9.6993ms
+2026-02-01 00:02:23.376 -05:00 [INF] HTTP GET /api/categories responded 200 in 18.1385 ms
+2026-02-01 00:02:23.377 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:02:23.379 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 22.652ms
+2026-02-01 00:02:23.380 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 20.2150 ms
+2026-02-01 00:02:23.384 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 27.9019ms
+2026-02-01 00:02:23.602 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-02-01 00:02:23.609 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:02:23.611 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-02-01 00:02:23.615 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+ORDER BY [n].[Nombre]
+2026-02-01 00:02:23.617 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:02:23.619 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 6.1287ms
+2026-02-01 00:02:23.620 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:02:23.622 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 13.6997 ms
+2026-02-01 00:02:23.623 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 20.9765ms
+2026-02-01 00:02:27.960 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-02-01 00:02:27.971 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products?page=1&pageSize=20 - null null
+2026-02-01 00:02:27.974 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:02:27.975 -05:00 [INF] Route matched with {action = "GetAll", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll(Int32, Int32, System.String, System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-02-01 00:02:27.980 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+2026-02-01 00:02:27.985 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='0', @__p_1='20'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[Codigo], [t].[CodigoComer], [t].[Producto], [t].[Descripcion], [t].[FichaTecnica], [t].[ImagenPrincipal], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[IsActive], [t].[IsFeatured], [t].[CreatedAt], [t].[UpdatedAt], [t].[CategoryId], [c].[Name] AS [CategoryName], [t].[MarcaId], [n].[Nombre] AS [MarcaNombre]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-02-01 00:02:28.015 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones) in 5036.8663ms
+2026-02-01 00:02:28.017 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:02:28.020 -05:00 [INF] HTTP GET /api/products responded 200 in 5044.9065 ms
+2026-02-01 00:02:28.022 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products?page=1&pageSize=20 - 200 null application/json; charset=utf-8 5049.2323ms
+2026-02-01 00:02:32.801 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-02-01 00:02:32.850 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones) in 4872.4008ms
+2026-02-01 00:02:32.851 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:02:32.853 -05:00 [INF] HTTP GET /api/products responded 200 in 4879.3748 ms
+2026-02-01 00:02:32.854 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products?page=1&pageSize=20 - 200 null application/json; charset=utf-8 4883.4259ms
+2026-02-01 00:05:16.147 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products?page=1&pageSize=20 - null null
+2026-02-01 00:05:16.150 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:05:16.151 -05:00 [INF] Route matched with {action = "GetAll", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll(Int32, Int32, System.String, System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-02-01 00:05:16.154 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-02-01 00:05:16.154 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-02-01 00:05:16.156 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:05:16.158 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:05:16.159 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-02-01 00:05:16.160 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-02-01 00:05:16.172 -05:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-02-01 00:05:16.173 -05:00 [INF] Executed DbCommand (18ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+2026-02-01 00:05:16.173 -05:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+ORDER BY [n].[Nombre]
+2026-02-01 00:05:16.174 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:05:16.179 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:05:16.180 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 17.8056ms
+2026-02-01 00:05:16.182 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 16.7334ms
+2026-02-01 00:05:16.183 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:05:16.185 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:05:16.186 -05:00 [INF] HTTP GET /api/categories responded 200 in 30.5114 ms
+2026-02-01 00:05:16.187 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 29.9685 ms
+2026-02-01 00:05:16.189 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 35.6326ms
+2026-02-01 00:05:16.190 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-02-01 00:05:16.190 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-02-01 00:05:16.191 -05:00 [INF] Executed DbCommand (14ms) [Parameters=[@__p_0='0', @__p_1='20'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[Codigo], [t].[CodigoComer], [t].[Producto], [t].[Descripcion], [t].[FichaTecnica], [t].[ImagenPrincipal], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[IsActive], [t].[IsFeatured], [t].[CreatedAt], [t].[UpdatedAt], [t].[CategoryId], [c].[Name] AS [CategoryName], [t].[MarcaId], [n].[Nombre] AS [MarcaNombre]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-02-01 00:05:16.191 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 37.1811ms
+2026-02-01 00:05:16.197 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:05:16.198 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:05:16.203 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-02-01 00:05:16.204 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-02-01 00:05:16.214 -05:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-02-01 00:05:16.216 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+ORDER BY [n].[Nombre]
+2026-02-01 00:05:16.216 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:05:16.219 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:05:16.220 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 14.2723ms
+2026-02-01 00:05:16.223 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 8.7143ms
+2026-02-01 00:05:16.224 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:05:16.225 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:05:16.226 -05:00 [INF] HTTP GET /api/categories responded 200 in 30.3553 ms
+2026-02-01 00:05:16.227 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 29.5852 ms
+2026-02-01 00:05:16.229 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 39.3918ms
+2026-02-01 00:05:16.231 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 41.4909ms
+2026-02-01 00:05:24.999 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-02-01 00:05:25.056 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones) in 8902.2291ms
+2026-02-01 00:05:25.059 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:05:25.061 -05:00 [INF] HTTP GET /api/products responded 200 in 8912.0414 ms
+2026-02-01 00:05:25.065 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products?page=1&pageSize=20 - 200 null application/json; charset=utf-8 8917.4964ms
+2026-02-01 00:05:31.082 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products?page=1&pageSize=20&filter=publicar - null null
+2026-02-01 00:05:31.084 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:05:31.086 -05:00 [INF] Route matched with {action = "GetAll", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll(Int32, Int32, System.String, System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-02-01 00:05:31.146 -05:00 [INF] Executed DbCommand (56ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE ([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')
+2026-02-01 00:05:31.190 -05:00 [INF] Executed DbCommand (41ms) [Parameters=[@__p_0='0', @__p_1='20'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[Codigo], [t].[CodigoComer], [t].[Producto], [t].[Descripcion], [t].[FichaTecnica], [t].[ImagenPrincipal], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[IsActive], [t].[IsFeatured], [t].[CreatedAt], [t].[UpdatedAt], [t].[CategoryId], [c].[Name] AS [CategoryName], [t].[MarcaId], [n].[Nombre] AS [MarcaNombre]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE ([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-02-01 00:05:37.819 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-02-01 00:05:37.903 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones) in 6815.5963ms
+2026-02-01 00:05:37.904 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:05:37.906 -05:00 [INF] HTTP GET /api/products responded 200 in 6821.6384 ms
+2026-02-01 00:05:37.908 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products?page=1&pageSize=20&filter=publicar - 200 null application/json; charset=utf-8 6825.6037ms
+2026-02-01 00:05:44.132 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products?page=1&pageSize=7&filter=publicar - null null
+2026-02-01 00:05:44.135 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:05:44.137 -05:00 [INF] Route matched with {action = "GetAll", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll(Int32, Int32, System.String, System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-02-01 00:05:44.142 -05:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE ([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')
+2026-02-01 00:05:44.155 -05:00 [INF] Executed DbCommand (10ms) [Parameters=[@__p_0='0', @__p_1='7'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[Codigo], [t].[CodigoComer], [t].[Producto], [t].[Descripcion], [t].[FichaTecnica], [t].[ImagenPrincipal], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[IsActive], [t].[IsFeatured], [t].[CreatedAt], [t].[UpdatedAt], [t].[CategoryId], [c].[Name] AS [CategoryName], [t].[MarcaId], [n].[Nombre] AS [MarcaNombre]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE ([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-02-01 00:05:47.316 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-02-01 00:05:47.347 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones) in 3208.1068ms
+2026-02-01 00:05:47.348 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:05:47.350 -05:00 [INF] HTTP GET /api/products responded 200 in 3215.2126 ms
+2026-02-01 00:05:47.352 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products?page=1&pageSize=7&filter=publicar - 200 null application/json; charset=utf-8 3219.9432ms
+2026-02-01 00:05:49.276 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products?page=2&pageSize=7&filter=publicar - null null
+2026-02-01 00:05:49.280 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:05:49.282 -05:00 [INF] Route matched with {action = "GetAll", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll(Int32, Int32, System.String, System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-02-01 00:05:49.289 -05:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE ([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')
+2026-02-01 00:05:49.307 -05:00 [INF] Executed DbCommand (8ms) [Parameters=[@__p_0='7'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[Codigo], [t].[CodigoComer], [t].[Producto], [t].[Descripcion], [t].[FichaTecnica], [t].[ImagenPrincipal], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[IsActive], [t].[IsFeatured], [t].[CreatedAt], [t].[UpdatedAt], [t].[CategoryId], [c].[Name] AS [CategoryName], [t].[MarcaId], [n].[Nombre] AS [MarcaNombre]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE ([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_0 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-02-01 00:05:51.917 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-02-01 00:05:51.936 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones) in 2651.1259ms
+2026-02-01 00:05:51.938 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:05:51.939 -05:00 [INF] HTTP GET /api/products responded 200 in 2659.1686 ms
+2026-02-01 00:05:51.941 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products?page=2&pageSize=7&filter=publicar - 200 null application/json; charset=utf-8 2664.5037ms
+2026-02-01 00:05:53.571 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products?page=3&pageSize=7&filter=publicar - null null
+2026-02-01 00:05:53.575 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:05:53.576 -05:00 [INF] Route matched with {action = "GetAll", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll(Int32, Int32, System.String, System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-02-01 00:05:53.583 -05:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE ([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')
+2026-02-01 00:05:53.588 -05:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='14', @__p_1='7'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[Codigo], [t].[CodigoComer], [t].[Producto], [t].[Descripcion], [t].[FichaTecnica], [t].[ImagenPrincipal], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[IsActive], [t].[IsFeatured], [t].[CreatedAt], [t].[UpdatedAt], [t].[CategoryId], [c].[Name] AS [CategoryName], [t].[MarcaId], [n].[Nombre] AS [MarcaNombre]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE ([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-02-01 00:05:54.539 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-02-01 00:05:54.551 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones) in 972.6572ms
+2026-02-01 00:05:54.553 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:05:54.555 -05:00 [INF] HTTP GET /api/products responded 200 in 980.4300 ms
+2026-02-01 00:05:54.556 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products?page=3&pageSize=7&filter=publicar - 200 null application/json; charset=utf-8 984.982ms
+2026-02-01 00:05:57.169 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/available?page=1&pageSize=12&onlyWithImages=true - null null
+2026-02-01 00:05:57.169 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-02-01 00:05:57.171 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetAvailable (backendORCinverisones)'
+2026-02-01 00:05:57.173 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:05:57.174 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-02-01 00:05:57.178 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-02-01 00:05:57.179 -05:00 [INF] Route matched with {action = "GetAvailable", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAvailable(Int32, Int32, System.String, System.Nullable`1[System.Int32], Boolean) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-02-01 00:05:57.181 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:05:57.184 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 7.5738ms
+2026-02-01 00:05:57.185 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:05:57.186 -05:00 [INF] HTTP GET /api/categories responded 200 in 13.9407 ms
+2026-02-01 00:05:57.188 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 19.2559ms
+2026-02-01 00:05:57.200 -05:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-02-01 00:05:57.225 -05:00 [INF] Executed DbCommand (9ms) [Parameters=[@__p_0='0', @__p_1='12'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[CategoryId], [t].[Codigo], [t].[CodigoComer], [t].[CreatedAt], [t].[Descripcion], [t].[FichaTecnica], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[ImagenPrincipal], [t].[IsActive], [t].[IsFeatured], [t].[MarcaId], [t].[Producto], [t].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-02-01 00:05:57.432 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-02-01 00:05:57.435 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:05:57.435 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-02-01 00:05:57.439 -05:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-02-01 00:05:57.441 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:05:57.442 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 5.1539ms
+2026-02-01 00:05:57.443 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:05:57.445 -05:00 [INF] HTTP GET /api/categories responded 200 in 11.2047 ms
+2026-02-01 00:05:57.447 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 15.0245ms
+2026-02-01 00:06:00.518 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-02-01 00:06:00.576 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetAvailable (backendORCinverisones) in 3393.9672ms
+2026-02-01 00:06:00.578 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetAvailable (backendORCinverisones)'
+2026-02-01 00:06:00.579 -05:00 [INF] HTTP GET /api/products/available responded 200 in 3408.9109 ms
+2026-02-01 00:06:00.581 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/available?page=1&pageSize=12&onlyWithImages=true - 200 null application/json; charset=utf-8 3412.577ms
+2026-02-01 00:06:00.927 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products?page=1&pageSize=20 - null null
+2026-02-01 00:06:00.945 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:06:00.946 -05:00 [INF] Route matched with {action = "GetAll", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll(Int32, Int32, System.String, System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-02-01 00:06:00.962 -05:00 [INF] Executed DbCommand (13ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+2026-02-01 00:06:00.967 -05:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='0', @__p_1='20'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[Codigo], [t].[CodigoComer], [t].[Producto], [t].[Descripcion], [t].[FichaTecnica], [t].[ImagenPrincipal], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[IsActive], [t].[IsFeatured], [t].[CreatedAt], [t].[UpdatedAt], [t].[CategoryId], [c].[Name] AS [CategoryName], [t].[MarcaId], [n].[Nombre] AS [MarcaNombre]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-02-01 00:06:01.233 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-02-01 00:06:01.233 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-02-01 00:06:01.237 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:06:01.240 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:06:01.241 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-02-01 00:06:01.242 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-02-01 00:06:01.247 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-02-01 00:06:01.249 -05:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+ORDER BY [n].[Nombre]
+2026-02-01 00:06:01.250 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:06:01.253 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:06:01.254 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 9.868ms
+2026-02-01 00:06:01.256 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 9.5647ms
+2026-02-01 00:06:01.257 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:06:01.259 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:06:01.260 -05:00 [INF] HTTP GET /api/categories responded 200 in 24.0722 ms
+2026-02-01 00:06:01.262 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 22.5859 ms
+2026-02-01 00:06:01.264 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 30.7605ms
+2026-02-01 00:06:01.266 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 32.8113ms
+2026-02-01 00:06:01.579 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-02-01 00:06:01.579 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-02-01 00:06:01.582 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:06:01.585 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:06:01.586 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-02-01 00:06:01.587 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-02-01 00:06:01.591 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-02-01 00:06:01.593 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+ORDER BY [n].[Nombre]
+2026-02-01 00:06:01.594 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:06:01.596 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:06:01.597 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 7.8229ms
+2026-02-01 00:06:01.598 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 7.2575ms
+2026-02-01 00:06:01.599 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:06:01.600 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:06:01.601 -05:00 [INF] HTTP GET /api/categories responded 200 in 20.0443 ms
+2026-02-01 00:06:01.603 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 19.3978 ms
+2026-02-01 00:06:01.605 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 26.1147ms
+2026-02-01 00:06:01.607 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 28.5554ms
+2026-02-01 00:06:05.596 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-02-01 00:06:05.647 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones) in 4700.4659ms
+2026-02-01 00:06:05.649 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:06:05.650 -05:00 [INF] HTTP GET /api/products responded 200 in 4705.7915 ms
+2026-02-01 00:06:05.652 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products?page=1&pageSize=20 - 200 null application/json; charset=utf-8 4724.5839ms
+2026-02-01 00:06:40.636 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products - null null
+2026-02-01 00:06:40.636 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-02-01 00:06:40.636 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-02-01 00:06:40.639 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:06:40.641 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:06:40.643 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:06:40.643 -05:00 [INF] Route matched with {action = "GetAll", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll(Int32, Int32, System.String, System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-02-01 00:06:40.644 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-02-01 00:06:40.645 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-02-01 00:06:40.655 -05:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-02-01 00:06:40.656 -05:00 [INF] Executed DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+ORDER BY [n].[Nombre]
+2026-02-01 00:06:40.656 -05:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+2026-02-01 00:06:40.658 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:06:40.659 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:06:40.662 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 13.8505ms
+2026-02-01 00:06:40.663 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 16.1195ms
+2026-02-01 00:06:40.664 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:06:40.665 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:06:40.666 -05:00 [INF] HTTP GET /api/categories responded 200 in 23.3192 ms
+2026-02-01 00:06:40.667 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 25.7175 ms
+2026-02-01 00:06:40.668 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 31.2437ms
+2026-02-01 00:06:40.669 -05:00 [INF] Executed DbCommand (8ms) [Parameters=[@__p_0='0', @__p_1='20'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[Codigo], [t].[CodigoComer], [t].[Producto], [t].[Descripcion], [t].[FichaTecnica], [t].[ImagenPrincipal], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[IsActive], [t].[IsFeatured], [t].[CreatedAt], [t].[UpdatedAt], [t].[CategoryId], [c].[Name] AS [CategoryName], [t].[MarcaId], [n].[Nombre] AS [MarcaNombre]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-02-01 00:06:40.669 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 32.9143ms
+2026-02-01 00:06:45.500 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-02-01 00:06:45.548 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones) in 4902.6311ms
+2026-02-01 00:06:45.550 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:06:45.551 -05:00 [INF] HTTP GET /api/products responded 200 in 4912.1683 ms
+2026-02-01 00:06:45.552 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products - 200 null application/json; charset=utf-8 4916.1319ms
+2026-02-01 00:07:30.530 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - null null
+2026-02-01 00:07:30.537 -05:00 [INF] No cached response available for this request.
+2026-02-01 00:07:30.539 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-02-01 00:07:30.546 -05:00 [INF] Route matched with {action = "GetPublicFeatured", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicFeatured(Int32, Int32) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-02-01 00:07:31.212 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - null null
+2026-02-01 00:07:31.216 -05:00 [INF] No cached response available for this request.
+2026-02-01 00:07:31.217 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-02-01 00:07:31.217 -05:00 [INF] Route matched with {action = "GetPublicFeatured", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicFeatured(Int32, Int32) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-02-01 00:07:33.876 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products - null null
+2026-02-01 00:07:33.878 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-02-01 00:07:33.878 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-02-01 00:07:33.879 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:07:33.881 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:07:33.883 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:07:33.883 -05:00 [INF] Route matched with {action = "GetAll", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll(Int32, Int32, System.String, System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-02-01 00:07:33.885 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-02-01 00:07:33.885 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-02-01 00:07:33.896 -05:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+2026-02-01 00:07:34.804 -05:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-02-01 00:07:34.807 -05:00 [INF] Executed DbCommand (4,252ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-02-01 00:07:34.807 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:07:34.807 -05:00 [INF] Executed DbCommand (3,585ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-02-01 00:07:34.810 -05:00 [INF] Executed DbCommand (911ms) [Parameters=[@__p_0='0', @__p_1='20'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[Codigo], [t].[CodigoComer], [t].[Producto], [t].[Descripcion], [t].[FichaTecnica], [t].[ImagenPrincipal], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[IsActive], [t].[IsFeatured], [t].[CreatedAt], [t].[UpdatedAt], [t].[CategoryId], [c].[Name] AS [CategoryName], [t].[MarcaId], [n].[Nombre] AS [MarcaNombre]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-02-01 00:07:34.811 -05:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+ORDER BY [n].[Nombre]
+2026-02-01 00:07:34.811 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 921.4705ms
+2026-02-01 00:07:34.818 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-02-01 00:07:34.825 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:07:34.827 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:07:34.830 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:07:34.831 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 939.1018ms
+2026-02-01 00:07:34.831 -05:00 [INF] HTTP GET /api/categories responded 200 in 951.0680 ms
+2026-02-01 00:07:34.832 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-02-01 00:07:34.834 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:07:34.835 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-02-01 00:07:34.836 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 957.2909ms
+2026-02-01 00:07:34.839 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 956.4390 ms
+2026-02-01 00:07:34.840 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-02-01 00:07:34.842 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:07:34.844 -05:00 [INF] Executed DbCommand (10ms) [Parameters=[@__p_0='0', @__p_1='9'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[CategoryId], [t].[Codigo], [t].[CodigoComer], [t].[CreatedAt], [t].[Descripcion], [t].[FichaTecnica], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[ImagenPrincipal], [t].[IsActive], [t].[IsFeatured], [t].[MarcaId], [t].[Producto], [t].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-02-01 00:07:34.845 -05:00 [INF] Executed DbCommand (11ms) [Parameters=[@__p_0='0', @__p_1='9'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[CategoryId], [t].[Codigo], [t].[CodigoComer], [t].[CreatedAt], [t].[Descripcion], [t].[FichaTecnica], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[ImagenPrincipal], [t].[IsActive], [t].[IsFeatured], [t].[MarcaId], [t].[Producto], [t].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-02-01 00:07:34.846 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 967.0185ms
+2026-02-01 00:07:34.848 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:07:34.848 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-02-01 00:07:34.863 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 25.3996ms
+2026-02-01 00:07:34.866 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:07:34.867 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+ORDER BY [n].[Nombre]
+2026-02-01 00:07:34.867 -05:00 [INF] HTTP GET /api/categories responded 200 in 38.3867 ms
+2026-02-01 00:07:34.870 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:07:34.871 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 52.6989ms
+2026-02-01 00:07:34.873 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 7.62ms
+2026-02-01 00:07:34.877 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:07:34.878 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 36.7581 ms
+2026-02-01 00:07:34.880 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 45.0468ms
+2026-02-01 00:07:38.819 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-02-01 00:07:38.822 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones) in 8274.4205ms
+2026-02-01 00:07:38.823 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-02-01 00:07:38.824 -05:00 [INF] The response could not be cached for this request.
+2026-02-01 00:07:38.825 -05:00 [INF] HTTP GET /api/products/public/featured responded 200 in 8290.8762 ms
+2026-02-01 00:07:38.827 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - 200 null application/json; charset=utf-8 8297.1536ms
+2026-02-01 00:07:38.926 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-02-01 00:07:38.961 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones) in 7741.1384ms
+2026-02-01 00:07:38.963 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-02-01 00:07:38.965 -05:00 [INF] The response could not be cached for this request.
+2026-02-01 00:07:38.967 -05:00 [INF] HTTP GET /api/products/public/featured responded 200 in 7751.5248 ms
+2026-02-01 00:07:38.968 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - 200 null application/json; charset=utf-8 7756.5223ms
+2026-02-01 00:07:41.586 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-02-01 00:07:41.642 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones) in 7753.7969ms
+2026-02-01 00:07:41.643 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:07:41.645 -05:00 [INF] HTTP GET /api/products responded 200 in 7766.7872 ms
+2026-02-01 00:07:41.647 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products - 200 null application/json; charset=utf-8 7771.2364ms
+2026-02-01 00:08:41.818 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products - null null
+2026-02-01 00:08:41.821 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:08:41.822 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-02-01 00:08:41.822 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-02-01 00:08:41.823 -05:00 [INF] Route matched with {action = "GetAll", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll(Int32, Int32, System.String, System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-02-01 00:08:41.825 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:08:41.827 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:08:41.830 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-02-01 00:08:41.831 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-02-01 00:08:41.836 -05:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-02-01 00:08:41.836 -05:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+2026-02-01 00:08:41.839 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:08:41.840 -05:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+ORDER BY [n].[Nombre]
+2026-02-01 00:08:41.842 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 9.381ms
+2026-02-01 00:08:41.845 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:08:41.846 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:08:41.847 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-02-01 00:08:41.848 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 13.4597ms
+2026-02-01 00:08:41.848 -05:00 [INF] HTTP GET /api/categories responded 200 in 23.8431 ms
+2026-02-01 00:08:41.852 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:08:41.853 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:08:41.854 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-02-01 00:08:41.854 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 32.4113ms
+2026-02-01 00:08:41.856 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-02-01 00:08:41.857 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 30.2001 ms
+2026-02-01 00:08:41.860 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:08:41.866 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-02-01 00:08:41.866 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 44.1877ms
+2026-02-01 00:08:41.868 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-02-01 00:08:41.870 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:08:41.876 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 11.7713ms
+2026-02-01 00:08:41.877 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+ORDER BY [n].[Nombre]
+2026-02-01 00:08:41.878 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:08:41.881 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:08:41.882 -05:00 [INF] HTTP GET /api/categories responded 200 in 30.7299 ms
+2026-02-01 00:08:41.884 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 9.0613ms
+2026-02-01 00:08:41.885 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 37.7594ms
+2026-02-01 00:08:41.886 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:08:41.891 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 31.9725 ms
+2026-02-01 00:08:41.910 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 56.3447ms
+2026-02-01 00:08:43.914 -05:00 [INF] Executed DbCommand (2,072ms) [Parameters=[@__p_0='0', @__p_1='20'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[Codigo], [t].[CodigoComer], [t].[Producto], [t].[Descripcion], [t].[FichaTecnica], [t].[ImagenPrincipal], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[IsActive], [t].[IsFeatured], [t].[CreatedAt], [t].[UpdatedAt], [t].[CategoryId], [c].[Name] AS [CategoryName], [t].[MarcaId], [n].[Nombre] AS [MarcaNombre]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-02-01 00:08:49.128 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-02-01 00:08:49.178 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones) in 7349.9819ms
+2026-02-01 00:08:49.180 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:08:49.182 -05:00 [INF] HTTP GET /api/products responded 200 in 7361.1345 ms
+2026-02-01 00:08:49.185 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products - 200 null application/json; charset=utf-8 7366.5985ms
+2026-02-01 00:12:08.095 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products - null null
+2026-02-01 00:12:08.104 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:12:08.105 -05:00 [INF] Route matched with {action = "GetAll", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll(Int32, Int32, System.String, System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-02-01 00:12:08.109 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-02-01 00:12:08.109 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-02-01 00:12:08.115 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:12:08.119 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-02-01 00:12:08.119 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:12:08.125 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-02-01 00:12:08.161 -05:00 [INF] Executed DbCommand (36ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-02-01 00:12:08.162 -05:00 [INF] Executed DbCommand (46ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+2026-02-01 00:12:08.162 -05:00 [INF] Executed DbCommand (34ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+ORDER BY [n].[Nombre]
+2026-02-01 00:12:08.165 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:12:08.169 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:12:08.173 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 50.1173ms
+2026-02-01 00:12:08.175 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 49.0622ms
+2026-02-01 00:12:08.182 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:12:08.183 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:12:08.183 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-02-01 00:12:08.185 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-02-01 00:12:08.185 -05:00 [INF] HTTP GET /api/categories responded 200 in 70.7165 ms
+2026-02-01 00:12:08.188 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 68.9744 ms
+2026-02-01 00:12:08.190 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:12:08.193 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:12:08.194 -05:00 [INF] Executed DbCommand (26ms) [Parameters=[@__p_0='0', @__p_1='20'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[Codigo], [t].[CodigoComer], [t].[Producto], [t].[Descripcion], [t].[FichaTecnica], [t].[ImagenPrincipal], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[IsActive], [t].[IsFeatured], [t].[CreatedAt], [t].[UpdatedAt], [t].[CategoryId], [c].[Name] AS [CategoryName], [t].[MarcaId], [n].[Nombre] AS [MarcaNombre]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-02-01 00:12:08.195 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 85.8176ms
+2026-02-01 00:12:08.199 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 90.7361ms
+2026-02-01 00:12:08.203 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-02-01 00:12:08.204 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-02-01 00:12:08.232 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-02-01 00:12:08.235 -05:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+ORDER BY [n].[Nombre]
+2026-02-01 00:12:08.238 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:12:08.240 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:12:08.245 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 14.7562ms
+2026-02-01 00:12:08.250 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 17.7078ms
+2026-02-01 00:12:08.262 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:12:08.265 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:12:08.273 -05:00 [INF] HTTP GET /api/categories responded 200 in 84.3024 ms
+2026-02-01 00:12:08.303 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 119.7589ms
+2026-02-01 00:12:08.276 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 83.5454 ms
+2026-02-01 00:12:08.325 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 139.7192ms
+2026-02-01 00:12:08.669 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - null null
+2026-02-01 00:12:08.700 -05:00 [INF] No cached response available for this request.
+2026-02-01 00:12:08.701 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-02-01 00:12:08.703 -05:00 [INF] Route matched with {action = "GetPublicFeatured", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicFeatured(Int32, Int32) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-02-01 00:12:08.733 -05:00 [INF] Executed DbCommand (25ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-02-01 00:12:08.749 -05:00 [INF] Executed DbCommand (12ms) [Parameters=[@__p_0='0', @__p_1='9'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[CategoryId], [t].[Codigo], [t].[CodigoComer], [t].[CreatedAt], [t].[Descripcion], [t].[FichaTecnica], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[ImagenPrincipal], [t].[IsActive], [t].[IsFeatured], [t].[MarcaId], [t].[Producto], [t].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-02-01 00:12:11.965 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-02-01 00:12:11.989 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones) in 3284.1678ms
+2026-02-01 00:12:11.990 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-02-01 00:12:11.991 -05:00 [INF] The response could not be cached for this request.
+2026-02-01 00:12:11.992 -05:00 [INF] HTTP GET /api/products/public/featured responded 200 in 3292.5663 ms
+2026-02-01 00:12:11.994 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - 200 null application/json; charset=utf-8 3324.674ms
+2026-02-01 00:12:14.221 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-02-01 00:12:14.273 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones) in 6160.0839ms
+2026-02-01 00:12:14.274 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:12:14.276 -05:00 [INF] HTTP GET /api/products responded 200 in 6174.1381 ms
+2026-02-01 00:12:14.280 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products - 200 null application/json; charset=utf-8 6184.7948ms
+2026-02-01 00:12:28.211 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - null null
+2026-02-01 00:12:28.215 -05:00 [INF] No cached response available for this request.
+2026-02-01 00:12:28.216 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-02-01 00:12:28.218 -05:00 [INF] Route matched with {action = "GetPublicFeatured", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicFeatured(Int32, Int32) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-02-01 00:12:28.227 -05:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-02-01 00:12:28.236 -05:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='0', @__p_1='9'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[CategoryId], [t].[Codigo], [t].[CodigoComer], [t].[CreatedAt], [t].[Descripcion], [t].[FichaTecnica], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[ImagenPrincipal], [t].[IsActive], [t].[IsFeatured], [t].[MarcaId], [t].[Producto], [t].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-02-01 00:12:28.543 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products - null null
+2026-02-01 00:12:28.545 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-02-01 00:12:28.547 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:12:28.551 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-02-01 00:12:28.551 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:12:28.554 -05:00 [INF] Route matched with {action = "GetAll", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll(Int32, Int32, System.String, System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-02-01 00:12:28.559 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:12:28.560 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-02-01 00:12:28.564 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-02-01 00:12:28.567 -05:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+2026-02-01 00:12:28.568 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-02-01 00:12:28.588 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='0', @__p_1='20'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[Codigo], [t].[CodigoComer], [t].[Producto], [t].[Descripcion], [t].[FichaTecnica], [t].[ImagenPrincipal], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[IsActive], [t].[IsFeatured], [t].[CreatedAt], [t].[UpdatedAt], [t].[CategoryId], [c].[Name] AS [CategoryName], [t].[MarcaId], [n].[Nombre] AS [MarcaNombre]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-02-01 00:12:28.595 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:12:28.595 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+ORDER BY [n].[Nombre]
+2026-02-01 00:12:28.615 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 48.367ms
+2026-02-01 00:12:28.617 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:12:28.621 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-02-01 00:12:28.622 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:12:28.624 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 53.103ms
+2026-02-01 00:12:28.627 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:12:28.629 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-02-01 00:12:28.629 -05:00 [INF] HTTP GET /api/categories responded 200 in 79.2356 ms
+2026-02-01 00:12:28.630 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:12:28.637 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 78.5334 ms
+2026-02-01 00:12:28.635 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:12:28.636 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 90.4755ms
+2026-02-01 00:12:28.632 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-02-01 00:12:28.639 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 88.4757ms
+2026-02-01 00:12:28.647 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-02-01 00:12:28.658 -05:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-02-01 00:12:28.665 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+ORDER BY [n].[Nombre]
+2026-02-01 00:12:28.666 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:12:28.669 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:12:28.672 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 16.119ms
+2026-02-01 00:12:28.673 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 10.9189ms
+2026-02-01 00:12:28.681 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:12:28.683 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:12:28.691 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 56.1506 ms
+2026-02-01 00:12:28.696 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 67.4232ms
+2026-02-01 00:12:28.689 -05:00 [INF] HTTP GET /api/categories responded 200 in 62.7438 ms
+2026-02-01 00:12:28.707 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 85.891ms
+2026-02-01 00:12:31.286 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-02-01 00:12:31.306 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones) in 3083.5766ms
+2026-02-01 00:12:31.308 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-02-01 00:12:31.321 -05:00 [INF] The response could not be cached for this request.
+2026-02-01 00:12:31.322 -05:00 [INF] HTTP GET /api/products/public/featured responded 200 in 3107.8021 ms
+2026-02-01 00:12:31.325 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - 200 null application/json; charset=utf-8 3113.1082ms
+2026-02-01 00:12:33.861 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-02-01 00:12:33.944 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones) in 5381.4519ms
+2026-02-01 00:12:33.946 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:12:33.948 -05:00 [INF] HTTP GET /api/products responded 200 in 5401.4667 ms
+2026-02-01 00:12:33.949 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products - 200 null application/json; charset=utf-8 5405.9887ms
+2026-02-01 00:13:34.386 -05:00 [INF] Application is shutting down...
+2026-02-01 00:13:57.301 -05:00 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+2026-02-01 00:13:58.016 -05:00 [INF] Executed DbCommand (12ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT 1
+2026-02-01 00:13:58.038 -05:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2026-02-01 00:13:58.060 -05:00 [INF] Executed DbCommand (10ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2026-02-01 00:14:13.225 -05:00 [INF] 🚀 Backend ORC Inversiones iniciado correctamente
+2026-02-01 00:14:13.291 -05:00 [INF] User profile is available. Using 'C:\Users\cater\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-02-01 00:14:13.393 -05:00 [INF] Now listening on: http://localhost:5095
+2026-02-01 00:14:13.395 -05:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-02-01 00:14:13.397 -05:00 [INF] Hosting environment: Development
+2026-02-01 00:14:13.398 -05:00 [INF] Content root path: C:\Users\cater\source\repos\backendORCinverisones\backend
+2026-02-01 00:14:17.168 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - null null
+2026-02-01 00:14:17.168 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products - null null
+2026-02-01 00:14:17.168 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-02-01 00:14:17.168 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-02-01 00:14:17.288 -05:00 [INF] No cached response available for this request.
+2026-02-01 00:14:17.310 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-02-01 00:14:17.335 -05:00 [INF] Route matched with {action = "GetPublicFeatured", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicFeatured(Int32, Int32) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-02-01 00:14:17.375 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:14:17.375 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:14:17.376 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:14:17.382 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-02-01 00:14:17.382 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-02-01 00:14:17.383 -05:00 [INF] Route matched with {action = "GetAll", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-02-01 00:14:17.844 -05:00 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+2026-02-01 00:14:18.464 -05:00 [INF] Executed DbCommand (31ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [p].[Id], [p].[Codigo], [p].[CodigoComer], [p].[Producto], [p].[Descripcion], [p].[FichaTecnica], [p].[ImagenPrincipal], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[IsActive], [p].[IsFeatured], [p].[CreatedAt], [p].[UpdatedAt], [p].[CategoryId], [c].[Name] AS [CategoryName], [p].[MarcaId], [n].[Nombre] AS [MarcaNombre]
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [p].[MarcaId] = [n].[Id]
+2026-02-01 00:14:18.464 -05:00 [INF] Executed DbCommand (27ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+ORDER BY [n].[Nombre]
+2026-02-01 00:14:18.464 -05:00 [INF] Executed DbCommand (33ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-02-01 00:14:18.467 -05:00 [INF] Executed DbCommand (43ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-02-01 00:14:18.524 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:14:18.524 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:14:18.581 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 1193.5336ms
+2026-02-01 00:14:18.581 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 1191.4017ms
+2026-02-01 00:14:18.584 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:14:18.585 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:14:18.585 -05:00 [INF] Executed DbCommand (19ms) [Parameters=[@__p_0='0', @__p_1='9'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[CategoryId], [t].[Codigo], [t].[CodigoComer], [t].[CreatedAt], [t].[Descripcion], [t].[FichaTecnica], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[ImagenPrincipal], [t].[IsActive], [t].[IsFeatured], [t].[MarcaId], [t].[Producto], [t].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-02-01 00:14:18.587 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-02-01 00:14:18.590 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-02-01 00:14:18.597 -05:00 [INF] HTTP GET /api/categories responded 200 in 1390.4522 ms
+2026-02-01 00:14:18.597 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 1390.3925 ms
+2026-02-01 00:14:18.604 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:14:18.604 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:14:18.608 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-02-01 00:14:18.610 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-02-01 00:14:18.615 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 1448.696ms
+2026-02-01 00:14:18.615 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 1448.7013ms
+2026-02-01 00:14:18.669 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-02-01 00:14:18.671 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+ORDER BY [n].[Nombre]
+2026-02-01 00:14:18.673 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:14:18.674 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:14:18.675 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 60.9963ms
+2026-02-01 00:14:18.676 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 63.9677ms
+2026-02-01 00:14:18.677 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:14:18.679 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:14:18.680 -05:00 [INF] HTTP GET /api/categories responded 200 in 77.6870 ms
+2026-02-01 00:14:18.681 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 80.0259 ms
+2026-02-01 00:14:18.683 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 92.8699ms
+2026-02-01 00:14:18.685 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 98.0694ms
+2026-02-01 00:14:22.746 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-02-01 00:14:22.813 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones) in 5475.8127ms
+2026-02-01 00:14:22.815 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-02-01 00:14:22.816 -05:00 [INF] The response could not be cached for this request.
+2026-02-01 00:14:22.818 -05:00 [INF] HTTP GET /api/products/public/featured responded 200 in 5612.6237 ms
+2026-02-01 00:14:22.820 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - 200 null application/json; charset=utf-8 5654.5896ms
+2026-02-01 00:14:30.296 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[backendORCinverisones.Application.DTOs.Products.ProductResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:14:30.416 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones) in 13027.6313ms
+2026-02-01 00:14:30.417 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:14:30.419 -05:00 [INF] HTTP GET /api/products responded 200 in 13213.6906 ms
+2026-02-01 00:14:30.420 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products - 200 null application/json; charset=utf-8 13254.8796ms
+2026-02-01 00:27:42.014 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - null null
+2026-02-01 00:27:42.020 -05:00 [INF] No cached response available for this request.
+2026-02-01 00:27:42.022 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-02-01 00:27:42.024 -05:00 [INF] Route matched with {action = "GetPublicFeatured", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicFeatured(Int32, Int32) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-02-01 00:27:42.173 -05:00 [INF] Executed DbCommand (37ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-02-01 00:27:42.194 -05:00 [INF] Executed DbCommand (16ms) [Parameters=[@__p_0='0', @__p_1='9'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[CategoryId], [t].[Codigo], [t].[CodigoComer], [t].[CreatedAt], [t].[Descripcion], [t].[FichaTecnica], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[ImagenPrincipal], [t].[IsActive], [t].[IsFeatured], [t].[MarcaId], [t].[Producto], [t].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-02-01 00:27:42.264 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products - null null
+2026-02-01 00:27:42.279 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-02-01 00:27:42.281 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-02-01 00:27:42.295 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:27:42.290 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:27:42.296 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:27:42.302 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-02-01 00:27:42.321 -05:00 [INF] Route matched with {action = "GetAll", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-02-01 00:27:42.324 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-02-01 00:27:42.336 -05:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-02-01 00:27:42.340 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:27:42.342 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 16.1395ms
+2026-02-01 00:27:42.343 -05:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+ORDER BY [n].[Nombre]
+2026-02-01 00:27:42.344 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:27:42.348 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:27:42.348 -05:00 [INF] HTTP GET /api/categories responded 200 in 53.9576 ms
+2026-02-01 00:27:42.349 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-02-01 00:27:42.351 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 21.4449ms
+2026-02-01 00:27:42.358 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:27:42.361 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 65.4303 ms
+2026-02-01 00:27:42.356 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:27:42.368 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-02-01 00:27:42.353 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 74.0512ms
+2026-02-01 00:27:42.356 -05:00 [INF] Executed DbCommand (15ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [p].[Id], [p].[Codigo], [p].[CodigoComer], [p].[Producto], [p].[Descripcion], [p].[FichaTecnica], [p].[ImagenPrincipal], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[IsActive], [p].[IsFeatured], [p].[CreatedAt], [p].[UpdatedAt], [p].[CategoryId], [c].[Name] AS [CategoryName], [p].[MarcaId], [n].[Nombre] AS [MarcaNombre]
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [p].[MarcaId] = [n].[Id]
+2026-02-01 00:27:42.367 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 85.6515ms
+2026-02-01 00:27:42.358 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-02-01 00:27:42.372 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-02-01 00:27:42.382 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:27:42.389 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:27:42.390 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-02-01 00:27:42.391 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 21.3845ms
+2026-02-01 00:27:42.394 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:27:42.395 -05:00 [INF] HTTP GET /api/categories responded 200 in 40.0842 ms
+2026-02-01 00:27:42.396 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+ORDER BY [n].[Nombre]
+2026-02-01 00:27:42.397 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 48.4477ms
+2026-02-01 00:27:42.400 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:27:42.404 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 12.2782ms
+2026-02-01 00:27:42.406 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:27:42.409 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 28.8847 ms
+2026-02-01 00:27:42.412 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 54.5441ms
+2026-02-01 00:27:45.615 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-02-01 00:27:45.639 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones) in 3613.9304ms
+2026-02-01 00:27:45.641 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-02-01 00:27:45.642 -05:00 [INF] The response could not be cached for this request.
+2026-02-01 00:27:45.643 -05:00 [INF] HTTP GET /api/products/public/featured responded 200 in 3623.8670 ms
+2026-02-01 00:27:45.645 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - 200 null application/json; charset=utf-8 3630.3325ms
+2026-02-01 00:27:52.308 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[backendORCinverisones.Application.DTOs.Products.ProductResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:27:52.423 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones) in 10095.3144ms
+2026-02-01 00:27:52.424 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:27:52.426 -05:00 [INF] HTTP GET /api/products responded 200 in 10137.5218 ms
+2026-02-01 00:27:52.427 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products - 200 null application/json; charset=utf-8 10163.2985ms
+2026-02-01 00:28:26.112 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - null null
+2026-02-01 00:28:26.115 -05:00 [INF] No cached response available for this request.
+2026-02-01 00:28:26.116 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-02-01 00:28:26.117 -05:00 [INF] Route matched with {action = "GetPublicFeatured", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicFeatured(Int32, Int32) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-02-01 00:28:26.138 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products - null null
+2026-02-01 00:28:26.141 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:28:26.142 -05:00 [INF] Route matched with {action = "GetAll", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-02-01 00:28:26.143 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-02-01 00:28:26.143 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-02-01 00:28:26.147 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:28:26.150 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:28:26.151 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-02-01 00:28:26.152 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-02-01 00:28:26.156 -05:00 [INF] Executed DbCommand (35ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-02-01 00:28:26.157 -05:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-02-01 00:28:26.161 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:28:26.163 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 10.0658ms
+2026-02-01 00:28:26.165 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:28:26.167 -05:00 [INF] HTTP GET /api/categories responded 200 in 20.6092 ms
+2026-02-01 00:28:26.169 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 26.272ms
+2026-02-01 00:28:26.171 -05:00 [INF] Executed DbCommand (25ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [p].[Id], [p].[Codigo], [p].[CodigoComer], [p].[Producto], [p].[Descripcion], [p].[FichaTecnica], [p].[ImagenPrincipal], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[IsActive], [p].[IsFeatured], [p].[CreatedAt], [p].[UpdatedAt], [p].[CategoryId], [c].[Name] AS [CategoryName], [p].[MarcaId], [n].[Nombre] AS [MarcaNombre]
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [p].[MarcaId] = [n].[Id]
+2026-02-01 00:28:26.175 -05:00 [INF] Executed DbCommand (15ms) [Parameters=[@__p_0='0', @__p_1='9'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[CategoryId], [t].[Codigo], [t].[CodigoComer], [t].[CreatedAt], [t].[Descripcion], [t].[FichaTecnica], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[ImagenPrincipal], [t].[IsActive], [t].[IsFeatured], [t].[MarcaId], [t].[Producto], [t].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-02-01 00:28:26.179 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-02-01 00:28:26.183 -05:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+ORDER BY [n].[Nombre]
+2026-02-01 00:28:26.185 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:28:26.188 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:28:26.189 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-02-01 00:28:26.190 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 34.5432ms
+2026-02-01 00:28:26.194 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:28:26.195 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 46.1949 ms
+2026-02-01 00:28:26.197 -05:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-02-01 00:28:26.198 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 54.8032ms
+2026-02-01 00:28:26.200 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:28:26.202 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-02-01 00:28:26.205 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 12.3215ms
+2026-02-01 00:28:26.208 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:28:26.209 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-02-01 00:28:26.210 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-02-01 00:28:26.212 -05:00 [INF] HTTP GET /api/categories responded 200 in 27.8153 ms
+2026-02-01 00:28:26.221 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 41.7302ms
+2026-02-01 00:28:26.223 -05:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+ORDER BY [n].[Nombre]
+2026-02-01 00:28:26.228 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:28:26.230 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 11.3949ms
+2026-02-01 00:28:26.232 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-02-01 00:28:26.233 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 26.4570 ms
+2026-02-01 00:28:26.235 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 33.123ms
+2026-02-01 00:28:29.190 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-02-01 00:28:29.210 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones) in 3091.5234ms
+2026-02-01 00:28:29.212 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-02-01 00:28:29.213 -05:00 [INF] The response could not be cached for this request.
+2026-02-01 00:28:29.214 -05:00 [INF] HTTP GET /api/products/public/featured responded 200 in 3099.7822 ms
+2026-02-01 00:28:29.216 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - 200 null application/json; charset=utf-8 3104.0143ms
+2026-02-01 00:28:36.122 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[backendORCinverisones.Application.DTOs.Products.ProductResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-02-01 00:28:36.217 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones) in 10072.4293ms
+2026-02-01 00:28:36.218 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-02-01 00:28:36.220 -05:00 [INF] HTTP GET /api/products responded 200 in 10079.9700 ms
+2026-02-01 00:28:36.222 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products - 200 null application/json; charset=utf-8 10083.9959ms
+2026-02-01 00:29:52.660 -05:00 [INF] Application is shutting down...

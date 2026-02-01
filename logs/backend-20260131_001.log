@@ -1,0 +1,1346 @@
+2026-01-31 23:06:54.910 -05:00 [INF] 🚀 Backend ORC Inversiones iniciado correctamente
+2026-01-31 23:06:54.965 -05:00 [INF] User profile is available. Using 'C:\Users\cater\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-01-31 23:06:55.033 -05:00 [ERR] Hosting failed to start
+System.IO.IOException: Failed to bind to address http://127.0.0.1:5095: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Solo se permite un uso de cada dirección de socket (protocolo/dirección de red/puerto)
+ ---> System.Net.Sockets.SocketException (10048): Solo se permite un uso de cada dirección de socket (protocolo/dirección de red/puerto)
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, Boolean disconnectOnFailure, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(ListenOptions[] listenOptions, AddressBindContext context, Func`2 useHttps, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+2026-01-31 23:06:55.054 -05:00 [FTL] ❌ Error fatal al iniciar la aplicación
+System.IO.IOException: Failed to bind to address http://127.0.0.1:5095: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Solo se permite un uso de cada dirección de socket (protocolo/dirección de red/puerto)
+ ---> System.Net.Sockets.SocketException (10048): Solo se permite un uso de cada dirección de socket (protocolo/dirección de red/puerto)
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, Boolean disconnectOnFailure, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(ListenOptions[] listenOptions, AddressBindContext context, Func`2 useHttps, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+   at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Run(IHost host)
+   at Program.<Main>$(String[] args) in C:\Users\cater\source\repos\backendORCinverisones\backend\Program.cs:line 268
+2026-01-31 23:14:31.232 -05:00 [INF] 🚀 Backend ORC Inversiones iniciado correctamente
+2026-01-31 23:14:31.284 -05:00 [INF] User profile is available. Using 'C:\Users\cater\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-01-31 23:14:31.350 -05:00 [ERR] Hosting failed to start
+System.IO.IOException: Failed to bind to address http://127.0.0.1:5095: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Solo se permite un uso de cada dirección de socket (protocolo/dirección de red/puerto)
+ ---> System.Net.Sockets.SocketException (10048): Solo se permite un uso de cada dirección de socket (protocolo/dirección de red/puerto)
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, Boolean disconnectOnFailure, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(ListenOptions[] listenOptions, AddressBindContext context, Func`2 useHttps, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+2026-01-31 23:14:31.363 -05:00 [FTL] ❌ Error fatal al iniciar la aplicación
+System.IO.IOException: Failed to bind to address http://127.0.0.1:5095: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Solo se permite un uso de cada dirección de socket (protocolo/dirección de red/puerto)
+ ---> System.Net.Sockets.SocketException (10048): Solo se permite un uso de cada dirección de socket (protocolo/dirección de red/puerto)
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, Boolean disconnectOnFailure, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(ListenOptions[] listenOptions, AddressBindContext context, Func`2 useHttps, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+   at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Run(IHost host)
+   at Program.<Main>$(String[] args) in C:\Users\cater\source\repos\backendORCinverisones\backend\Program.cs:line 268
+2026-01-31 23:14:45.363 -05:00 [INF] 🚀 Backend ORC Inversiones iniciado correctamente
+2026-01-31 23:14:45.414 -05:00 [INF] User profile is available. Using 'C:\Users\cater\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-01-31 23:14:45.475 -05:00 [INF] Now listening on: http://localhost:5095
+2026-01-31 23:14:45.478 -05:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-01-31 23:14:45.479 -05:00 [INF] Hosting environment: Development
+2026-01-31 23:14:45.480 -05:00 [INF] Content root path: C:\Users\cater\source\repos\backendORCinverisones\backend
+2026-01-31 23:14:59.359 -05:00 [INF] Request starting HTTP/1.1 POST http://localhost:5095/api/auth/login - application/json 43
+2026-01-31 23:14:59.433 -05:00 [INF] CORS policy execution successful.
+2026-01-31 23:14:59.455 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.AuthController.Login (backendORCinverisones)'
+2026-01-31 23:14:59.473 -05:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(backendORCinverisones.Application.DTOs.Auth.LoginRequestDto) on controller backendORCinverisones.Controllers.AuthController (backendORCinverisones).
+2026-01-31 23:14:59.917 -05:00 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+2026-01-31 23:15:00.912 -05:00 [ERR] An error occurred using the connection to database 'postgres' on server 'tcp://aws-0-us-east-1.pooler.supabase.com:6543'.
+2026-01-31 23:15:00.930 -05:00 [ERR] An exception occurred while iterating over the results of a query for context type 'backendORCinverisones.Infrastructure.Data.ApplicationDbContext'.
+Npgsql.PostgresException (0x80004005): XX000: Tenant or user not found
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.Authenticate(String username, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.<Open>g__OpenCore|213_1(NpgsqlConnector conn, SslMode sslMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken, Boolean isFirstAttempt)
+   at Npgsql.Internal.NpgsqlConnector.Open(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.OpenNewConnector(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.<Get>g__RentAsync|34_0(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlConnection.<Open>g__OpenAsync|42_0(Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+  Exception data:
+    Severity: FATAL
+    SqlState: XX000
+    MessageText: Tenant or user not found
+Npgsql.PostgresException (0x80004005): XX000: Tenant or user not found
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.Authenticate(String username, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.<Open>g__OpenCore|213_1(NpgsqlConnector conn, SslMode sslMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken, Boolean isFirstAttempt)
+   at Npgsql.Internal.NpgsqlConnector.Open(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.OpenNewConnector(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.<Get>g__RentAsync|34_0(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlConnection.<Open>g__OpenAsync|42_0(Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+  Exception data:
+    Severity: FATAL
+    SqlState: XX000
+    MessageText: Tenant or user not found
+2026-01-31 23:15:00.951 -05:00 [INF] Executed action backendORCinverisones.Controllers.AuthController.Login (backendORCinverisones) in 1473.2423ms
+2026-01-31 23:15:00.956 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.AuthController.Login (backendORCinverisones)'
+2026-01-31 23:15:00.961 -05:00 [ERR] Ocurrió un error no controlado
+Npgsql.PostgresException (0x80004005): XX000: Tenant or user not found
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.Authenticate(String username, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.Internal.NpgsqlConnector.<Open>g__OpenCore|213_1(NpgsqlConnector conn, SslMode sslMode, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken, Boolean isFirstAttempt)
+   at Npgsql.Internal.NpgsqlConnector.Open(NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.OpenNewConnector(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.PoolingDataSource.<Get>g__RentAsync|34_0(NpgsqlConnection conn, NpgsqlTimeout timeout, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlConnection.<Open>g__OpenAsync|42_0(Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at backendORCinverisones.Infrastructure.Repositories.UserRepository.GetByUsernameAsync(String username) in C:\Users\cater\source\repos\backendORCinverisones\backend\Infrastructure\Repositories\UserRepository.cs:line 16
+   at backendORCinverisones.Application.Services.AuthService.LoginAsync(LoginRequestDto request) in C:\Users\cater\source\repos\backendORCinverisones\backend\Application\Services\AuthService.cs:line 30
+   at backendORCinverisones.Controllers.AuthController.Login(LoginRequestDto request) in C:\Users\cater\source\repos\backendORCinverisones\backend\Controllers\AuthController.cs:line 26
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.ResponseCaching.ResponseCachingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.ResponseCompression.ResponseCompressionMiddleware.InvokeCore(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at backendORCinverisones.API.Middleware.ErrorHandlingMiddleware.InvokeAsync(HttpContext context) in C:\Users\cater\source\repos\backendORCinverisones\backend\API\Middleware\ErrorHandlingMiddleware.cs:line 23
+  Exception data:
+    Severity: FATAL
+    SqlState: XX000
+    MessageText: Tenant or user not found
+2026-01-31 23:15:01.000 -05:00 [ERR] HTTP POST /api/auth/login responded 500 in 1617.1273 ms
+2026-01-31 23:15:01.012 -05:00 [INF] Request finished HTTP/1.1 POST http://localhost:5095/api/auth/login - 500 null application/json 1653.8309ms
+2026-01-31 23:16:10.247 -05:00 [INF] Application is shutting down...
+2026-01-31 23:16:13.791 -05:00 [INF] 🚀 Backend ORC Inversiones iniciado correctamente
+2026-01-31 23:16:13.850 -05:00 [INF] User profile is available. Using 'C:\Users\cater\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-01-31 23:16:13.920 -05:00 [INF] Now listening on: http://localhost:5095
+2026-01-31 23:16:13.923 -05:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-01-31 23:16:13.924 -05:00 [INF] Hosting environment: Development
+2026-01-31 23:16:13.925 -05:00 [INF] Content root path: C:\Users\cater\source\repos\backendORCinverisones\backend
+2026-01-31 23:16:20.346 -05:00 [INF] Request starting HTTP/1.1 POST http://localhost:5095/api/auth/login - application/json 43
+2026-01-31 23:16:20.421 -05:00 [INF] CORS policy execution successful.
+2026-01-31 23:16:20.443 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.AuthController.Login (backendORCinverisones)'
+2026-01-31 23:16:20.462 -05:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(backendORCinverisones.Application.DTOs.Auth.LoginRequestDto) on controller backendORCinverisones.Controllers.AuthController (backendORCinverisones).
+2026-01-31 23:16:20.914 -05:00 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+2026-01-31 23:16:22.526 -05:00 [INF] Executed DbCommand (157ms) [Parameters=[@__username_0='admin'], CommandType='"Text"', CommandTimeout='60']
+SELECT u."Id", u."CreatedAt", u."Email", u."IsActive", u."PasswordHash", u."RoleId", u."UpdatedAt", u."Username", r."Id", r."CreatedAt", r."Description", r."Name"
+FROM "Users" AS u
+INNER JOIN "Roles" AS r ON u."RoleId" = r."Id"
+WHERE u."Username" = @__username_0
+LIMIT 1
+2026-01-31 23:16:22.846 -05:00 [INF] Executing UnauthorizedObjectResult, writing value of type '<>f__AnonymousType2`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-01-31 23:16:22.862 -05:00 [INF] Executed action backendORCinverisones.Controllers.AuthController.Login (backendORCinverisones) in 2395.7611ms
+2026-01-31 23:16:22.865 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.AuthController.Login (backendORCinverisones)'
+2026-01-31 23:16:22.870 -05:00 [INF] HTTP POST /api/auth/login responded 401 in 2501.9858 ms
+2026-01-31 23:16:22.879 -05:00 [INF] Request finished HTTP/1.1 POST http://localhost:5095/api/auth/login - 401 null application/json; charset=utf-8 2533.7227ms
+2026-01-31 23:18:08.062 -05:00 [INF] Application is shutting down...
+2026-01-31 23:18:13.642 -05:00 [INF] 🚀 Backend ORC Inversiones iniciado correctamente
+2026-01-31 23:18:13.696 -05:00 [INF] User profile is available. Using 'C:\Users\cater\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-01-31 23:18:13.767 -05:00 [INF] Now listening on: http://localhost:5095
+2026-01-31 23:18:13.770 -05:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-01-31 23:18:13.771 -05:00 [INF] Hosting environment: Development
+2026-01-31 23:18:13.772 -05:00 [INF] Content root path: C:\Users\cater\source\repos\backendORCinverisones\backend
+2026-01-31 23:18:22.478 -05:00 [INF] Request starting HTTP/1.1 POST http://localhost:5095/api/auth/login - application/json 43
+2026-01-31 23:18:22.548 -05:00 [INF] CORS policy execution successful.
+2026-01-31 23:18:22.568 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.AuthController.Login (backendORCinverisones)'
+2026-01-31 23:18:22.586 -05:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(backendORCinverisones.Application.DTOs.Auth.LoginRequestDto) on controller backendORCinverisones.Controllers.AuthController (backendORCinverisones).
+2026-01-31 23:18:23.002 -05:00 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+2026-01-31 23:18:24.473 -05:00 [INF] Executed DbCommand (134ms) [Parameters=[@__username_0='admin'], CommandType='"Text"', CommandTimeout='60']
+SELECT u."Id", u."CreatedAt", u."Email", u."IsActive", u."PasswordHash", u."RoleId", u."UpdatedAt", u."Username", r."Id", r."CreatedAt", r."Description", r."Name"
+FROM "Users" AS u
+INNER JOIN "Roles" AS r ON u."RoleId" = r."Id"
+WHERE u."Username" = @__username_0
+LIMIT 1
+2026-01-31 23:18:24.821 -05:00 [INF] Executing UnauthorizedObjectResult, writing value of type '<>f__AnonymousType2`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-01-31 23:18:24.840 -05:00 [INF] Executed action backendORCinverisones.Controllers.AuthController.Login (backendORCinverisones) in 2247.2326ms
+2026-01-31 23:18:24.842 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.AuthController.Login (backendORCinverisones)'
+2026-01-31 23:18:24.847 -05:00 [INF] HTTP POST /api/auth/login responded 401 in 2348.4642 ms
+2026-01-31 23:18:24.857 -05:00 [INF] Request finished HTTP/1.1 POST http://localhost:5095/api/auth/login - 401 null application/json; charset=utf-8 2380.3896ms
+2026-01-31 23:21:07.298 -05:00 [INF] Request starting HTTP/1.1 POST http://localhost:5095/api/auth/login - application/json 40
+2026-01-31 23:21:07.304 -05:00 [INF] CORS policy execution successful.
+2026-01-31 23:21:07.307 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.AuthController.Login (backendORCinverisones)'
+2026-01-31 23:21:07.309 -05:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(backendORCinverisones.Application.DTOs.Auth.LoginRequestDto) on controller backendORCinverisones.Controllers.AuthController (backendORCinverisones).
+2026-01-31 23:22:05.968 -05:00 [INF] Application is shutting down...
+2026-01-31 23:22:10.106 -05:00 [ERR] Failed executing DbCommand (62,743ms) [Parameters=[@__username_0='admin'], CommandType='"Text"', CommandTimeout='60']
+SELECT u."Id", u."CreatedAt", u."Email", u."IsActive", u."PasswordHash", u."RoleId", u."UpdatedAt", u."Username", r."Id", r."CreatedAt", r."Description", r."Name"
+FROM "Users" AS u
+INNER JOIN "Roles" AS r ON u."RoleId" = r."Id"
+WHERE u."Username" = @__username_0
+LIMIT 1
+2026-01-31 23:22:10.128 -05:00 [INF] A transient exception occurred during execution. The operation will be retried after 0ms.
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.TimeoutException: Timeout during reading attempt
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.TimeoutException: Timeout during reading attempt
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+2026-01-31 23:22:10.937 -05:00 [INF] Executed DbCommand (120ms) [Parameters=[@__username_0='admin'], CommandType='"Text"', CommandTimeout='60']
+SELECT u."Id", u."CreatedAt", u."Email", u."IsActive", u."PasswordHash", u."RoleId", u."UpdatedAt", u."Username", r."Id", r."CreatedAt", r."Description", r."Name"
+FROM "Users" AS u
+INNER JOIN "Roles" AS r ON u."RoleId" = r."Id"
+WHERE u."Username" = @__username_0
+LIMIT 1
+2026-01-31 23:22:11.177 -05:00 [INF] Executing UnauthorizedObjectResult, writing value of type '<>f__AnonymousType2`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-01-31 23:22:11.179 -05:00 [INF] Executed action backendORCinverisones.Controllers.AuthController.Login (backendORCinverisones) in 63868.1095ms
+2026-01-31 23:22:11.180 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.AuthController.Login (backendORCinverisones)'
+2026-01-31 23:22:11.182 -05:00 [INF] HTTP POST /api/auth/login responded 401 in 63879.6127 ms
+2026-01-31 23:22:11.184 -05:00 [INF] Request finished HTTP/1.1 POST http://localhost:5095/api/auth/login - 401 null application/json; charset=utf-8 63885.9039ms
+2026-01-31 23:22:16.167 -05:00 [INF] 🚀 Backend ORC Inversiones iniciado correctamente
+2026-01-31 23:22:16.219 -05:00 [INF] User profile is available. Using 'C:\Users\cater\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-01-31 23:22:16.284 -05:00 [INF] Now listening on: http://localhost:5095
+2026-01-31 23:22:16.286 -05:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-01-31 23:22:16.287 -05:00 [INF] Hosting environment: Development
+2026-01-31 23:22:16.288 -05:00 [INF] Content root path: C:\Users\cater\source\repos\backendORCinverisones\backend
+2026-01-31 23:22:37.339 -05:00 [INF] Request starting HTTP/1.1 POST http://localhost:5095/api/auth/login - application/json 43
+2026-01-31 23:22:37.413 -05:00 [INF] CORS policy execution successful.
+2026-01-31 23:22:37.432 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.AuthController.Login (backendORCinverisones)'
+2026-01-31 23:22:37.451 -05:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(backendORCinverisones.Application.DTOs.Auth.LoginRequestDto) on controller backendORCinverisones.Controllers.AuthController (backendORCinverisones).
+2026-01-31 23:22:37.884 -05:00 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+2026-01-31 23:22:39.466 -05:00 [INF] Executed DbCommand (150ms) [Parameters=[@__username_0='admin'], CommandType='"Text"', CommandTimeout='60']
+SELECT u."Id", u."CreatedAt", u."Email", u."IsActive", u."PasswordHash", u."RoleId", u."UpdatedAt", u."Username", r."Id", r."CreatedAt", r."Description", r."Name"
+FROM "Users" AS u
+INNER JOIN "Roles" AS r ON u."RoleId" = r."Id"
+WHERE u."Username" = @__username_0
+LIMIT 1
+2026-01-31 23:22:39.783 -05:00 [INF] Executing UnauthorizedObjectResult, writing value of type '<>f__AnonymousType2`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-01-31 23:22:39.803 -05:00 [INF] Executed action backendORCinverisones.Controllers.AuthController.Login (backendORCinverisones) in 2346.7484ms
+2026-01-31 23:22:39.806 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.AuthController.Login (backendORCinverisones)'
+2026-01-31 23:22:39.812 -05:00 [INF] HTTP POST /api/auth/login responded 401 in 2448.9817 ms
+2026-01-31 23:22:39.821 -05:00 [INF] Request finished HTTP/1.1 POST http://localhost:5095/api/auth/login - 401 null application/json; charset=utf-8 2482.8779ms
+2026-01-31 23:22:54.117 -05:00 [INF] Request starting HTTP/1.1 POST http://localhost:5095/api/auth/login - application/json 42
+2026-01-31 23:22:54.122 -05:00 [INF] CORS policy execution successful.
+2026-01-31 23:22:54.124 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.AuthController.Login (backendORCinverisones)'
+2026-01-31 23:22:54.127 -05:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(backendORCinverisones.Application.DTOs.Auth.LoginRequestDto) on controller backendORCinverisones.Controllers.AuthController (backendORCinverisones).
+2026-01-31 23:23:56.800 -05:00 [ERR] Failed executing DbCommand (62,621ms) [Parameters=[@__username_0='admin'], CommandType='"Text"', CommandTimeout='60']
+SELECT u."Id", u."CreatedAt", u."Email", u."IsActive", u."PasswordHash", u."RoleId", u."UpdatedAt", u."Username", r."Id", r."CreatedAt", r."Description", r."Name"
+FROM "Users" AS u
+INNER JOIN "Roles" AS r ON u."RoleId" = r."Id"
+WHERE u."Username" = @__username_0
+LIMIT 1
+2026-01-31 23:23:56.818 -05:00 [INF] A transient exception occurred during execution. The operation will be retried after 0ms.
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.TimeoutException: Timeout during reading attempt
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.TimeoutException: Timeout during reading attempt
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+2026-01-31 23:23:57.630 -05:00 [INF] Executed DbCommand (98ms) [Parameters=[@__username_0='admin'], CommandType='"Text"', CommandTimeout='60']
+SELECT u."Id", u."CreatedAt", u."Email", u."IsActive", u."PasswordHash", u."RoleId", u."UpdatedAt", u."Username", r."Id", r."CreatedAt", r."Description", r."Name"
+FROM "Users" AS u
+INNER JOIN "Roles" AS r ON u."RoleId" = r."Id"
+WHERE u."Username" = @__username_0
+LIMIT 1
+2026-01-31 23:23:57.837 -05:00 [INF] Executing UnauthorizedObjectResult, writing value of type '<>f__AnonymousType2`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-01-31 23:23:57.840 -05:00 [INF] Executed action backendORCinverisones.Controllers.AuthController.Login (backendORCinverisones) in 63710.8194ms
+2026-01-31 23:23:57.842 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.AuthController.Login (backendORCinverisones)'
+2026-01-31 23:23:57.844 -05:00 [INF] HTTP POST /api/auth/login responded 401 in 63723.8305 ms
+2026-01-31 23:23:57.847 -05:00 [INF] Request finished HTTP/1.1 POST http://localhost:5095/api/auth/login - 401 null application/json; charset=utf-8 63730.0499ms
+2026-01-31 23:26:37.841 -05:00 [INF] Application is shutting down...
+2026-01-31 23:29:38.524 -05:00 [INF] 🚀 Backend ORC Inversiones iniciado correctamente
+2026-01-31 23:29:38.572 -05:00 [INF] User profile is available. Using 'C:\Users\cater\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-01-31 23:29:38.633 -05:00 [INF] Now listening on: http://localhost:5095
+2026-01-31 23:29:38.635 -05:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-01-31 23:29:38.636 -05:00 [INF] Hosting environment: Development
+2026-01-31 23:29:38.637 -05:00 [INF] Content root path: C:\Users\cater\source\repos\backendORCinverisones\backend
+2026-01-31 23:29:40.244 -05:00 [INF] Request starting HTTP/1.1 POST http://localhost:5095/api/auth/login - application/json 42
+2026-01-31 23:29:40.321 -05:00 [INF] CORS policy execution successful.
+2026-01-31 23:29:40.345 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.AuthController.Login (backendORCinverisones)'
+2026-01-31 23:29:40.365 -05:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(backendORCinverisones.Application.DTOs.Auth.LoginRequestDto) on controller backendORCinverisones.Controllers.AuthController (backendORCinverisones).
+2026-01-31 23:29:40.879 -05:00 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+2026-01-31 23:29:42.409 -05:00 [INF] Executed DbCommand (135ms) [Parameters=[@__username_0='admin'], CommandType='"Text"', CommandTimeout='60']
+SELECT u."Id", u."CreatedAt", u."Email", u."IsActive", u."PasswordHash", u."RoleId", u."UpdatedAt", u."Username", r."Id", r."CreatedAt", r."Description", r."Name"
+FROM "Users" AS u
+INNER JOIN "Roles" AS r ON u."RoleId" = r."Id"
+WHERE u."Username" = @__username_0
+LIMIT 1
+2026-01-31 23:29:42.750 -05:00 [INF] Usuario admin ha iniciado sesión
+2026-01-31 23:29:42.757 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Auth.LoginResponseDto'.
+2026-01-31 23:29:42.781 -05:00 [INF] Executed action backendORCinverisones.Controllers.AuthController.Login (backendORCinverisones) in 2410.4587ms
+2026-01-31 23:29:42.783 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.AuthController.Login (backendORCinverisones)'
+2026-01-31 23:29:42.787 -05:00 [INF] HTTP POST /api/auth/login responded 200 in 2521.0311 ms
+2026-01-31 23:29:42.799 -05:00 [INF] Request finished HTTP/1.1 POST http://localhost:5095/api/auth/login - 200 null application/json; charset=utf-8 2554.9892ms
+2026-01-31 23:29:42.836 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products - null null
+2026-01-31 23:29:42.905 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-01-31 23:29:42.913 -05:00 [INF] Route matched with {action = "GetAll", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-31 23:29:42.956 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-01-31 23:29:42.956 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-01-31 23:29:42.969 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-01-31 23:29:42.969 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:29:42.976 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-01-31 23:29:42.977 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-01-31 23:29:43.739 -05:00 [INF] Executed DbCommand (102ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT n."Id", n."CreatedAt", n."IsActive", n."Nombre", n."UpdatedAt"
+FROM "NombreMarcas" AS n
+ORDER BY n."Nombre"
+2026-01-31 23:29:43.743 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:29:43.763 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 784.1658ms
+2026-01-31 23:29:43.764 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-01-31 23:29:43.766 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 804.0184 ms
+2026-01-31 23:29:43.768 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 811.8541ms
+2026-01-31 23:29:43.857 -05:00 [INF] Executed DbCommand (152ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT p."Id", p."Codigo", p."CodigoComer", p."Producto", p."Descripcion", p."FichaTecnica", p."ImagenPrincipal", p."Imagen2", p."Imagen3", p."Imagen4", p."IsActive", p."IsFeatured", p."CreatedAt", p."UpdatedAt", p."CategoryId", c."Name" AS "CategoryName", p."MarcaId", n."Nombre" AS "MarcaNombre"
+FROM "Products" AS p
+INNER JOIN "Categories" AS c ON p."CategoryId" = c."Id"
+INNER JOIN "NombreMarcas" AS n ON p."MarcaId" = n."Id"
+2026-01-31 23:29:43.861 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[backendORCinverisones.Application.DTOs.Products.ProductResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:29:43.866 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones) in 949.865ms
+2026-01-31 23:29:43.867 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-01-31 23:29:43.870 -05:00 [INF] HTTP GET /api/products responded 200 in 1029.5216 ms
+2026-01-31 23:29:43.872 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products - 200 null application/json; charset=utf-8 1036.4004ms
+2026-01-31 23:29:44.076 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-01-31 23:29:44.080 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-01-31 23:29:44.081 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-01-31 23:30:03.278 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-01-31 23:30:03.283 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:30:03.285 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-01-31 23:30:03.406 -05:00 [INF] Executed DbCommand (116ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT c."Id", c."CreatedAt", c."Description", c."IsActive", c."Name", c."UpdatedAt"
+FROM "Categories" AS c
+2026-01-31 23:30:03.411 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:30:03.415 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 126.8422ms
+2026-01-31 23:30:03.417 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:30:03.419 -05:00 [INF] HTTP GET /api/categories responded 200 in 137.6087 ms
+2026-01-31 23:30:03.421 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 142.905ms
+2026-01-31 23:30:45.620 -05:00 [ERR] Failed executing DbCommand (62,604ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT c."Id", c."CreatedAt", c."Description", c."IsActive", c."Name", c."UpdatedAt"
+FROM "Categories" AS c
+2026-01-31 23:30:45.637 -05:00 [INF] A transient exception occurred during execution. The operation will be retried after 0ms.
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.TimeoutException: Timeout during reading attempt
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.TimeoutException: Timeout during reading attempt
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+2026-01-31 23:30:46.367 -05:00 [INF] Executed DbCommand (99ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT c."Id", c."CreatedAt", c."Description", c."IsActive", c."Name", c."UpdatedAt"
+FROM "Categories" AS c
+2026-01-31 23:30:46.371 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:30:46.373 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 63392.1853ms
+2026-01-31 23:30:46.376 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:30:46.378 -05:00 [INF] HTTP GET /api/categories responded 200 in 63418.4609 ms
+2026-01-31 23:30:46.380 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 63424.5092ms
+2026-01-31 23:30:46.645 -05:00 [ERR] Failed executing DbCommand (62,557ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT n."Id", n."CreatedAt", n."IsActive", n."Nombre", n."UpdatedAt"
+FROM "NombreMarcas" AS n
+ORDER BY n."Nombre"
+2026-01-31 23:30:46.648 -05:00 [INF] A transient exception occurred during execution. The operation will be retried after 0ms.
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.TimeoutException: Timeout during reading attempt
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.TimeoutException: Timeout during reading attempt
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+2026-01-31 23:30:47.406 -05:00 [INF] Executed DbCommand (99ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT n."Id", n."CreatedAt", n."IsActive", n."Nombre", n."UpdatedAt"
+FROM "NombreMarcas" AS n
+ORDER BY n."Nombre"
+2026-01-31 23:30:47.409 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:30:47.412 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 63328.0377ms
+2026-01-31 23:30:47.415 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-01-31 23:30:47.416 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 63338.2225 ms
+2026-01-31 23:30:47.419 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 63343.4837ms
+2026-01-31 23:34:00.441 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products - null null
+2026-01-31 23:34:00.445 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-01-31 23:34:00.446 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-01-31 23:34:00.446 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-01-31 23:34:00.447 -05:00 [INF] Route matched with {action = "GetAll", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-31 23:34:00.450 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:34:00.452 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-01-31 23:34:00.454 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-01-31 23:34:00.455 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-01-31 23:34:01.288 -05:00 [INF] Executed DbCommand (99ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT n."Id", n."CreatedAt", n."IsActive", n."Nombre", n."UpdatedAt"
+FROM "NombreMarcas" AS n
+ORDER BY n."Nombre"
+2026-01-31 23:34:01.291 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:34:01.293 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 834.2188ms
+2026-01-31 23:34:01.294 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-01-31 23:34:01.296 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 844.4895 ms
+2026-01-31 23:34:01.297 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-01-31 23:34:01.298 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 851.5149ms
+2026-01-31 23:34:01.301 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-01-31 23:34:01.304 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-01-31 23:34:01.310 -05:00 [INF] Executed DbCommand (99ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT c."Id", c."CreatedAt", c."Description", c."IsActive", c."Name", c."UpdatedAt"
+FROM "Categories" AS c
+2026-01-31 23:34:01.313 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:34:01.315 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 858.255ms
+2026-01-31 23:34:01.316 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:34:01.318 -05:00 [INF] HTTP GET /api/categories responded 200 in 868.5346 ms
+2026-01-31 23:34:01.320 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 874.1949ms
+2026-01-31 23:34:01.321 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-01-31 23:34:01.326 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:34:01.328 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-01-31 23:34:39.867 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-01-31 23:34:39.867 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products - null null
+2026-01-31 23:34:39.868 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-01-31 23:34:39.870 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:34:39.872 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-01-31 23:34:39.875 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-01-31 23:34:39.875 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-01-31 23:34:39.876 -05:00 [INF] Route matched with {action = "GetAll", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-31 23:34:39.878 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-01-31 23:34:40.606 -05:00 [INF] Executed DbCommand (100ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT p."Id", p."Codigo", p."CodigoComer", p."Producto", p."Descripcion", p."FichaTecnica", p."ImagenPrincipal", p."Imagen2", p."Imagen3", p."Imagen4", p."IsActive", p."IsFeatured", p."CreatedAt", p."UpdatedAt", p."CategoryId", c."Name" AS "CategoryName", p."MarcaId", n."Nombre" AS "MarcaNombre"
+FROM "Products" AS p
+INNER JOIN "Categories" AS c ON p."CategoryId" = c."Id"
+INNER JOIN "NombreMarcas" AS n ON p."MarcaId" = n."Id"
+2026-01-31 23:34:40.631 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[backendORCinverisones.Application.DTOs.Products.ProductResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:34:40.631 -05:00 [INF] Executed DbCommand (97ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT c."Id", c."CreatedAt", c."Description", c."IsActive", c."Name", c."UpdatedAt"
+FROM "Categories" AS c
+2026-01-31 23:34:40.637 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones) in 755.8419ms
+2026-01-31 23:34:40.639 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:34:40.642 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-01-31 23:34:40.648 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 768.1775ms
+2026-01-31 23:34:40.649 -05:00 [INF] HTTP GET /api/products responded 200 in 778.0795 ms
+2026-01-31 23:34:40.652 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:34:40.655 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products - 200 null application/json; charset=utf-8 788.1941ms
+2026-01-31 23:34:40.656 -05:00 [INF] HTTP GET /api/categories responded 200 in 787.2981 ms
+2026-01-31 23:34:40.663 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 796.3711ms
+2026-01-31 23:34:40.711 -05:00 [INF] Executed DbCommand (134ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT n."Id", n."CreatedAt", n."IsActive", n."Nombre", n."UpdatedAt"
+FROM "NombreMarcas" AS n
+ORDER BY n."Nombre"
+2026-01-31 23:34:40.714 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:34:40.718 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 835.1218ms
+2026-01-31 23:34:40.721 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-01-31 23:34:40.722 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 848.0604 ms
+2026-01-31 23:34:40.724 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 855.6547ms
+2026-01-31 23:34:41.102 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-01-31 23:34:41.102 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products - null null
+2026-01-31 23:34:41.104 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-01-31 23:34:41.105 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:34:41.107 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-01-31 23:34:41.109 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-01-31 23:34:41.110 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-01-31 23:34:41.110 -05:00 [INF] Route matched with {action = "GetAll", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-31 23:34:41.111 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-01-31 23:35:01.106 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-01-31 23:35:01.106 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-01-31 23:35:01.110 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:35:01.112 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-01-31 23:35:01.113 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-01-31 23:35:01.115 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-01-31 23:35:01.990 -05:00 [INF] Executed DbCommand (118ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT n."Id", n."CreatedAt", n."IsActive", n."Nombre", n."UpdatedAt"
+FROM "NombreMarcas" AS n
+ORDER BY n."Nombre"
+2026-01-31 23:35:01.994 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:35:01.996 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 877.0803ms
+2026-01-31 23:35:01.998 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-01-31 23:35:02.000 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 888.7333 ms
+2026-01-31 23:35:02.003 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 896.1908ms
+2026-01-31 23:35:02.126 -05:00 [INF] Executed DbCommand (136ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT c."Id", c."CreatedAt", c."Description", c."IsActive", c."Name", c."UpdatedAt"
+FROM "Categories" AS c
+2026-01-31 23:35:02.130 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:35:02.132 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 1015.0269ms
+2026-01-31 23:35:02.134 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:35:02.135 -05:00 [INF] HTTP GET /api/categories responded 200 in 1025.9789 ms
+2026-01-31 23:35:02.137 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 1030.772ms
+2026-01-31 23:35:04.002 -05:00 [ERR] Failed executing DbCommand (62,695ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT n."Id", n."CreatedAt", n."IsActive", n."Nombre", n."UpdatedAt"
+FROM "NombreMarcas" AS n
+ORDER BY n."Nombre"
+2026-01-31 23:35:04.006 -05:00 [INF] A transient exception occurred during execution. The operation will be retried after 0ms.
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.TimeoutException: Timeout during reading attempt
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.TimeoutException: Timeout during reading attempt
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+2026-01-31 23:35:05.069 -05:00 [INF] Executed DbCommand (138ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT n."Id", n."CreatedAt", n."IsActive", n."Nombre", n."UpdatedAt"
+FROM "NombreMarcas" AS n
+ORDER BY n."Nombre"
+2026-01-31 23:35:05.072 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:35:05.075 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 63769.6023ms
+2026-01-31 23:35:05.078 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-01-31 23:35:05.080 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 63779.9374 ms
+2026-01-31 23:35:05.082 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 63784.7497ms
+2026-01-31 23:36:00.696 -05:00 [INF] Request starting HTTP/1.1 POST http://localhost:5095/api/categories - application/json 35
+2026-01-31 23:36:00.699 -05:00 [INF] CORS policy execution successful.
+2026-01-31 23:36:00.701 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.Create (backendORCinverisones)'
+2026-01-31 23:36:00.707 -05:00 [INF] Route matched with {action = "Create", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(backendORCinverisones.Application.DTOs.Categories.CreateCategoryRequestDto) on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-01-31 23:36:01.485 -05:00 [INF] Executed DbCommand (105ms) [Parameters=[@__request_Name_0='motor'], CommandType='"Text"', CommandTimeout='60']
+SELECT EXISTS (
+    SELECT 1
+    FROM "Categories" AS c
+    WHERE c."Name" = @__request_Name_0)
+2026-01-31 23:36:03.052 -05:00 [ERR] Failed executing DbCommand (122,595ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT p."Id", p."Codigo", p."CodigoComer", p."Producto", p."Descripcion", p."FichaTecnica", p."ImagenPrincipal", p."Imagen2", p."Imagen3", p."Imagen4", p."IsActive", p."IsFeatured", p."CreatedAt", p."UpdatedAt", p."CategoryId", c."Name" AS "CategoryName", p."MarcaId", n."Nombre" AS "MarcaNombre"
+FROM "Products" AS p
+INNER JOIN "Categories" AS c ON p."CategoryId" = c."Id"
+INNER JOIN "NombreMarcas" AS n ON p."MarcaId" = n."Id"
+2026-01-31 23:36:03.056 -05:00 [INF] A transient exception occurred during execution. The operation will be retried after 0ms.
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.TimeoutException: Timeout during reading attempt
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.TimeoutException: Timeout during reading attempt
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+2026-01-31 23:36:03.878 -05:00 [INF] Executed DbCommand (99ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT p."Id", p."Codigo", p."CodigoComer", p."Producto", p."Descripcion", p."FichaTecnica", p."ImagenPrincipal", p."Imagen2", p."Imagen3", p."Imagen4", p."IsActive", p."IsFeatured", p."CreatedAt", p."UpdatedAt", p."CategoryId", c."Name" AS "CategoryName", p."MarcaId", n."Nombre" AS "MarcaNombre"
+FROM "Products" AS p
+INNER JOIN "Categories" AS c ON p."CategoryId" = c."Id"
+INNER JOIN "NombreMarcas" AS n ON p."MarcaId" = n."Id"
+2026-01-31 23:36:03.882 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[backendORCinverisones.Application.DTOs.Products.ProductResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:36:03.884 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones) in 123431.4979ms
+2026-01-31 23:36:03.887 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-01-31 23:36:03.888 -05:00 [INF] HTTP GET /api/products responded 200 in 123443.9561 ms
+2026-01-31 23:36:03.890 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products - 200 null application/json; charset=utf-8 123449.1604ms
+2026-01-31 23:36:14.207 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-01-31 23:36:14.210 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:36:14.211 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-01-31 23:36:43.679 -05:00 [ERR] Failed executing DbCommand (122,563ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT p."Id", p."Codigo", p."CodigoComer", p."Producto", p."Descripcion", p."FichaTecnica", p."ImagenPrincipal", p."Imagen2", p."Imagen3", p."Imagen4", p."IsActive", p."IsFeatured", p."CreatedAt", p."UpdatedAt", p."CategoryId", c."Name" AS "CategoryName", p."MarcaId", n."Nombre" AS "MarcaNombre"
+FROM "Products" AS p
+INNER JOIN "Categories" AS c ON p."CategoryId" = c."Id"
+INNER JOIN "NombreMarcas" AS n ON p."MarcaId" = n."Id"
+2026-01-31 23:36:43.685 -05:00 [INF] A transient exception occurred during execution. The operation will be retried after 0ms.
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.TimeoutException: Timeout during reading attempt
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.TimeoutException: Timeout during reading attempt
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+2026-01-31 23:36:43.693 -05:00 [ERR] Failed executing DbCommand (122,580ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT c."Id", c."CreatedAt", c."Description", c."IsActive", c."Name", c."UpdatedAt"
+FROM "Categories" AS c
+2026-01-31 23:36:43.697 -05:00 [INF] A transient exception occurred during execution. The operation will be retried after 0ms.
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.TimeoutException: Timeout during reading attempt
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.TimeoutException: Timeout during reading attempt
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+2026-01-31 23:36:44.403 -05:00 [INF] Executed DbCommand (100ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT p."Id", p."Codigo", p."CodigoComer", p."Producto", p."Descripcion", p."FichaTecnica", p."ImagenPrincipal", p."Imagen2", p."Imagen3", p."Imagen4", p."IsActive", p."IsFeatured", p."CreatedAt", p."UpdatedAt", p."CategoryId", c."Name" AS "CategoryName", p."MarcaId", n."Nombre" AS "MarcaNombre"
+FROM "Products" AS p
+INNER JOIN "Categories" AS c ON p."CategoryId" = c."Id"
+INNER JOIN "NombreMarcas" AS n ON p."MarcaId" = n."Id"
+2026-01-31 23:36:44.406 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[backendORCinverisones.Application.DTOs.Products.ProductResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:36:44.408 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones) in 123293.335ms
+2026-01-31 23:36:44.410 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-01-31 23:36:44.410 -05:00 [INF] Executed DbCommand (98ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT c."Id", c."CreatedAt", c."Description", c."IsActive", c."Name", c."UpdatedAt"
+FROM "Categories" AS c
+2026-01-31 23:36:44.411 -05:00 [INF] HTTP GET /api/products responded 200 in 123304.7003 ms
+2026-01-31 23:36:44.413 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:36:44.414 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products - 200 null application/json; charset=utf-8 123312.4111ms
+2026-01-31 23:36:44.422 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 123309.3917ms
+2026-01-31 23:36:44.423 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:36:44.424 -05:00 [INF] HTTP GET /api/categories responded 200 in 123320.0566 ms
+2026-01-31 23:36:44.426 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 123323.8439ms
+2026-01-31 23:37:03.898 -05:00 [ERR] Failed executing DbCommand (182,567ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT c."Id", c."CreatedAt", c."Description", c."IsActive", c."Name", c."UpdatedAt"
+FROM "Categories" AS c
+2026-01-31 23:37:03.902 -05:00 [INF] A transient exception occurred during execution. The operation will be retried after 0ms.
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.TimeoutException: Timeout during reading attempt
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.TimeoutException: Timeout during reading attempt
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+2026-01-31 23:37:04.691 -05:00 [INF] Executed DbCommand (97ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT c."Id", c."CreatedAt", c."Description", c."IsActive", c."Name", c."UpdatedAt"
+FROM "Categories" AS c
+2026-01-31 23:37:04.695 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:37:04.697 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 183367.9708ms
+2026-01-31 23:37:04.699 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:37:04.700 -05:00 [INF] HTTP GET /api/categories responded 200 in 183374.1895 ms
+2026-01-31 23:37:04.702 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 183380.9978ms
+2026-01-31 23:38:04.218 -05:00 [ERR] Failed executing DbCommand (122,607ms) [Parameters=[@p0='2026-02-01T04:36:01.4918353Z' (DbType = DateTime), @p1='' (Nullable = false), @p2='motor' (Nullable = false), @p3=NULL (DbType = DateTime)], CommandType='"Text"', CommandTimeout='60']
+INSERT INTO "Categories" ("CreatedAt", "Description", "Name", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING "Id", "IsActive";
+2026-01-31 23:38:04.231 -05:00 [INF] A transient exception occurred during execution. The operation will be retried after 0ms.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.TimeoutException: Timeout during reading attempt
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.TimeoutException: Timeout during reading attempt
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+2026-01-31 23:38:05.062 -05:00 [ERR] Failed executing DbCommand (106ms) [Parameters=[@p0='2026-02-01T04:36:01.4918353Z' (DbType = DateTime), @p1='' (Nullable = false), @p2='motor' (Nullable = false), @p3=NULL (DbType = DateTime)], CommandType='"Text"', CommandTimeout='60']
+INSERT INTO "Categories" ("CreatedAt", "Description", "Name", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING "Id", "IsActive";
+2026-01-31 23:38:05.070 -05:00 [ERR] An exception occurred in the database while saving changes for context type 'backendORCinverisones.Infrastructure.Data.ApplicationDbContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23505: duplicate key value violates unique constraint "IX_Categories_Name"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23505
+    MessageText: duplicate key value violates unique constraint "IX_Categories_Name"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: Categories
+    ConstraintName: IX_Categories_Name
+    File: nbtinsert.c
+    Line: 666
+    Routine: _bt_check_unique
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23505: duplicate key value violates unique constraint "IX_Categories_Name"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23505
+    MessageText: duplicate key value violates unique constraint "IX_Categories_Name"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: Categories
+    ConstraintName: IX_Categories_Name
+    File: nbtinsert.c
+    Line: 666
+    Routine: _bt_check_unique
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2026-01-31 23:38:05.082 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.Create (backendORCinverisones) in 124373.271ms
+2026-01-31 23:38:05.083 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.Create (backendORCinverisones)'
+2026-01-31 23:38:05.084 -05:00 [ERR] Ocurrió un error no controlado
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23505: duplicate key value violates unique constraint "IX_Categories_Name"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23505
+    MessageText: duplicate key value violates unique constraint "IX_Categories_Name"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: Categories
+    ConstraintName: IX_Categories_Name
+    File: nbtinsert.c
+    Line: 666
+    Routine: _bt_check_unique
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at backendORCinverisones.Infrastructure.Repositories.Repository`1.AddAsync(T entity) in C:\Users\cater\source\repos\backendORCinverisones\backend\Infrastructure\Repositories\Repository.cs:line 37
+   at backendORCinverisones.Controllers.CategoriesController.Create(CreateCategoryRequestDto request) in C:\Users\cater\source\repos\backendORCinverisones\backend\Controllers\CategoriesController.cs:line 79
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.ResponseCaching.ResponseCachingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.ResponseCompression.ResponseCompressionMiddleware.InvokeCore(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at backendORCinverisones.API.Middleware.ErrorHandlingMiddleware.InvokeAsync(HttpContext context) in C:\Users\cater\source\repos\backendORCinverisones\backend\API\Middleware\ErrorHandlingMiddleware.cs:line 23
+2026-01-31 23:38:05.115 -05:00 [ERR] HTTP POST /api/categories responded 500 in 124416.2306 ms
+2026-01-31 23:38:05.116 -05:00 [INF] Request finished HTTP/1.1 POST http://localhost:5095/api/categories - 500 null application/json 124419.6292ms
+2026-01-31 23:39:43.755 -05:00 [ERR] Failed executing DbCommand (302,638ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT n."Id", n."CreatedAt", n."IsActive", n."Nombre", n."UpdatedAt"
+FROM "NombreMarcas" AS n
+ORDER BY n."Nombre"
+2026-01-31 23:39:43.760 -05:00 [INF] A transient exception occurred during execution. The operation will be retried after 0ms.
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.TimeoutException: Timeout during reading attempt
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.TimeoutException: Timeout during reading attempt
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|54_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SplitQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+2026-01-31 23:39:44.474 -05:00 [INF] Executed DbCommand (98ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT n."Id", n."CreatedAt", n."IsActive", n."Nombre", n."UpdatedAt"
+FROM "NombreMarcas" AS n
+ORDER BY n."Nombre"
+2026-01-31 23:39:44.478 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:39:44.480 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 303363.2115ms
+2026-01-31 23:39:44.482 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-01-31 23:39:44.483 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 303374.7280 ms
+2026-01-31 23:39:44.485 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 303381.1506ms
+2026-01-31 23:40:08.901 -05:00 [INF] Application is shutting down...
+2026-01-31 23:44:52.513 -05:00 [INF] 🚀 Backend ORC Inversiones iniciado correctamente
+2026-01-31 23:44:52.567 -05:00 [INF] User profile is available. Using 'C:\Users\cater\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-01-31 23:44:52.633 -05:00 [INF] Now listening on: http://localhost:5095
+2026-01-31 23:44:52.636 -05:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-01-31 23:44:52.638 -05:00 [INF] Hosting environment: Development
+2026-01-31 23:44:52.639 -05:00 [INF] Content root path: C:\Users\cater\source\repos\backendORCinverisones\backend
+2026-01-31 23:44:53.715 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-01-31 23:44:53.873 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:44:53.885 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-01-31 23:44:54.483 -05:00 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+2026-01-31 23:44:55.240 -05:00 [INF] Executed DbCommand (38ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-01-31 23:44:55.297 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:44:55.345 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 1454.4732ms
+2026-01-31 23:44:55.348 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:44:55.353 -05:00 [INF] HTTP GET /api/categories responded 200 in 1612.7970 ms
+2026-01-31 23:44:55.362 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 1648.1448ms
+2026-01-31 23:44:56.561 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-01-31 23:44:56.569 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:44:56.571 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-01-31 23:44:56.628 -05:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-01-31 23:44:56.632 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:44:56.637 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 63.6051ms
+2026-01-31 23:44:56.640 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:44:56.643 -05:00 [INF] HTTP GET /api/categories responded 200 in 78.9260 ms
+2026-01-31 23:44:56.646 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 85.7847ms
+2026-01-31 23:46:07.629 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products - null null
+2026-01-31 23:46:07.636 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-01-31 23:46:07.645 -05:00 [INF] Route matched with {action = "GetAll", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-31 23:46:07.646 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-01-31 23:46:07.646 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-01-31 23:46:07.650 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-01-31 23:46:07.653 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:46:07.655 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-01-31 23:46:07.659 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-01-31 23:46:07.681 -05:00 [INF] Executed DbCommand (11ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-01-31 23:46:07.684 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:46:07.686 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 28.7676ms
+2026-01-31 23:46:07.689 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:46:07.691 -05:00 [INF] HTTP GET /api/categories responded 200 in 39.0537 ms
+2026-01-31 23:46:07.693 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 46.8315ms
+2026-01-31 23:46:07.735 -05:00 [INF] Executed DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+ORDER BY [n].[Nombre]
+2026-01-31 23:46:07.740 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:46:07.748 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 85.6194ms
+2026-01-31 23:46:07.750 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-01-31 23:46:07.751 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 102.1797 ms
+2026-01-31 23:46:07.754 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 107.213ms
+2026-01-31 23:46:07.792 -05:00 [INF] Executed DbCommand (20ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [p].[Id], [p].[Codigo], [p].[CodigoComer], [p].[Producto], [p].[Descripcion], [p].[FichaTecnica], [p].[ImagenPrincipal], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[IsActive], [p].[IsFeatured], [p].[CreatedAt], [p].[UpdatedAt], [p].[CategoryId], [c].[Name] AS [CategoryName], [p].[MarcaId], [n].[Nombre] AS [MarcaNombre]
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [p].[MarcaId] = [n].[Id]
+2026-01-31 23:46:07.898 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-01-31 23:46:07.902 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:46:07.903 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-01-31 23:46:07.914 -05:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-01-31 23:46:07.917 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:46:07.919 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 15.1739ms
+2026-01-31 23:46:07.921 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:46:07.922 -05:00 [INF] HTTP GET /api/categories responded 200 in 21.0824 ms
+2026-01-31 23:46:07.925 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 26.1043ms
+2026-01-31 23:46:08.004 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-01-31 23:46:08.011 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-01-31 23:46:08.012 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-01-31 23:46:08.026 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+ORDER BY [n].[Nombre]
+2026-01-31 23:46:08.028 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:46:08.032 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 11.0622ms
+2026-01-31 23:46:08.034 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-01-31 23:46:08.035 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 27.9415 ms
+2026-01-31 23:46:08.036 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 31.8352ms
+2026-01-31 23:46:18.317 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[backendORCinverisones.Application.DTOs.Products.ProductResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:46:18.432 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones) in 10784.758ms
+2026-01-31 23:46:18.433 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-01-31 23:46:18.435 -05:00 [INF] HTTP GET /api/products responded 200 in 10802.7272 ms
+2026-01-31 23:46:18.437 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products - 200 null application/json; charset=utf-8 10807.4742ms
+2026-01-31 23:48:21.048 -05:00 [INF] Application is shutting down...
+2026-01-31 23:55:33.987 -05:00 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+2026-01-31 23:57:45.320 -05:00 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+2026-01-31 23:57:46.203 -05:00 [INF] Executed DbCommand (13ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT 1
+2026-01-31 23:57:46.225 -05:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2026-01-31 23:57:46.243 -05:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2026-01-31 23:57:48.979 -05:00 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+2026-01-31 23:59:39.734 -05:00 [INF] 🚀 Backend ORC Inversiones iniciado correctamente
+2026-01-31 23:59:39.786 -05:00 [INF] User profile is available. Using 'C:\Users\cater\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-01-31 23:59:39.849 -05:00 [INF] Now listening on: http://localhost:5095
+2026-01-31 23:59:39.852 -05:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-01-31 23:59:39.854 -05:00 [INF] Hosting environment: Development
+2026-01-31 23:59:39.855 -05:00 [INF] Content root path: C:\Users\cater\source\repos\backendORCinverisones\backend
+2026-01-31 23:59:45.912 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-01-31 23:59:45.912 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products?page=1&pageSize=20 - null null
+2026-01-31 23:59:45.912 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-01-31 23:59:46.075 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-01-31 23:59:46.075 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-01-31 23:59:46.075 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:59:46.091 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-01-31 23:59:46.091 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-01-31 23:59:46.092 -05:00 [INF] Route matched with {action = "GetAll", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll(Int32, Int32, System.String, System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-31 23:59:46.564 -05:00 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+2026-01-31 23:59:47.106 -05:00 [INF] Executed DbCommand (28ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+ORDER BY [n].[Nombre]
+2026-01-31 23:59:47.106 -05:00 [INF] Executed DbCommand (32ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+2026-01-31 23:59:47.106 -05:00 [INF] Executed DbCommand (34ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-01-31 23:59:47.154 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:59:47.154 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:59:47.204 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 1107.5503ms
+2026-01-31 23:59:47.204 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 1105.409ms
+2026-01-31 23:59:47.206 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:59:47.207 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-01-31 23:59:47.210 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/categories - null null
+2026-01-31 23:59:47.210 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/nombremarcas - null null
+2026-01-31 23:59:47.213 -05:00 [INF] HTTP GET /api/categories responded 200 in 1272.8782 ms
+2026-01-31 23:59:47.213 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 1272.8896 ms
+2026-01-31 23:59:47.217 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:59:47.217 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-01-31 23:59:47.220 -05:00 [INF] Route matched with {action = "GetAll", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.CategoriesController (backendORCinverisones).
+2026-01-31 23:59:47.222 -05:00 [INF] Route matched with {action = "GetAll", controller = "NombreMarcas"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.NombreMarcasController (backendORCinverisones).
+2026-01-31 23:59:47.226 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 1315.3456ms
+2026-01-31 23:59:47.226 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 1315.3247ms
+2026-01-31 23:59:47.264 -05:00 [INF] Executed DbCommand (32ms) [Parameters=[@__p_0='0', @__p_1='20'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[Codigo], [t].[CodigoComer], [t].[Producto], [t].[Descripcion], [t].[FichaTecnica], [t].[ImagenPrincipal], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[IsActive], [t].[IsFeatured], [t].[CreatedAt], [t].[UpdatedAt], [t].[CategoryId], [c].[Name] AS [CategoryName], [t].[MarcaId], [n].[Nombre] AS [MarcaNombre]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-01-31 23:59:47.291 -05:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+2026-01-31 23:59:47.292 -05:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+ORDER BY [n].[Nombre]
+2026-01-31 23:59:47.297 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.Category, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Categories.CategoryResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:59:47.309 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.NombreMarca, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.NombreMarcas.NombreMarcaResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-31 23:59:47.312 -05:00 [INF] Executed action backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones) in 88.2638ms
+2026-01-31 23:59:47.319 -05:00 [INF] Executed action backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones) in 92.8029ms
+2026-01-31 23:59:47.320 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.CategoriesController.GetAll (backendORCinverisones)'
+2026-01-31 23:59:47.322 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.NombreMarcasController.GetAll (backendORCinverisones)'
+2026-01-31 23:59:47.323 -05:00 [INF] HTTP GET /api/categories responded 200 in 108.8470 ms
+2026-01-31 23:59:47.324 -05:00 [INF] HTTP GET /api/nombremarcas responded 200 in 108.7504 ms
+2026-01-31 23:59:47.327 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/categories - 200 null application/json; charset=utf-8 116.9546ms
+2026-01-31 23:59:47.329 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/nombremarcas - 200 null application/json; charset=utf-8 119.0461ms
+2026-01-31 23:59:54.673 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-01-31 23:59:54.750 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones) in 8652.3437ms
+2026-01-31 23:59:54.752 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetAll (backendORCinverisones)'
+2026-01-31 23:59:54.753 -05:00 [INF] HTTP GET /api/products responded 200 in 8814.7596 ms
+2026-01-31 23:59:54.755 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products?page=1&pageSize=20 - 200 null application/json; charset=utf-8 8845.4955ms

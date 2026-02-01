@@ -1055,3 +1055,893 @@ ORDER BY [n].[Nombre]
 2026-01-30 16:41:12.946 -05:00 [INF] HTTP GET /api/products responded 200 in 10027.5540 ms
 2026-01-30 16:41:12.948 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products - 200 null application/json; charset=utf-8 10032.3455ms
 2026-01-30 16:41:28.207 -05:00 [INF] Application is shutting down...
+2026-01-30 16:42:17.061 -05:00 [INF] 🚀 Backend ORC Inversiones iniciado correctamente
+2026-01-30 16:42:17.125 -05:00 [INF] User profile is available. Using 'C:\Users\cater\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-01-30 16:42:17.217 -05:00 [INF] Now listening on: http://localhost:5095
+2026-01-30 16:42:17.219 -05:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-01-30 16:42:17.220 -05:00 [INF] Hosting environment: Development
+2026-01-30 16:42:17.221 -05:00 [INF] Content root path: C:\Users\cater\source\repos\backendORCinverisones\backend
+2026-01-30 16:42:20.841 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/users - null null
+2026-01-30 16:42:21.017 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.UsersController.GetAll (backendORCinverisones)'
+2026-01-30 16:42:21.032 -05:00 [INF] Route matched with {action = "GetAll", controller = "Users"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.UsersController (backendORCinverisones).
+2026-01-30 16:42:21.526 -05:00 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+2026-01-30 16:42:22.206 -05:00 [INF] Executed DbCommand (34ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [u].[Id], [u].[CreatedAt], [u].[Email], [u].[IsActive], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u].[Username], [r].[Id], [r].[CreatedAt], [r].[Description], [r].[Name]
+FROM [Users] AS [u]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[Id]
+2026-01-30 16:42:22.259 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.User, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Users.UserResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-30 16:42:22.323 -05:00 [INF] Executed action backendORCinverisones.Controllers.UsersController.GetAll (backendORCinverisones) in 1285.2154ms
+2026-01-30 16:42:22.326 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.UsersController.GetAll (backendORCinverisones)'
+2026-01-30 16:42:22.333 -05:00 [INF] HTTP GET /api/users responded 200 in 1462.8002 ms
+2026-01-30 16:42:22.342 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/users - 200 null application/json; charset=utf-8 1503.5402ms
+2026-01-30 16:42:28.654 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=9999 - null null
+2026-01-30 16:42:28.655 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/brands - null null
+2026-01-30 16:42:28.656 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/categories - null null
+2026-01-30 16:42:28.664 -05:00 [INF] No cached response available for this request.
+2026-01-30 16:42:28.664 -05:00 [INF] No cached response available for this request.
+2026-01-30 16:42:28.664 -05:00 [INF] No cached response available for this request.
+2026-01-30 16:42:28.670 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 16:42:28.670 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicBrands (backendORCinverisones)'
+2026-01-30 16:42:28.670 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicCategories (backendORCinverisones)'
+2026-01-30 16:42:28.676 -05:00 [INF] Route matched with {action = "GetPublicCategories", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicCategories() on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 16:42:28.676 -05:00 [INF] Route matched with {action = "GetPublicBrands", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicBrands() on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 16:42:28.683 -05:00 [INF] Route matched with {action = "GetPublicActive", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicActive(Int32, Int32, System.String, System.Nullable`1[System.Int32], System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 16:42:28.805 -05:00 [INF] Executed DbCommand (22ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT DISTINCT [p].[CategoryId]
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 16:42:28.805 -05:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 16:42:28.808 -05:00 [INF] Executed DbCommand (21ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT DISTINCT [p].[MarcaId]
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 16:42:28.867 -05:00 [INF] Executed DbCommand (16ms) [Parameters=[@__idsList_0='[1843,1844,1845,1846,1848,1850,1851,1863,1876]' (Size = 4000)], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+WHERE [n].[IsActive] = CAST(1 AS bit) AND [n].[Id] IN (
+    SELECT [i].[value]
+    FROM OPENJSON(@__idsList_0) WITH ([value] int '$') AS [i]
+)
+ORDER BY [n].[Nombre]
+2026-01-30 16:42:28.867 -05:00 [INF] Executed DbCommand (15ms) [Parameters=[@__idsList_0='[126,128,133]' (Size = 4000)], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit) AND [c].[Id] IN (
+    SELECT [i].[value]
+    FROM OPENJSON(@__idsList_0) WITH ([value] int '$') AS [i]
+)
+ORDER BY [c].[Name]
+2026-01-30 16:42:28.873 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType9`2[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-30 16:42:28.875 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType10`2[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-30 16:42:28.883 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicCategories (backendORCinverisones) in 204.5501ms
+2026-01-30 16:42:28.883 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicBrands (backendORCinverisones) in 201.9189ms
+2026-01-30 16:42:28.885 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicCategories (backendORCinverisones)'
+2026-01-30 16:42:28.886 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicBrands (backendORCinverisones)'
+2026-01-30 16:42:28.888 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 16:42:28.889 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 16:42:28.889 -05:00 [INF] Executed DbCommand (41ms) [Parameters=[@__p_0='0', @__p_1='9999'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[CategoryId], [t].[Codigo], [t].[CodigoComer], [t].[CreatedAt], [t].[Descripcion], [t].[FichaTecnica], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[ImagenPrincipal], [t].[IsActive], [t].[IsFeatured], [t].[MarcaId], [t].[Producto], [t].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-01-30 16:42:28.890 -05:00 [INF] HTTP GET /api/products/public/categories responded 200 in 228.0600 ms
+2026-01-30 16:42:28.891 -05:00 [INF] HTTP GET /api/products/public/brands responded 200 in 229.0959 ms
+2026-01-30 16:42:28.894 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/categories - 200 null application/json; charset=utf-8 238.8479ms
+2026-01-30 16:42:28.897 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/brands - 200 null application/json; charset=utf-8 241.9765ms
+2026-01-30 16:42:33.239 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-01-30 16:42:33.306 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones) in 4620.6357ms
+2026-01-30 16:42:33.309 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 16:42:33.310 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 16:42:33.312 -05:00 [INF] HTTP GET /api/products/public/active responded 200 in 4653.0538 ms
+2026-01-30 16:42:33.315 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=9999 - 200 null application/json; charset=utf-8 4659.9837ms
+2026-01-30 16:51:35.339 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/users - null null
+2026-01-30 16:51:35.346 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.UsersController.GetAll (backendORCinverisones)'
+2026-01-30 16:51:35.349 -05:00 [INF] Route matched with {action = "GetAll", controller = "Users"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.UsersController (backendORCinverisones).
+2026-01-30 16:51:35.475 -05:00 [INF] Executed DbCommand (16ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [u].[Id], [u].[CreatedAt], [u].[Email], [u].[IsActive], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u].[Username], [r].[Id], [r].[CreatedAt], [r].[Description], [r].[Name]
+FROM [Users] AS [u]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[Id]
+2026-01-30 16:51:35.477 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.User, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Users.UserResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-30 16:51:35.479 -05:00 [INF] Executed action backendORCinverisones.Controllers.UsersController.GetAll (backendORCinverisones) in 127.7071ms
+2026-01-30 16:51:35.482 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.UsersController.GetAll (backendORCinverisones)'
+2026-01-30 16:51:35.484 -05:00 [INF] HTTP GET /api/users responded 200 in 141.3989 ms
+2026-01-30 16:51:35.486 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/users - 200 null application/json; charset=utf-8 146.7694ms
+2026-01-30 16:53:27.705 -05:00 [INF] Application is shutting down...
+2026-01-30 16:55:06.843 -05:00 [INF] 🚀 Backend ORC Inversiones iniciado correctamente
+2026-01-30 16:55:06.903 -05:00 [INF] User profile is available. Using 'C:\Users\cater\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-01-30 16:55:06.973 -05:00 [INF] Now listening on: http://localhost:5095
+2026-01-30 16:55:06.976 -05:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-01-30 16:55:06.977 -05:00 [INF] Hosting environment: Development
+2026-01-30 16:55:06.978 -05:00 [INF] Content root path: C:\Users\cater\source\repos\backendORCinverisones\backend
+2026-01-30 16:59:36.912 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - null null
+2026-01-30 16:59:37.014 -05:00 [INF] No cached response available for this request.
+2026-01-30 16:59:37.035 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-01-30 16:59:37.057 -05:00 [INF] Route matched with {action = "GetPublicFeatured", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicFeatured(Int32, Int32) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 16:59:37.498 -05:00 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+2026-01-30 16:59:38.183 -05:00 [INF] Executed DbCommand (50ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 16:59:38.283 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/brands - null null
+2026-01-30 16:59:38.283 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=9999 - null null
+2026-01-30 16:59:38.283 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/categories - null null
+2026-01-30 16:59:38.293 -05:00 [INF] No cached response available for this request.
+2026-01-30 16:59:38.293 -05:00 [INF] No cached response available for this request.
+2026-01-30 16:59:38.293 -05:00 [INF] No cached response available for this request.
+2026-01-30 16:59:38.297 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 16:59:38.297 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicBrands (backendORCinverisones)'
+2026-01-30 16:59:38.297 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicCategories (backendORCinverisones)'
+2026-01-30 16:59:38.303 -05:00 [INF] Route matched with {action = "GetPublicBrands", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicBrands() on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 16:59:38.303 -05:00 [INF] Route matched with {action = "GetPublicActive", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicActive(Int32, Int32, System.String, System.Nullable`1[System.Int32], System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 16:59:38.303 -05:00 [INF] Route matched with {action = "GetPublicCategories", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicCategories() on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 16:59:38.331 -05:00 [INF] Executed DbCommand (25ms) [Parameters=[@__p_0='0', @__p_1='9'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[CategoryId], [t].[Codigo], [t].[CodigoComer], [t].[CreatedAt], [t].[Descripcion], [t].[FichaTecnica], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[ImagenPrincipal], [t].[IsActive], [t].[IsFeatured], [t].[MarcaId], [t].[Producto], [t].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-01-30 16:59:38.400 -05:00 [INF] Executed DbCommand (22ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 16:59:38.400 -05:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT DISTINCT [p].[CategoryId]
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 16:59:38.427 -05:00 [INF] Executed DbCommand (23ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT DISTINCT [p].[MarcaId]
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 16:59:38.438 -05:00 [INF] Executed DbCommand (14ms) [Parameters=[@__p_0='0', @__p_1='9999'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[CategoryId], [t].[Codigo], [t].[CodigoComer], [t].[CreatedAt], [t].[Descripcion], [t].[FichaTecnica], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[ImagenPrincipal], [t].[IsActive], [t].[IsFeatured], [t].[MarcaId], [t].[Producto], [t].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-01-30 16:59:38.458 -05:00 [INF] Executed DbCommand (5ms) [Parameters=[@__idsList_0='[1843,1844,1845,1846,1848,1850,1851,1863,1876]' (Size = 4000)], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+WHERE [n].[IsActive] = CAST(1 AS bit) AND [n].[Id] IN (
+    SELECT [i].[value]
+    FROM OPENJSON(@__idsList_0) WITH ([value] int '$') AS [i]
+)
+ORDER BY [n].[Nombre]
+2026-01-30 16:59:38.458 -05:00 [INF] Executed DbCommand (5ms) [Parameters=[@__idsList_0='[126,128,133]' (Size = 4000)], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit) AND [c].[Id] IN (
+    SELECT [i].[value]
+    FROM OPENJSON(@__idsList_0) WITH ([value] int '$') AS [i]
+)
+ORDER BY [c].[Name]
+2026-01-30 16:59:38.471 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType10`2[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-30 16:59:38.471 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType9`2[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-30 16:59:38.515 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicBrands (backendORCinverisones) in 207.5156ms
+2026-01-30 16:59:38.515 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicCategories (backendORCinverisones) in 203.1013ms
+2026-01-30 16:59:38.518 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicBrands (backendORCinverisones)'
+2026-01-30 16:59:38.518 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicCategories (backendORCinverisones)'
+2026-01-30 16:59:38.520 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 16:59:38.520 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 16:59:38.526 -05:00 [INF] HTTP GET /api/products/public/categories responded 200 in 232.7388 ms
+2026-01-30 16:59:38.526 -05:00 [INF] HTTP GET /api/products/public/brands responded 200 in 234.3375 ms
+2026-01-30 16:59:38.535 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/categories - 200 null application/json; charset=utf-8 251.2734ms
+2026-01-30 16:59:38.535 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/brands - 200 null application/json; charset=utf-8 251.2714ms
+2026-01-30 16:59:42.806 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-01-30 16:59:42.863 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones) in 5802.8456ms
+2026-01-30 16:59:42.865 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-01-30 16:59:42.866 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 16:59:42.868 -05:00 [INF] HTTP GET /api/products/public/featured responded 200 in 5919.7726 ms
+2026-01-30 16:59:42.871 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - 200 null application/json; charset=utf-8 5962.0556ms
+2026-01-30 16:59:43.867 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-01-30 16:59:43.908 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones) in 5601.4677ms
+2026-01-30 16:59:43.910 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 16:59:43.911 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 16:59:43.913 -05:00 [INF] HTTP GET /api/products/public/active responded 200 in 5623.4460 ms
+2026-01-30 16:59:43.915 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=9999 - 200 null application/json; charset=utf-8 5631.3891ms
+2026-01-30 16:59:59.809 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/users - null null
+2026-01-30 16:59:59.873 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.UsersController.GetAll (backendORCinverisones)'
+2026-01-30 16:59:59.884 -05:00 [INF] Route matched with {action = "GetAll", controller = "Users"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller backendORCinverisones.Controllers.UsersController (backendORCinverisones).
+2026-01-30 16:59:59.941 -05:00 [INF] Executed DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT [u].[Id], [u].[CreatedAt], [u].[Email], [u].[IsActive], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u].[Username], [r].[Id], [r].[CreatedAt], [r].[Description], [r].[Name]
+FROM [Users] AS [u]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[Id]
+2026-01-30 16:59:59.946 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[backendORCinverisones.Domain.Entities.User, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[backendORCinverisones.Application.DTOs.Users.UserResponseDto, backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-30 16:59:59.953 -05:00 [INF] Executed action backendORCinverisones.Controllers.UsersController.GetAll (backendORCinverisones) in 66.7762ms
+2026-01-30 16:59:59.956 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.UsersController.GetAll (backendORCinverisones)'
+2026-01-30 16:59:59.958 -05:00 [INF] HTTP GET /api/users responded 200 in 145.8514 ms
+2026-01-30 16:59:59.961 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/users - 200 null application/json; charset=utf-8 151.9851ms
+2026-01-30 17:06:50.875 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=9999 - null null
+2026-01-30 17:06:50.876 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/brands - null null
+2026-01-30 17:06:50.876 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/categories - null null
+2026-01-30 17:06:50.878 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:06:50.880 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:06:50.882 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:06:50.883 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:06:50.884 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicBrands (backendORCinverisones)'
+2026-01-30 17:06:50.884 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicCategories (backendORCinverisones)'
+2026-01-30 17:06:50.885 -05:00 [INF] Route matched with {action = "GetPublicActive", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicActive(Int32, Int32, System.String, System.Nullable`1[System.Int32], System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:06:50.886 -05:00 [INF] Route matched with {action = "GetPublicBrands", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicBrands() on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:06:50.887 -05:00 [INF] Route matched with {action = "GetPublicCategories", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicCategories() on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:06:50.996 -05:00 [INF] Executed DbCommand (32ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT DISTINCT [p].[CategoryId]
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 17:06:50.997 -05:00 [INF] Executed DbCommand (25ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 17:06:50.998 -05:00 [INF] Executed DbCommand (30ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT DISTINCT [p].[MarcaId]
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 17:06:51.005 -05:00 [INF] Executed DbCommand (5ms) [Parameters=[@__idsList_0='[126,128,133]' (Size = 4000)], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit) AND [c].[Id] IN (
+    SELECT [i].[value]
+    FROM OPENJSON(@__idsList_0) WITH ([value] int '$') AS [i]
+)
+ORDER BY [c].[Name]
+2026-01-30 17:06:51.008 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType10`2[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-30 17:06:51.010 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicCategories (backendORCinverisones) in 118.0724ms
+2026-01-30 17:06:51.011 -05:00 [INF] Executed DbCommand (8ms) [Parameters=[@__idsList_0='[1843,1844,1845,1846,1848,1850,1851,1863,1876]' (Size = 4000)], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+WHERE [n].[IsActive] = CAST(1 AS bit) AND [n].[Id] IN (
+    SELECT [i].[value]
+    FROM OPENJSON(@__idsList_0) WITH ([value] int '$') AS [i]
+)
+ORDER BY [n].[Nombre]
+2026-01-30 17:06:51.012 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicCategories (backendORCinverisones)'
+2026-01-30 17:06:51.015 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType9`2[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-30 17:06:51.015 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:06:51.017 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicBrands (backendORCinverisones) in 126.5827ms
+2026-01-30 17:06:51.017 -05:00 [INF] HTTP GET /api/products/public/categories responded 200 in 135.6321 ms
+2026-01-30 17:06:51.019 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicBrands (backendORCinverisones)'
+2026-01-30 17:06:51.021 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/categories - 200 null application/json; charset=utf-8 144.9157ms
+2026-01-30 17:06:51.022 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:06:51.026 -05:00 [INF] HTTP GET /api/products/public/brands responded 200 in 146.9282 ms
+2026-01-30 17:06:51.029 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/brands - 200 null application/json; charset=utf-8 153.065ms
+2026-01-30 17:06:51.032 -05:00 [INF] Executed DbCommand (30ms) [Parameters=[@__p_0='0', @__p_1='9999'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[CategoryId], [t].[Codigo], [t].[CodigoComer], [t].[CreatedAt], [t].[Descripcion], [t].[FichaTecnica], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[ImagenPrincipal], [t].[IsActive], [t].[IsFeatured], [t].[MarcaId], [t].[Producto], [t].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-01-30 17:06:52.864 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - null null
+2026-01-30 17:06:52.867 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:06:52.869 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-01-30 17:06:52.870 -05:00 [INF] Route matched with {action = "GetPublicFeatured", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicFeatured(Int32, Int32) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:06:52.876 -05:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 17:06:52.892 -05:00 [INF] Executed DbCommand (12ms) [Parameters=[@__p_0='0', @__p_1='9'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[CategoryId], [t].[Codigo], [t].[CodigoComer], [t].[CreatedAt], [t].[Descripcion], [t].[FichaTecnica], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[ImagenPrincipal], [t].[IsActive], [t].[IsFeatured], [t].[MarcaId], [t].[Producto], [t].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-01-30 17:06:55.254 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-01-30 17:06:55.329 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones) in 4439.9829ms
+2026-01-30 17:06:55.331 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:06:55.332 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:06:55.333 -05:00 [INF] HTTP GET /api/products/public/active responded 200 in 4455.6996 ms
+2026-01-30 17:06:55.336 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=9999 - 200 null application/json; charset=utf-8 4461.2625ms
+2026-01-30 17:06:56.167 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-01-30 17:06:56.202 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones) in 3330.6711ms
+2026-01-30 17:06:56.204 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-01-30 17:06:56.204 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:06:56.206 -05:00 [INF] HTTP GET /api/products/public/featured responded 200 in 3339.3974 ms
+2026-01-30 17:06:56.208 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - 200 null application/json; charset=utf-8 3343.6006ms
+2026-01-30 17:12:56.863 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - null null
+2026-01-30 17:12:56.866 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:12:56.867 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-01-30 17:12:56.869 -05:00 [INF] Route matched with {action = "GetPublicFeatured", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicFeatured(Int32, Int32) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:12:56.878 -05:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 17:12:56.890 -05:00 [INF] Executed DbCommand (9ms) [Parameters=[@__p_0='0', @__p_1='9'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[CategoryId], [t].[Codigo], [t].[CodigoComer], [t].[CreatedAt], [t].[Descripcion], [t].[FichaTecnica], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[ImagenPrincipal], [t].[IsActive], [t].[IsFeatured], [t].[MarcaId], [t].[Producto], [t].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-01-30 17:12:59.571 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-01-30 17:12:59.600 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones) in 2729.0411ms
+2026-01-30 17:12:59.602 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-01-30 17:12:59.603 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:12:59.604 -05:00 [INF] HTTP GET /api/products/public/featured responded 200 in 2738.6069 ms
+2026-01-30 17:12:59.607 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - 200 null application/json; charset=utf-8 2744.1163ms
+2026-01-30 17:14:34.066 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=9999 - null null
+2026-01-30 17:14:34.066 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/brands - null null
+2026-01-30 17:14:34.066 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/categories - null null
+2026-01-30 17:14:34.069 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:14:34.070 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:14:34.072 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:14:34.073 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:14:34.073 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicBrands (backendORCinverisones)'
+2026-01-30 17:14:34.075 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicCategories (backendORCinverisones)'
+2026-01-30 17:14:34.076 -05:00 [INF] Route matched with {action = "GetPublicActive", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicActive(Int32, Int32, System.String, System.Nullable`1[System.Int32], System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:14:34.077 -05:00 [INF] Route matched with {action = "GetPublicBrands", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicBrands() on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:14:34.078 -05:00 [INF] Route matched with {action = "GetPublicCategories", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicCategories() on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:14:34.087 -05:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 17:14:34.096 -05:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT DISTINCT [p].[MarcaId]
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 17:14:34.096 -05:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT DISTINCT [p].[CategoryId]
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 17:14:34.104 -05:00 [INF] Executed DbCommand (5ms) [Parameters=[@__idsList_0='[1843,1844,1845,1846,1848,1850,1851,1863,1876]' (Size = 4000)], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+WHERE [n].[IsActive] = CAST(1 AS bit) AND [n].[Id] IN (
+    SELECT [i].[value]
+    FROM OPENJSON(@__idsList_0) WITH ([value] int '$') AS [i]
+)
+ORDER BY [n].[Nombre]
+2026-01-30 17:14:34.104 -05:00 [INF] Executed DbCommand (3ms) [Parameters=[@__idsList_0='[126,128,133]' (Size = 4000)], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit) AND [c].[Id] IN (
+    SELECT [i].[value]
+    FROM OPENJSON(@__idsList_0) WITH ([value] int '$') AS [i]
+)
+ORDER BY [c].[Name]
+2026-01-30 17:14:34.104 -05:00 [INF] Executed DbCommand (9ms) [Parameters=[@__p_0='0', @__p_1='9999'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[CategoryId], [t].[Codigo], [t].[CodigoComer], [t].[CreatedAt], [t].[Descripcion], [t].[FichaTecnica], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[ImagenPrincipal], [t].[IsActive], [t].[IsFeatured], [t].[MarcaId], [t].[Producto], [t].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-01-30 17:14:34.106 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType9`2[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-30 17:14:34.108 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType10`2[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-30 17:14:34.112 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicBrands (backendORCinverisones) in 30.9576ms
+2026-01-30 17:14:34.118 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicCategories (backendORCinverisones) in 34.1176ms
+2026-01-30 17:14:34.119 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicBrands (backendORCinverisones)'
+2026-01-30 17:14:34.120 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicCategories (backendORCinverisones)'
+2026-01-30 17:14:34.121 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:14:34.122 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:14:34.123 -05:00 [INF] HTTP GET /api/products/public/brands responded 200 in 52.5941 ms
+2026-01-30 17:14:34.124 -05:00 [INF] HTTP GET /api/products/public/categories responded 200 in 51.5925 ms
+2026-01-30 17:14:34.125 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/brands - 200 null application/json; charset=utf-8 58.9758ms
+2026-01-30 17:14:34.127 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/categories - 200 null application/json; charset=utf-8 60.723ms
+2026-01-30 17:14:37.862 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-01-30 17:14:37.903 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones) in 3823.4552ms
+2026-01-30 17:14:37.906 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:14:37.907 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:14:37.909 -05:00 [INF] HTTP GET /api/products/public/active responded 200 in 3840.2762 ms
+2026-01-30 17:14:37.911 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=9999 - 200 null application/json; charset=utf-8 3844.5982ms
+2026-01-30 17:15:34.882 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=12&q=l - null null
+2026-01-30 17:15:34.886 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:15:34.887 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:15:34.888 -05:00 [INF] Route matched with {action = "GetPublicActive", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicActive(Int32, Int32, System.String, System.Nullable`1[System.Int32], System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:15:34.928 -05:00 [INF] Executed DbCommand (23ms) [Parameters=[@__term_0_rewritten='%l%' (Size = 300), @__term_0_rewritten_1='%l%' (Size = 100), @__term_0_rewritten_2='%l%' (Size = 200)], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [p].[MarcaId] = [n].[Id]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')) AND (LOWER([p].[Producto]) LIKE @__term_0_rewritten ESCAPE N'\' OR LOWER([p].[Codigo]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([p].[CodigoComer]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([c].[Name]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([n].[Nombre]) LIKE @__term_0_rewritten_2 ESCAPE N'\')
+2026-01-30 17:15:34.957 -05:00 [INF] Executed DbCommand (15ms) [Parameters=[@__term_0_rewritten='%l%' (Size = 300), @__term_0_rewritten_1='%l%' (Size = 100), @__term_0_rewritten_2='%l%' (Size = 200), @__p_1='0', @__p_2='12'], CommandType='"Text"', CommandTimeout='60']
+SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [p].[MarcaId] = [n].[Id]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')) AND (LOWER([p].[Producto]) LIKE @__term_0_rewritten ESCAPE N'\' OR LOWER([p].[Codigo]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([p].[CodigoComer]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([c].[Name]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([n].[Nombre]) LIKE @__term_0_rewritten_2 ESCAPE N'\')
+ORDER BY [p].[CreatedAt] DESC
+OFFSET @__p_1 ROWS FETCH NEXT @__p_2 ROWS ONLY
+2026-01-30 17:15:35.051 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=12&q=ll - null null
+2026-01-30 17:15:35.054 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:15:35.054 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:15:35.055 -05:00 [INF] Route matched with {action = "GetPublicActive", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicActive(Int32, Int32, System.String, System.Nullable`1[System.Int32], System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:15:35.061 -05:00 [INF] Executed DbCommand (2ms) [Parameters=[@__term_0_rewritten='%ll%' (Size = 300), @__term_0_rewritten_1='%ll%' (Size = 100), @__term_0_rewritten_2='%ll%' (Size = 200)], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [p].[MarcaId] = [n].[Id]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')) AND (LOWER([p].[Producto]) LIKE @__term_0_rewritten ESCAPE N'\' OR LOWER([p].[Codigo]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([p].[CodigoComer]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([c].[Name]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([n].[Nombre]) LIKE @__term_0_rewritten_2 ESCAPE N'\')
+2026-01-30 17:15:35.068 -05:00 [INF] Executed DbCommand (3ms) [Parameters=[@__term_0_rewritten='%ll%' (Size = 300), @__term_0_rewritten_1='%ll%' (Size = 100), @__term_0_rewritten_2='%ll%' (Size = 200), @__p_1='0', @__p_2='12'], CommandType='"Text"', CommandTimeout='60']
+SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [p].[MarcaId] = [n].[Id]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')) AND (LOWER([p].[Producto]) LIKE @__term_0_rewritten ESCAPE N'\' OR LOWER([p].[Codigo]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([p].[CodigoComer]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([c].[Name]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([n].[Nombre]) LIKE @__term_0_rewritten_2 ESCAPE N'\')
+ORDER BY [p].[CreatedAt] DESC
+OFFSET @__p_1 ROWS FETCH NEXT @__p_2 ROWS ONLY
+2026-01-30 17:15:35.077 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-01-30 17:15:35.078 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones) in 21.3636ms
+2026-01-30 17:15:35.080 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:15:35.081 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:15:35.082 -05:00 [INF] HTTP GET /api/products/public/active responded 200 in 28.9101 ms
+2026-01-30 17:15:35.084 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=12&q=ll - 200 null application/json; charset=utf-8 32.5948ms
+2026-01-30 17:15:35.478 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=12&q=lla - null null
+2026-01-30 17:15:35.481 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:15:35.482 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:15:35.483 -05:00 [INF] Route matched with {action = "GetPublicActive", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicActive(Int32, Int32, System.String, System.Nullable`1[System.Int32], System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:15:35.488 -05:00 [INF] Executed DbCommand (2ms) [Parameters=[@__term_0_rewritten='%lla%' (Size = 300), @__term_0_rewritten_1='%lla%' (Size = 100), @__term_0_rewritten_2='%lla%' (Size = 200)], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [p].[MarcaId] = [n].[Id]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')) AND (LOWER([p].[Producto]) LIKE @__term_0_rewritten ESCAPE N'\' OR LOWER([p].[Codigo]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([p].[CodigoComer]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([c].[Name]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([n].[Nombre]) LIKE @__term_0_rewritten_2 ESCAPE N'\')
+2026-01-30 17:15:35.494 -05:00 [INF] Executed DbCommand (3ms) [Parameters=[@__term_0_rewritten='%lla%' (Size = 300), @__term_0_rewritten_1='%lla%' (Size = 100), @__term_0_rewritten_2='%lla%' (Size = 200), @__p_1='0', @__p_2='12'], CommandType='"Text"', CommandTimeout='60']
+SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [p].[MarcaId] = [n].[Id]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')) AND (LOWER([p].[Producto]) LIKE @__term_0_rewritten ESCAPE N'\' OR LOWER([p].[Codigo]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([p].[CodigoComer]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([c].[Name]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([n].[Nombre]) LIKE @__term_0_rewritten_2 ESCAPE N'\')
+ORDER BY [p].[CreatedAt] DESC
+OFFSET @__p_1 ROWS FETCH NEXT @__p_2 ROWS ONLY
+2026-01-30 17:15:35.498 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-01-30 17:15:35.500 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones) in 15.1974ms
+2026-01-30 17:15:35.502 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:15:35.503 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:15:35.504 -05:00 [INF] HTTP GET /api/products/public/active responded 200 in 22.6294 ms
+2026-01-30 17:15:35.505 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=12&q=lla - 200 null application/json; charset=utf-8 27.2527ms
+2026-01-30 17:15:35.570 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=12&q=llan - null null
+2026-01-30 17:15:35.572 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:15:35.573 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:15:35.574 -05:00 [INF] Route matched with {action = "GetPublicActive", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicActive(Int32, Int32, System.String, System.Nullable`1[System.Int32], System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:15:35.579 -05:00 [INF] Executed DbCommand (2ms) [Parameters=[@__term_0_rewritten='%llan%' (Size = 300), @__term_0_rewritten_1='%llan%' (Size = 100), @__term_0_rewritten_2='%llan%' (Size = 200)], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [p].[MarcaId] = [n].[Id]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')) AND (LOWER([p].[Producto]) LIKE @__term_0_rewritten ESCAPE N'\' OR LOWER([p].[Codigo]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([p].[CodigoComer]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([c].[Name]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([n].[Nombre]) LIKE @__term_0_rewritten_2 ESCAPE N'\')
+2026-01-30 17:15:35.584 -05:00 [INF] Executed DbCommand (2ms) [Parameters=[@__term_0_rewritten='%llan%' (Size = 300), @__term_0_rewritten_1='%llan%' (Size = 100), @__term_0_rewritten_2='%llan%' (Size = 200), @__p_1='0', @__p_2='12'], CommandType='"Text"', CommandTimeout='60']
+SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [p].[MarcaId] = [n].[Id]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')) AND (LOWER([p].[Producto]) LIKE @__term_0_rewritten ESCAPE N'\' OR LOWER([p].[Codigo]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([p].[CodigoComer]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([c].[Name]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([n].[Nombre]) LIKE @__term_0_rewritten_2 ESCAPE N'\')
+ORDER BY [p].[CreatedAt] DESC
+OFFSET @__p_1 ROWS FETCH NEXT @__p_2 ROWS ONLY
+2026-01-30 17:15:35.589 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-01-30 17:15:35.591 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones) in 15.7742ms
+2026-01-30 17:15:35.592 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:15:35.594 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:15:35.595 -05:00 [INF] HTTP GET /api/products/public/active responded 200 in 23.0360 ms
+2026-01-30 17:15:35.597 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=12&q=llan - 200 null application/json; charset=utf-8 26.7817ms
+2026-01-30 17:15:36.941 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-01-30 17:15:36.989 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones) in 2098.6731ms
+2026-01-30 17:15:36.991 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:15:36.993 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:15:36.994 -05:00 [INF] HTTP GET /api/products/public/active responded 200 in 2107.9738 ms
+2026-01-30 17:15:36.995 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=12&q=l - 200 null application/json; charset=utf-8 2112.6912ms
+2026-01-30 17:18:45.690 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/brands - null null
+2026-01-30 17:18:45.690 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=9999 - null null
+2026-01-30 17:18:45.691 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/categories - null null
+2026-01-30 17:18:45.693 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:18:45.695 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:18:45.698 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:18:45.699 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicBrands (backendORCinverisones)'
+2026-01-30 17:18:45.699 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:18:45.700 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicCategories (backendORCinverisones)'
+2026-01-30 17:18:45.701 -05:00 [INF] Route matched with {action = "GetPublicBrands", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicBrands() on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:18:45.702 -05:00 [INF] Route matched with {action = "GetPublicActive", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicActive(Int32, Int32, System.String, System.Nullable`1[System.Int32], System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:18:45.703 -05:00 [INF] Route matched with {action = "GetPublicCategories", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicCategories() on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:18:45.715 -05:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 17:18:45.716 -05:00 [INF] Executed DbCommand (10ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT DISTINCT [p].[MarcaId]
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 17:18:45.717 -05:00 [INF] Executed DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT DISTINCT [p].[CategoryId]
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 17:18:45.727 -05:00 [INF] Executed DbCommand (6ms) [Parameters=[@__idsList_0='[1843,1844,1845,1846,1848,1850,1851,1863,1876]' (Size = 4000)], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+WHERE [n].[IsActive] = CAST(1 AS bit) AND [n].[Id] IN (
+    SELECT [i].[value]
+    FROM OPENJSON(@__idsList_0) WITH ([value] int '$') AS [i]
+)
+ORDER BY [n].[Nombre]
+2026-01-30 17:18:45.729 -05:00 [INF] Executed DbCommand (6ms) [Parameters=[@__idsList_0='[126,128,133]' (Size = 4000)], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit) AND [c].[Id] IN (
+    SELECT [i].[value]
+    FROM OPENJSON(@__idsList_0) WITH ([value] int '$') AS [i]
+)
+ORDER BY [c].[Name]
+2026-01-30 17:18:45.730 -05:00 [INF] Executed DbCommand (11ms) [Parameters=[@__p_0='0', @__p_1='9999'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[CategoryId], [t].[Codigo], [t].[CodigoComer], [t].[CreatedAt], [t].[Descripcion], [t].[FichaTecnica], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[ImagenPrincipal], [t].[IsActive], [t].[IsFeatured], [t].[MarcaId], [t].[Producto], [t].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-01-30 17:18:45.730 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType9`2[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-30 17:18:45.732 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType10`2[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-30 17:18:45.736 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicBrands (backendORCinverisones) in 31.2458ms
+2026-01-30 17:18:45.738 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicCategories (backendORCinverisones) in 30.2351ms
+2026-01-30 17:18:45.738 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicBrands (backendORCinverisones)'
+2026-01-30 17:18:45.750 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicCategories (backendORCinverisones)'
+2026-01-30 17:18:45.752 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:18:45.752 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:18:45.753 -05:00 [INF] HTTP GET /api/products/public/brands responded 200 in 60.8169 ms
+2026-01-30 17:18:45.754 -05:00 [INF] HTTP GET /api/products/public/categories responded 200 in 56.4010 ms
+2026-01-30 17:18:45.755 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/brands - 200 null application/json; charset=utf-8 65.6185ms
+2026-01-30 17:18:45.757 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/categories - 200 null application/json; charset=utf-8 66.0948ms
+2026-01-30 17:18:49.307 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-01-30 17:18:49.353 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones) in 3646.32ms
+2026-01-30 17:18:49.354 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:18:49.355 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:18:49.357 -05:00 [INF] HTTP GET /api/products/public/active responded 200 in 3662.0718 ms
+2026-01-30 17:18:49.360 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=9999 - 200 null application/json; charset=utf-8 3669.4501ms
+2026-01-30 17:18:50.998 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - null null
+2026-01-30 17:18:51.001 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:18:51.002 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-01-30 17:18:51.003 -05:00 [INF] Route matched with {action = "GetPublicFeatured", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicFeatured(Int32, Int32) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:18:51.011 -05:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 17:18:51.022 -05:00 [INF] Executed DbCommand (7ms) [Parameters=[@__p_0='0', @__p_1='9'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[CategoryId], [t].[Codigo], [t].[CodigoComer], [t].[CreatedAt], [t].[Descripcion], [t].[FichaTecnica], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[ImagenPrincipal], [t].[IsActive], [t].[IsFeatured], [t].[MarcaId], [t].[Producto], [t].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-01-30 17:18:53.947 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-01-30 17:18:53.967 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones) in 2961.8706ms
+2026-01-30 17:18:53.968 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-01-30 17:18:53.970 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:18:53.971 -05:00 [INF] HTTP GET /api/products/public/featured responded 200 in 2970.3931 ms
+2026-01-30 17:18:53.973 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - 200 null application/json; charset=utf-8 2975.052ms
+2026-01-30 17:19:02.049 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=9999 - null null
+2026-01-30 17:19:02.051 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/brands - null null
+2026-01-30 17:19:02.051 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/categories - null null
+2026-01-30 17:19:02.052 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:19:02.055 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:19:02.057 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:19:02.057 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:19:02.058 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicBrands (backendORCinverisones)'
+2026-01-30 17:19:02.059 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicCategories (backendORCinverisones)'
+2026-01-30 17:19:02.060 -05:00 [INF] Route matched with {action = "GetPublicActive", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicActive(Int32, Int32, System.String, System.Nullable`1[System.Int32], System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:19:02.061 -05:00 [INF] Route matched with {action = "GetPublicBrands", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicBrands() on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:19:02.062 -05:00 [INF] Route matched with {action = "GetPublicCategories", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicCategories() on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:19:02.068 -05:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 17:19:02.069 -05:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT DISTINCT [p].[MarcaId]
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 17:19:02.071 -05:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT DISTINCT [p].[CategoryId]
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 17:19:02.073 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[@__idsList_0='[1843,1844,1845,1846,1848,1850,1851,1863,1876]' (Size = 4000)], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+WHERE [n].[IsActive] = CAST(1 AS bit) AND [n].[Id] IN (
+    SELECT [i].[value]
+    FROM OPENJSON(@__idsList_0) WITH ([value] int '$') AS [i]
+)
+ORDER BY [n].[Nombre]
+2026-01-30 17:19:02.074 -05:00 [INF] Executed DbCommand (3ms) [Parameters=[@__p_0='0', @__p_1='9999'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[CategoryId], [t].[Codigo], [t].[CodigoComer], [t].[CreatedAt], [t].[Descripcion], [t].[FichaTecnica], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[ImagenPrincipal], [t].[IsActive], [t].[IsFeatured], [t].[MarcaId], [t].[Producto], [t].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-01-30 17:19:02.075 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[@__idsList_0='[126,128,133]' (Size = 4000)], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit) AND [c].[Id] IN (
+    SELECT [i].[value]
+    FROM OPENJSON(@__idsList_0) WITH ([value] int '$') AS [i]
+)
+ORDER BY [c].[Name]
+2026-01-30 17:19:02.076 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType9`2[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-30 17:19:02.080 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType10`2[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-30 17:19:02.084 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicBrands (backendORCinverisones) in 18.7775ms
+2026-01-30 17:19:02.090 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicCategories (backendORCinverisones) in 22.9648ms
+2026-01-30 17:19:02.092 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicBrands (backendORCinverisones)'
+2026-01-30 17:19:02.093 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicCategories (backendORCinverisones)'
+2026-01-30 17:19:02.094 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:19:02.095 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:19:02.095 -05:00 [INF] HTTP GET /api/products/public/brands responded 200 in 41.0815 ms
+2026-01-30 17:19:02.096 -05:00 [INF] HTTP GET /api/products/public/categories responded 200 in 39.5331 ms
+2026-01-30 17:19:02.098 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/brands - 200 null application/json; charset=utf-8 47.0757ms
+2026-01-30 17:19:02.100 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/categories - 200 null application/json; charset=utf-8 48.8307ms
+2026-01-30 17:19:05.638 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-01-30 17:19:05.692 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones) in 3628.6378ms
+2026-01-30 17:19:05.694 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:19:05.695 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:19:05.696 -05:00 [INF] HTTP GET /api/products/public/active responded 200 in 3644.2023 ms
+2026-01-30 17:19:05.698 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=9999 - 200 null application/json; charset=utf-8 3648.5616ms
+2026-01-30 17:20:15.188 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - null null
+2026-01-30 17:20:15.191 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:20:15.192 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-01-30 17:20:15.193 -05:00 [INF] Route matched with {action = "GetPublicFeatured", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicFeatured(Int32, Int32) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:20:15.203 -05:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 17:20:15.215 -05:00 [INF] Executed DbCommand (9ms) [Parameters=[@__p_0='0', @__p_1='9'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[CategoryId], [t].[Codigo], [t].[CodigoComer], [t].[CreatedAt], [t].[Descripcion], [t].[FichaTecnica], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[ImagenPrincipal], [t].[IsActive], [t].[IsFeatured], [t].[MarcaId], [t].[Producto], [t].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-01-30 17:20:17.970 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-01-30 17:20:18.002 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones) in 2807.4082ms
+2026-01-30 17:20:18.004 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-01-30 17:20:18.005 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:20:18.007 -05:00 [INF] HTTP GET /api/products/public/featured responded 200 in 2816.1797 ms
+2026-01-30 17:20:18.008 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - 200 null application/json; charset=utf-8 2820.0408ms
+2026-01-30 17:20:19.031 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=9999 - null null
+2026-01-30 17:20:19.035 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:20:19.035 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/brands - null null
+2026-01-30 17:20:19.037 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:20:19.037 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/categories - null null
+2026-01-30 17:20:19.040 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:20:19.041 -05:00 [INF] Route matched with {action = "GetPublicActive", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicActive(Int32, Int32, System.String, System.Nullable`1[System.Int32], System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:20:19.044 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:20:19.045 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicBrands (backendORCinverisones)'
+2026-01-30 17:20:19.048 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicCategories (backendORCinverisones)'
+2026-01-30 17:20:19.049 -05:00 [INF] Route matched with {action = "GetPublicBrands", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicBrands() on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:20:19.050 -05:00 [INF] Route matched with {action = "GetPublicCategories", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicCategories() on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:20:19.056 -05:00 [INF] Executed DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 17:20:19.058 -05:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT DISTINCT [p].[MarcaId]
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 17:20:19.062 -05:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT DISTINCT [p].[CategoryId]
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 17:20:19.067 -05:00 [INF] Executed DbCommand (5ms) [Parameters=[@__idsList_0='[1843,1844,1845,1846,1848,1850,1851,1863,1876]' (Size = 4000)], CommandType='"Text"', CommandTimeout='60']
+SELECT [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [NombreMarcas] AS [n]
+WHERE [n].[IsActive] = CAST(1 AS bit) AND [n].[Id] IN (
+    SELECT [i].[value]
+    FROM OPENJSON(@__idsList_0) WITH ([value] int '$') AS [i]
+)
+ORDER BY [n].[Nombre]
+2026-01-30 17:20:19.069 -05:00 [INF] Executed DbCommand (4ms) [Parameters=[@__idsList_0='[126,128,133]' (Size = 4000)], CommandType='"Text"', CommandTimeout='60']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit) AND [c].[Id] IN (
+    SELECT [i].[value]
+    FROM OPENJSON(@__idsList_0) WITH ([value] int '$') AS [i]
+)
+ORDER BY [c].[Name]
+2026-01-30 17:20:19.069 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType9`2[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-30 17:20:19.070 -05:00 [INF] Executed DbCommand (11ms) [Parameters=[@__p_0='0', @__p_1='9999'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[CategoryId], [t].[Codigo], [t].[CodigoComer], [t].[CreatedAt], [t].[Descripcion], [t].[FichaTecnica], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[ImagenPrincipal], [t].[IsActive], [t].[IsFeatured], [t].[MarcaId], [t].[Producto], [t].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-01-30 17:20:19.071 -05:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[<>f__AnonymousType10`2[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], backendORCinverisones, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-01-30 17:20:19.073 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicBrands (backendORCinverisones) in 21.566ms
+2026-01-30 17:20:19.077 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicCategories (backendORCinverisones) in 23.6464ms
+2026-01-30 17:20:19.078 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicBrands (backendORCinverisones)'
+2026-01-30 17:20:19.086 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicCategories (backendORCinverisones)'
+2026-01-30 17:20:19.087 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:20:19.088 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:20:19.089 -05:00 [INF] HTTP GET /api/products/public/brands responded 200 in 49.7867 ms
+2026-01-30 17:20:19.090 -05:00 [INF] HTTP GET /api/products/public/categories responded 200 in 46.7151 ms
+2026-01-30 17:20:19.092 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/brands - 200 null application/json; charset=utf-8 56.1026ms
+2026-01-30 17:20:19.094 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/categories - 200 null application/json; charset=utf-8 57.5018ms
+2026-01-30 17:20:22.885 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-01-30 17:20:22.921 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones) in 3874.7784ms
+2026-01-30 17:20:22.923 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:20:22.925 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:20:22.926 -05:00 [INF] HTTP GET /api/products/public/active responded 200 in 3891.4169 ms
+2026-01-30 17:20:22.929 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=9999 - 200 null application/json; charset=utf-8 3897.1467ms
+2026-01-30 17:20:23.780 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=12&q=l - null null
+2026-01-30 17:20:23.782 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:20:23.783 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:20:23.784 -05:00 [INF] Route matched with {action = "GetPublicActive", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicActive(Int32, Int32, System.String, System.Nullable`1[System.Int32], System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:20:23.801 -05:00 [INF] Executed DbCommand (13ms) [Parameters=[@__term_0_rewritten='%l%' (Size = 300), @__term_0_rewritten_1='%l%' (Size = 100), @__term_0_rewritten_2='%l%' (Size = 200)], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [p].[MarcaId] = [n].[Id]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')) AND (LOWER([p].[Producto]) LIKE @__term_0_rewritten ESCAPE N'\' OR LOWER([p].[Codigo]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([p].[CodigoComer]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([c].[Name]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([n].[Nombre]) LIKE @__term_0_rewritten_2 ESCAPE N'\')
+2026-01-30 17:20:23.819 -05:00 [INF] Executed DbCommand (14ms) [Parameters=[@__term_0_rewritten='%l%' (Size = 300), @__term_0_rewritten_1='%l%' (Size = 100), @__term_0_rewritten_2='%l%' (Size = 200), @__p_1='0', @__p_2='12'], CommandType='"Text"', CommandTimeout='60']
+SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [p].[MarcaId] = [n].[Id]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')) AND (LOWER([p].[Producto]) LIKE @__term_0_rewritten ESCAPE N'\' OR LOWER([p].[Codigo]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([p].[CodigoComer]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([c].[Name]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([n].[Nombre]) LIKE @__term_0_rewritten_2 ESCAPE N'\')
+ORDER BY [p].[CreatedAt] DESC
+OFFSET @__p_1 ROWS FETCH NEXT @__p_2 ROWS ONLY
+2026-01-30 17:20:23.927 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=12&q=ll - null null
+2026-01-30 17:20:23.930 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:20:23.931 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:20:23.933 -05:00 [INF] Route matched with {action = "GetPublicActive", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicActive(Int32, Int32, System.String, System.Nullable`1[System.Int32], System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:20:23.939 -05:00 [INF] Executed DbCommand (3ms) [Parameters=[@__term_0_rewritten='%ll%' (Size = 300), @__term_0_rewritten_1='%ll%' (Size = 100), @__term_0_rewritten_2='%ll%' (Size = 200)], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [p].[MarcaId] = [n].[Id]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')) AND (LOWER([p].[Producto]) LIKE @__term_0_rewritten ESCAPE N'\' OR LOWER([p].[Codigo]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([p].[CodigoComer]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([c].[Name]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([n].[Nombre]) LIKE @__term_0_rewritten_2 ESCAPE N'\')
+2026-01-30 17:20:23.952 -05:00 [INF] Executed DbCommand (5ms) [Parameters=[@__term_0_rewritten='%ll%' (Size = 300), @__term_0_rewritten_1='%ll%' (Size = 100), @__term_0_rewritten_2='%ll%' (Size = 200), @__p_1='0', @__p_2='12'], CommandType='"Text"', CommandTimeout='60']
+SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [p].[MarcaId] = [n].[Id]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')) AND (LOWER([p].[Producto]) LIKE @__term_0_rewritten ESCAPE N'\' OR LOWER([p].[Codigo]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([p].[CodigoComer]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([c].[Name]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([n].[Nombre]) LIKE @__term_0_rewritten_2 ESCAPE N'\')
+ORDER BY [p].[CreatedAt] DESC
+OFFSET @__p_1 ROWS FETCH NEXT @__p_2 ROWS ONLY
+2026-01-30 17:20:23.958 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-01-30 17:20:23.960 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones) in 24.843ms
+2026-01-30 17:20:23.961 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:20:23.963 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:20:23.964 -05:00 [INF] HTTP GET /api/products/public/active responded 200 in 33.9119 ms
+2026-01-30 17:20:23.966 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=12&q=ll - 200 null application/json; charset=utf-8 38.263ms
+2026-01-30 17:20:24.069 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=12&q=lla - null null
+2026-01-30 17:20:24.073 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:20:24.074 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:20:24.075 -05:00 [INF] Route matched with {action = "GetPublicActive", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicActive(Int32, Int32, System.String, System.Nullable`1[System.Int32], System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:20:24.084 -05:00 [INF] Executed DbCommand (6ms) [Parameters=[@__term_0_rewritten='%lla%' (Size = 300), @__term_0_rewritten_1='%lla%' (Size = 100), @__term_0_rewritten_2='%lla%' (Size = 200)], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [p].[MarcaId] = [n].[Id]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')) AND (LOWER([p].[Producto]) LIKE @__term_0_rewritten ESCAPE N'\' OR LOWER([p].[Codigo]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([p].[CodigoComer]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([c].[Name]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([n].[Nombre]) LIKE @__term_0_rewritten_2 ESCAPE N'\')
+2026-01-30 17:20:24.090 -05:00 [INF] Executed DbCommand (2ms) [Parameters=[@__term_0_rewritten='%lla%' (Size = 300), @__term_0_rewritten_1='%lla%' (Size = 100), @__term_0_rewritten_2='%lla%' (Size = 200), @__p_1='0', @__p_2='12'], CommandType='"Text"', CommandTimeout='60']
+SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [p].[MarcaId] = [n].[Id]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')) AND (LOWER([p].[Producto]) LIKE @__term_0_rewritten ESCAPE N'\' OR LOWER([p].[Codigo]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([p].[CodigoComer]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([c].[Name]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([n].[Nombre]) LIKE @__term_0_rewritten_2 ESCAPE N'\')
+ORDER BY [p].[CreatedAt] DESC
+OFFSET @__p_1 ROWS FETCH NEXT @__p_2 ROWS ONLY
+2026-01-30 17:20:24.095 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-01-30 17:20:24.097 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones) in 19.3569ms
+2026-01-30 17:20:24.098 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:20:24.100 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:20:24.101 -05:00 [INF] HTTP GET /api/products/public/active responded 200 in 28.4104 ms
+2026-01-30 17:20:24.102 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=12&q=lla - 200 null application/json; charset=utf-8 33.0005ms
+2026-01-30 17:20:24.500 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=12&q=llan - null null
+2026-01-30 17:20:24.502 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:20:24.503 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:20:24.504 -05:00 [INF] Route matched with {action = "GetPublicActive", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicActive(Int32, Int32, System.String, System.Nullable`1[System.Int32], System.String) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:20:24.510 -05:00 [INF] Executed DbCommand (2ms) [Parameters=[@__term_0_rewritten='%llan%' (Size = 300), @__term_0_rewritten_1='%llan%' (Size = 100), @__term_0_rewritten_2='%llan%' (Size = 200)], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [p].[MarcaId] = [n].[Id]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')) AND (LOWER([p].[Producto]) LIKE @__term_0_rewritten ESCAPE N'\' OR LOWER([p].[Codigo]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([p].[CodigoComer]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([c].[Name]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([n].[Nombre]) LIKE @__term_0_rewritten_2 ESCAPE N'\')
+2026-01-30 17:20:24.518 -05:00 [INF] Executed DbCommand (2ms) [Parameters=[@__term_0_rewritten='%llan%' (Size = 300), @__term_0_rewritten_1='%llan%' (Size = 100), @__term_0_rewritten_2='%llan%' (Size = 200), @__p_1='0', @__p_2='12'], CommandType='"Text"', CommandTimeout='60']
+SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [p].[MarcaId] = [n].[Id]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N'')) AND (LOWER([p].[Producto]) LIKE @__term_0_rewritten ESCAPE N'\' OR LOWER([p].[Codigo]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([p].[CodigoComer]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([c].[Name]) LIKE @__term_0_rewritten_1 ESCAPE N'\' OR LOWER([n].[Nombre]) LIKE @__term_0_rewritten_2 ESCAPE N'\')
+ORDER BY [p].[CreatedAt] DESC
+OFFSET @__p_1 ROWS FETCH NEXT @__p_2 ROWS ONLY
+2026-01-30 17:20:24.522 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-01-30 17:20:24.524 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones) in 17.5424ms
+2026-01-30 17:20:24.526 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:20:24.527 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:20:24.527 -05:00 [INF] HTTP GET /api/products/public/active responded 200 in 25.1495 ms
+2026-01-30 17:20:24.529 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=12&q=llan - 200 null application/json; charset=utf-8 29.1912ms
+2026-01-30 17:20:25.813 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-01-30 17:20:25.847 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones) in 2060.7318ms
+2026-01-30 17:20:25.849 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicActive (backendORCinverisones)'
+2026-01-30 17:20:25.850 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:20:25.851 -05:00 [INF] HTTP GET /api/products/public/active responded 200 in 2069.0814 ms
+2026-01-30 17:20:25.853 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/active?page=1&pageSize=12&q=l - 200 null application/json; charset=utf-8 2073.3465ms
+2026-01-30 17:20:44.596 -05:00 [INF] Request starting HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - null null
+2026-01-30 17:20:44.600 -05:00 [INF] No cached response available for this request.
+2026-01-30 17:20:44.601 -05:00 [INF] Executing endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-01-30 17:20:44.602 -05:00 [INF] Route matched with {action = "GetPublicFeatured", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPublicFeatured(Int32, Int32) on controller backendORCinverisones.Controllers.ProductsController (backendORCinverisones).
+2026-01-30 17:20:44.613 -05:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+SELECT COUNT(*)
+FROM [Products] AS [p]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+2026-01-30 17:20:44.625 -05:00 [INF] Executed DbCommand (9ms) [Parameters=[@__p_0='0', @__p_1='9'], CommandType='"Text"', CommandTimeout='60']
+SELECT [t].[Id], [t].[CategoryId], [t].[Codigo], [t].[CodigoComer], [t].[CreatedAt], [t].[Descripcion], [t].[FichaTecnica], [t].[Imagen2], [t].[Imagen3], [t].[Imagen4], [t].[ImagenPrincipal], [t].[IsActive], [t].[IsFeatured], [t].[MarcaId], [t].[Producto], [t].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsActive], [c].[Name], [c].[UpdatedAt], [n].[Id], [n].[CreatedAt], [n].[IsActive], [n].[Nombre], [n].[UpdatedAt]
+FROM (
+    SELECT [p].[Id], [p].[CategoryId], [p].[Codigo], [p].[CodigoComer], [p].[CreatedAt], [p].[Descripcion], [p].[FichaTecnica], [p].[Imagen2], [p].[Imagen3], [p].[Imagen4], [p].[ImagenPrincipal], [p].[IsActive], [p].[IsFeatured], [p].[MarcaId], [p].[Producto], [p].[UpdatedAt]
+    FROM [Products] AS [p]
+    WHERE [p].[IsActive] = CAST(1 AS bit) AND [p].[IsFeatured] = CAST(1 AS bit) AND (([p].[ImagenPrincipal] IS NOT NULL AND [p].[ImagenPrincipal] <> N'') OR ([p].[Imagen2] IS NOT NULL AND [p].[Imagen2] <> N'') OR ([p].[Imagen3] IS NOT NULL AND [p].[Imagen3] <> N'') OR ([p].[Imagen4] IS NOT NULL AND [p].[Imagen4] <> N''))
+    ORDER BY [p].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [t]
+INNER JOIN [Categories] AS [c] ON [t].[CategoryId] = [c].[Id]
+INNER JOIN [NombreMarcas] AS [n] ON [t].[MarcaId] = [n].[Id]
+ORDER BY [t].[CreatedAt] DESC
+2026-01-30 17:20:47.282 -05:00 [INF] Executing OkObjectResult, writing value of type 'backendORCinverisones.Application.DTOs.Products.PaginatedProductsResponseDto'.
+2026-01-30 17:20:47.301 -05:00 [INF] Executed action backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones) in 2696.2711ms
+2026-01-30 17:20:47.303 -05:00 [INF] Executed endpoint 'backendORCinverisones.Controllers.ProductsController.GetPublicFeatured (backendORCinverisones)'
+2026-01-30 17:20:47.304 -05:00 [INF] The response could not be cached for this request.
+2026-01-30 17:20:47.305 -05:00 [INF] HTTP GET /api/products/public/featured responded 200 in 2705.6557 ms
+2026-01-30 17:20:47.307 -05:00 [INF] Request finished HTTP/1.1 GET http://localhost:5095/api/products/public/featured?page=1&pageSize=9 - 200 null application/json; charset=utf-8 2710.9714ms
+2026-01-30 17:25:35.633 -05:00 [INF] Application is shutting down...

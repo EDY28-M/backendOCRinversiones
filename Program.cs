@@ -218,11 +218,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAll", policy =>
     {
         policy.WithOrigins(
-                "http://localhost:5173",
-                "http://192.168.1.68:5173",
-                "https://kiara-unascendant-trustingly.ngrok-free.dev"
-                // NOTA: En producción, reemplazar con tu dominio real
-                // Ejemplo: "https://tudominio.com", "https://www.tudominio.com"
+                "http://localhost:5173"
               )
               .WithMethods("GET", "POST", "PUT", "DELETE", "PATCH") // Métodos específicos
               .WithHeaders("Content-Type", "Authorization", "X-Requested-With") // Headers específicos
