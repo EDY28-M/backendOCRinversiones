@@ -162,13 +162,61 @@ namespace backendORCinverisones.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("Codigo");
+                    b.HasIndex("Codigo")
+                        .IsUnique();
 
-                    b.HasIndex("CodigoComer");
+                    b.HasIndex("CodigoComer")
+                        .IsUnique();
+
+                    b.HasIndex("CreatedAt")
+                        .HasDatabaseName("IX_Products_CreatedAt");
 
                     b.HasIndex("MarcaId");
 
+                    b.HasIndex("IsActive", "CategoryId")
+                        .HasDatabaseName("IX_Products_IsActive_CategoryId");
+
+                    b.HasIndex("IsActive", "CreatedAt")
+                        .HasDatabaseName("IX_Products_IsActive_CreatedAt");
+
+                    b.HasIndex("IsActive", "MarcaId")
+                        .HasDatabaseName("IX_Products_IsActive_MarcaId");
+
+                    b.HasIndex("IsFeatured", "IsActive", "CreatedAt")
+                        .HasDatabaseName("IX_Products_IsFeatured_IsActive_CreatedAt");
+
                     b.ToTable("Products", (string)null);
+                });
+
+            modelBuilder.Entity("backendORCinverisones.Domain.Entities.ProductImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("OrderIndex")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductImages");
                 });
 
             modelBuilder.Entity("backendORCinverisones.Domain.Entities.Role", b =>
@@ -205,14 +253,14 @@ namespace backendORCinverisones.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2026, 1, 23, 23, 59, 0, 418, DateTimeKind.Local).AddTicks(4532),
+                            CreatedAt = new DateTime(2026, 2, 1, 2, 29, 19, 473, DateTimeKind.Local).AddTicks(9320),
                             Description = "Acceso total al sistema",
                             Name = "Administrador"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2026, 1, 23, 23, 59, 0, 418, DateTimeKind.Local).AddTicks(4540),
+                            CreatedAt = new DateTime(2026, 2, 1, 2, 29, 19, 473, DateTimeKind.Local).AddTicks(9337),
                             Description = "Acceso restringido a productos",
                             Name = "Vendedor"
                         });
@@ -289,6 +337,28 @@ namespace backendORCinverisones.Migrations
                     b.Navigation("Marca");
                 });
 
+            modelBuilder.Entity("backendORCinverisones.Domain.Entities.ProductImage", b =>
+                {
+                    b.HasOne("backendORCinverisones.Domain.Entities.Product", "Product")
+                        .WithMany("Images")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("backendORCinverisones.Domain.Entities.User", b =>
+                {
+                    b.HasOne("backendORCinverisones.Domain.Entities.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("backendORCinverisones.Domain.Entities.Category", b =>
                 {
                     b.Navigation("Products");
@@ -297,6 +367,16 @@ namespace backendORCinverisones.Migrations
             modelBuilder.Entity("backendORCinverisones.Domain.Entities.NombreMarca", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("backendORCinverisones.Domain.Entities.Product", b =>
+                {
+                    b.Navigation("Images");
+                });
+
+            modelBuilder.Entity("backendORCinverisones.Domain.Entities.Role", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

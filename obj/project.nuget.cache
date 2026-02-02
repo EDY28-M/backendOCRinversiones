@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Zu/wVblUz6Q=",
+  "dgSpecHash": "QprqHyKH6mU=",
   "success": true,
   "projectFilePath": "C:\\Users\\cater\\source\\repos\\backendORCinverisones\\backend\\backendORCinverisones.csproj",
   "expectedPackageFiles": [
@@ -100,6 +100,7 @@
     "C:\\Users\\cater\\.nuget\\packages\\serilog.sinks.console\\5.0.1\\serilog.sinks.console.5.0.1.nupkg.sha512",
     "C:\\Users\\cater\\.nuget\\packages\\serilog.sinks.debug\\2.0.0\\serilog.sinks.debug.2.0.0.nupkg.sha512",
     "C:\\Users\\cater\\.nuget\\packages\\serilog.sinks.file\\5.0.0\\serilog.sinks.file.5.0.0.nupkg.sha512",
+    "C:\\Users\\cater\\.nuget\\packages\\sixlabors.imagesharp\\3.1.12\\sixlabors.imagesharp.3.1.12.nupkg.sha512",
     "C:\\Users\\cater\\.nuget\\packages\\sqlitepclraw.core\\2.1.6\\sqlitepclraw.core.2.1.6.nupkg.sha512",
     "C:\\Users\\cater\\.nuget\\packages\\stackexchange.redis\\2.7.17\\stackexchange.redis.2.7.17.nupkg.sha512",
     "C:\\Users\\cater\\.nuget\\packages\\strongnamer\\0.2.5\\strongnamer.0.2.5.nupkg.sha512",

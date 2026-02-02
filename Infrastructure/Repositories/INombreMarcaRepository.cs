@@ -15,4 +15,8 @@ public interface INombreMarcaRepository
     /// Obtiene marcas activas filtradas por IDs (query optimizada en BD)
     /// </summary>
     Task<IEnumerable<NombreMarca>> GetActiveByIdsAsync(IEnumerable<int> ids);
+
+    Task CreateRangeAsync(IEnumerable<NombreMarca> marcas);
+
+    Task DeleteAllAsync();
 }

@@ -305,4 +305,8 @@ public class ProductRepository : Repository<Product>, IProductRepository
             .Distinct()
             .ToListAsync();
     }
+    public async Task DeleteAllAsync()
+    {
+        await _dbSet.ExecuteDeleteAsync();
+    }
 }

@@ -1,0 +1,13 @@
+**/.dockerignore
+**/.env
+**/.git
+**/.gitignore
+**/.vs
+**/.vscode
+**/bin
+**/obj
+**/TestResults
+**/appsettings.Development.json
+LICENSE
+README.md
+DEPLOY_RENDER.md

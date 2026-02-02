@@ -76,6 +76,8 @@ builder.Services.AddScoped<INombreMarcaRepository, NombreMarcaRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<ICodeGeneratorService, CodeGeneratorService>();
+builder.Services.AddScoped<ICacheService, CacheService>();
+builder.Services.AddScoped<IImageCompressionService, ImageCompressionService>();
 
 // ✅ DAPPER - Queries de alto rendimiento
 builder.Services.AddScoped<IDapperQueryService, DapperQueryService>();
@@ -83,7 +85,6 @@ builder.Services.AddScoped<IDapperQueryService, DapperQueryService>();
 // Memory Cache and Response Caching
 builder.Services.AddMemoryCache();
 builder.Services.AddResponseCaching();
-builder.Services.AddSingleton<ICacheService, CacheService>();
 
 // ✅ RATE LIMITING - Protección contra DDoS y fuerza bruta
 builder.Services.Configure<IpRateLimitOptions>(options =>
@@ -217,9 +218,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
     {
-        policy.WithOrigins(
-                "http://localhost:5173"
-              )
+        var corsOrigins = builder.Configuration["CorsOrigins"]?.Split(',', StringSplitOptions.RemoveEmptyEntries) 
+                          ?? new[] { "http://localhost:5173" };
+
+        policy.WithOrigins(corsOrigins)
               .WithMethods("GET", "POST", "PUT", "DELETE", "PATCH") // Métodos específicos
               .WithHeaders("Content-Type", "Authorization", "X-Requested-With") // Headers específicos
               .AllowCredentials();

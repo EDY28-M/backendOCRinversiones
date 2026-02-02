@@ -26,6 +26,12 @@ public class CategoryRepository : Repository<Category>, ICategoryRepository
             .AsNoTracking()
             .Where(c => c.IsActive && idsList.Contains(c.Id))
             .OrderBy(c => c.Name)
+            .OrderBy(c => c.Name)
             .ToListAsync();
+    }
+
+    public async Task DeleteAllAsync()
+    {
+        await _dbSet.ExecuteDeleteAsync();
     }
 }

@@ -199,3 +199,4 @@ C:\Users\cater\source\repos\backendORCinverisones\backend\obj\Debug\net8.0\refin
 C:\Users\cater\source\repos\backendORCinverisones\backend\obj\Debug\net8.0\backendORCinverisones.pdb
 C:\Users\cater\source\repos\backendORCinverisones\backend\obj\Debug\net8.0\backendORCinverisones.genruntimeconfig.cache
 C:\Users\cater\source\repos\backendORCinverisones\backend\obj\Debug\net8.0\ref\backendORCinverisones.dll
+C:\Users\cater\source\repos\backendORCinverisones\backend\bin\Debug\net8.0\SixLabors.ImageSharp.dll

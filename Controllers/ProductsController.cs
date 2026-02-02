@@ -19,6 +19,7 @@ public class ProductsController : ControllerBase
     private readonly INombreMarcaRepository _nombreMarcaRepository;
     private readonly ICodeGeneratorService _codeGeneratorService;
     private readonly ICacheService _cacheService;
+    private readonly IImageCompressionService _imageCompressionService;
     private readonly IWebHostEnvironment _env;
     private readonly ILogger<ProductsController> _logger;
 
@@ -28,6 +29,7 @@ public class ProductsController : ControllerBase
         INombreMarcaRepository nombreMarcaRepository,
         ICodeGeneratorService codeGeneratorService,
         ICacheService cacheService,
+        IImageCompressionService imageCompressionService,
         IWebHostEnvironment env,
         ILogger<ProductsController> logger)
     {
@@ -36,6 +38,7 @@ public class ProductsController : ControllerBase
         _nombreMarcaRepository = nombreMarcaRepository;
         _codeGeneratorService = codeGeneratorService;
         _cacheService = cacheService;
+        _imageCompressionService = imageCompressionService;
         _env = env;
         _logger = logger;
     }
@@ -215,7 +218,6 @@ public class ProductsController : ControllerBase
             if (await _productRepository.IsCodigoComercialExistsAsync(request.CodigoComer, null))
                 return BadRequest(new { message = $"El código comercial '{request.CodigoComer}' ya existe" });
 
-            // Execute sequentially to avoid DbContext threading issues
             var category = await _categoryRepository.GetByIdAsync(request.CategoryId);
             var marca = await _nombreMarcaRepository.GetByIdAsync(request.MarcaId);
 
@@ -224,6 +226,15 @@ public class ProductsController : ControllerBase
             if (marca == null)
                 return BadRequest(new { message = "La marca especificada no existe" });
 
+            // ✅ COMPRESIÓN DE IMÁGENES
+            // Procesamos todas las imágenes en paralelo
+            var compressedImages = await Task.WhenAll(
+                _imageCompressionService.CompressBase64Async(request.ImagenPrincipal),
+                _imageCompressionService.CompressBase64Async(request.Imagen2),
+                _imageCompressionService.CompressBase64Async(request.Imagen3),
+                _imageCompressionService.CompressBase64Async(request.Imagen4)
+            );
+
             var product = new Product
             {
                 Codigo = request.Codigo.ToUpper(),
@@ -231,16 +242,26 @@ public class ProductsController : ControllerBase
                 Producto = request.Producto,
                 Descripcion = request.Descripcion,
                 FichaTecnica = request.FichaTecnica,
-                ImagenPrincipal = request.ImagenPrincipal,
-                Imagen2 = request.Imagen2,
-                Imagen3 = request.Imagen3,
-                Imagen4 = request.Imagen4,
+                // Asignamos las versiones comprimidas a las columnas legacy (por compatibilidad)
+                ImagenPrincipal = compressedImages[0],
+                Imagen2 = compressedImages[1],
+                Imagen3 = compressedImages[2],
+                Imagen4 = compressedImages[3],
                 CategoryId = request.CategoryId,
                 MarcaId = request.MarcaId,
                 CreatedAt = DateTime.UtcNow,
                 IsActive = true,
                 IsFeatured = request.IsFeatured
             };
+            
+            // ✅ NUEVA ARQUITECTURA: También guardamos en la nueva tabla ProductImages
+            // Solo para las imágenes que existan (no nulas/vacías)
+            /* NOTA: Activaremos esto en la siguiente fase de refactorización completa
+            if (!string.IsNullOrEmpty(product.ImagenPrincipal)) product.Images.Add(new ProductImage { ImageUrl = product.ImagenPrincipal, OrderIndex = 0 });
+            if (!string.IsNullOrEmpty(product.Imagen2)) product.Images.Add(new ProductImage { ImageUrl = product.Imagen2, OrderIndex = 1 });
+            if (!string.IsNullOrEmpty(product.Imagen3)) product.Images.Add(new ProductImage { ImageUrl = product.Imagen3, OrderIndex = 2 });
+            if (!string.IsNullOrEmpty(product.Imagen4)) product.Images.Add(new ProductImage { ImageUrl = product.Imagen4, OrderIndex = 3 });
+            */
 
             await _productRepository.AddAsync(product);
             _logger.LogInformation("Producto {Codigo} creado por {CurrentUser}", product.Codigo, User.Identity?.Name);
@@ -291,64 +312,90 @@ public class ProductsController : ControllerBase
             if (product == null)
                 return NotFound(new { message = "Producto no encontrado" });
 
+            // VALIDACIONES ASÍNCRONAS EN PARALELO (Fail fast)
+            var tasks = new List<Task>();
+
             // Validar código si se está actualizando
             if (request.Codigo != null && request.Codigo.ToUpper() != product.Codigo.ToUpper())
             {
-                var codigoExists = await _productRepository.IsCodigoExistsAsync(request.Codigo, id);
-
-                if (codigoExists)
-                    return BadRequest(new { message = $"El código '{request.Codigo}' ya existe" });
-
-                product.Codigo = request.Codigo.ToUpper();
+                tasks.Add(_productRepository.IsCodigoExistsAsync(request.Codigo, id).ContinueWith(t => 
+                {
+                    if (t.Result) throw new InvalidOperationException($"El código '{request.Codigo}' ya existe");
+                }));
             }
 
             // Validar código comercial si se está actualizando
             if (request.CodigoComer != null && request.CodigoComer.ToUpper() != product.CodigoComer.ToUpper())
             {
-                var codigoComercialExists = await _productRepository.IsCodigoComercialExistsAsync(request.CodigoComer, id);
-
-                if (codigoComercialExists)
-                    return BadRequest(new { message = $"El código comercial '{request.CodigoComer}' ya existe" });
-
-                product.CodigoComer = request.CodigoComer.ToUpper();
+                tasks.Add(_productRepository.IsCodigoComercialExistsAsync(request.CodigoComer, id).ContinueWith(t => 
+                {
+                    if (t.Result) throw new InvalidOperationException($"El código comercial '{request.CodigoComer}' ya existe");
+                }));
             }
-
-            if (request.Producto != null)
-                product.Producto = request.Producto;
-
-            if (request.Descripcion != null)
-                product.Descripcion = request.Descripcion;
-
-            if (request.FichaTecnica != null)
-                product.FichaTecnica = request.FichaTecnica;
-
-            // Actualizar imágenes (permitir null para eliminarlas)
-            product.ImagenPrincipal = request.ImagenPrincipal;
-            product.Imagen2 = request.Imagen2;
-            product.Imagen3 = request.Imagen3;
-            product.Imagen4 = request.Imagen4;
-
-            if (request.CategoryId.HasValue)
+            
+            // Validar existencia de Categoría y Marca si cambiaron
+            Task<Category?> categoryTask = Task.FromResult<Category?>(null);
+            if (request.CategoryId.HasValue && request.CategoryId != product.CategoryId)
             {
-                var category = await _categoryRepository.GetByIdAsync(request.CategoryId.Value);
-                if (category == null)
-                    return BadRequest(new { message = "La categoría especificada no existe" });
-                product.CategoryId = request.CategoryId.Value;
+                categoryTask = _categoryRepository.GetByIdAsync(request.CategoryId.Value);
+                tasks.Add(categoryTask);
             }
 
-            if (request.MarcaId.HasValue)
+            Task<NombreMarca?> marcaTask = Task.FromResult<NombreMarca?>(null);
+            if (request.MarcaId.HasValue && request.MarcaId != product.MarcaId)
             {
-                var marca = await _nombreMarcaRepository.GetByIdAsync(request.MarcaId.Value);
-                if (marca == null)
-                    return BadRequest(new { message = "La marca especificada no existe" });
-                product.MarcaId = request.MarcaId.Value;
+                marcaTask = _nombreMarcaRepository.GetByIdAsync(request.MarcaId.Value);
+                tasks.Add(marcaTask);
             }
 
-            if (request.IsActive.HasValue)
-                product.IsActive = request.IsActive.Value;
+            // ✅ COMPRESIÓN DE IMÁGENES EN PARALELO
+            // Iniciamos la compresión mientras se realizan las validaciones de DB
+            // Solo mandamos a comprimir si no es null
+            var taskImg1 = request.ImagenPrincipal != null ? _imageCompressionService.CompressBase64Async(request.ImagenPrincipal) : Task.FromResult<string?>(null);
+            var taskImg2 = request.Imagen2 != null ? _imageCompressionService.CompressBase64Async(request.Imagen2) : Task.FromResult<string?>(null);
+            var taskImg3 = request.Imagen3 != null ? _imageCompressionService.CompressBase64Async(request.Imagen3) : Task.FromResult<string?>(null);
+            var taskImg4 = request.Imagen4 != null ? _imageCompressionService.CompressBase64Async(request.Imagen4) : Task.FromResult<string?>(null);
 
-            if (request.IsFeatured.HasValue)
-                product.IsFeatured = request.IsFeatured.Value;
+            // Esperar validaciones y compresiones
+            try 
+            {
+                await Task.WhenAll(tasks);
+                await Task.WhenAll(taskImg1, taskImg2, taskImg3, taskImg4);
+            }
+            catch (AggregateException ae)
+            {
+                 // Desempaquetar excepción de validación (InvalidOperationException)
+                 var firstError = ae.InnerExceptions.FirstOrDefault(e => e is InvalidOperationException);
+                 if (firstError != null) return BadRequest(new { message = firstError.Message });
+                 throw; // Re-lanzar si es otro error
+            }
+            
+            // Verificar resultados de Category/Marca si se buscaron
+            if (request.CategoryId.HasValue && request.CategoryId != product.CategoryId)
+            {
+                 if (await categoryTask == null) return BadRequest(new { message = "La categoría especificada no existe" });
+                 product.CategoryId = request.CategoryId.Value;
+            }
+            if (request.MarcaId.HasValue && request.MarcaId != product.MarcaId)
+            {
+                 if (await marcaTask == null) return BadRequest(new { message = "La marca especificada no existe" });
+                  product.MarcaId = request.MarcaId.Value;
+            }
+
+            // ACTUALIZAR PROPIEDADES DIRECTAS
+            if (request.Codigo != null) product.Codigo = request.Codigo.ToUpper();
+            if (request.CodigoComer != null) product.CodigoComer = request.CodigoComer.ToUpper();
+            if (request.Producto != null) product.Producto = request.Producto;
+            if (request.Descripcion != null) product.Descripcion = request.Descripcion;
+            if (request.FichaTecnica != null) product.FichaTecnica = request.FichaTecnica;
+            if (request.IsActive.HasValue) product.IsActive = request.IsActive.Value;
+            if (request.IsFeatured.HasValue) product.IsFeatured = request.IsFeatured.Value;
+
+            // ASIGNAR IMÁGENES COMPRIMIDAS (Solo si se enviaron en el request)
+            if (request.ImagenPrincipal != null) product.ImagenPrincipal = await taskImg1;
+            if (request.Imagen2 != null) product.Imagen2 = await taskImg2;
+            if (request.Imagen3 != null) product.Imagen3 = await taskImg3;
+            if (request.Imagen4 != null) product.Imagen4 = await taskImg4;
 
             product.UpdatedAt = DateTime.UtcNow;
 
@@ -385,6 +432,10 @@ public class ProductsController : ControllerBase
         }
         catch (Exception ex)
         {
+             // Capturar excepciones directas lanzadas desde continuaciones
+            if (ex is InvalidOperationException)
+                return BadRequest(new { message = ex.Message });
+                
             return SecureError(500, "Error al actualizar el producto", ex);
         }
     }
@@ -470,6 +521,28 @@ public class ProductsController : ControllerBase
         _cacheService.RemoveByPrefix(CacheKeys.ProductsPrefix);
 
         return Ok(new { message = "Producto eliminado correctamente" });
+    }
+
+    [HttpDelete("delete-all")]
+    [Authorize(Roles = "Administrador")]
+    public async Task<IActionResult> DeleteAll()
+    {
+        try
+        {
+            await _productRepository.DeleteAllAsync();
+            _logger.LogInformation("TODOS los productos han sido eliminados por {CurrentUser}", User.Identity?.Name);
+            
+            // Invalidar caches
+            _cacheService.RemoveByPrefix(CacheKeys.ProductsPrefix);
+            _cacheService.Remove(CacheKeys.PublicBrands);
+            _cacheService.Remove(CacheKeys.PublicCategories);
+
+            return Ok(new { message = "Todos los productos han sido eliminados correctamente" });
+        }
+        catch (Exception ex)
+        {
+            return SecureError(500, "Error al eliminar todos los productos", ex);
+        }
     }
 
     /// <summary>
@@ -606,163 +679,176 @@ public class ProductsController : ControllerBase
         if (request.Products == null || request.Products.Count == 0)
             return BadRequest(new { message = "No hay productos para importar" });
 
-        // ✅ SEGURIDAD: Limitar cantidad máxima de productos por importación
-        const int MAX_BULK_IMPORT = 1000;
-        if (request.Products.Count > MAX_BULK_IMPORT)
-            return BadRequest(new { message = $"Máximo {MAX_BULK_IMPORT} productos por importación. Recibido: {request.Products.Count}" });
+        // ✅ SEGURIDAD: Validar límite (DESHABILITADO POR SOLICITUD DE USUARIO)
+        // const int MAX_BULK_IMPORT = 1000;
+        // if (request.Products.Count > MAX_BULK_IMPORT)
+        //     return BadRequest(new { message = $"Máximo {MAX_BULK_IMPORT} productos por importación. Recibido: {request.Products.Count}" });
 
         var result = new BulkImportResultDto();
         
-        // Cache de códigos existentes
-        var existingCodes = (await _productRepository.GetAllAsync())
-            .Select(p => p.Codigo.ToLower())
-            .ToHashSet();
+        // Cache de códigos existentes (Optimizado: Solo traer códigos, no entidades completas)
+        var existingCodesInfo = await _productRepository.GetCodigosForGenerationAsync();
+        var existingCodes = existingCodesInfo.Select(x => x.Codigo.ToLower()).ToHashSet();
 
-        // Cache de marcas y categorías existentes
-        var allMarcas = (await _nombreMarcaRepository.GetAllAsync()).ToList();
-        var allCategories = (await _categoryRepository.GetAllAsync()).ToList();
-        
+        _logger.LogInformation("Iniciando importación OPTIMIZADA de {Count} productos", request.Products.Count);
+
+        // 1. Identificar Marcas y Categorías nuevas vs existentes
+        // Traemos todas para asegurar mapeo correcto (optimización: solo id y nombre si fuera posible, pero repository trae todo, ok)
+        var allMarcas = await _nombreMarcaRepository.GetAllAsync();
+        var allCategories = await _categoryRepository.GetAllAsync();
+
         var marcasCache = allMarcas.ToDictionary(m => m.Nombre.ToLower().Trim(), m => m.Id);
         var categoriasCache = allCategories.ToDictionary(c => c.Name.ToLower().Trim(), c => c.Id);
 
-        _logger.LogInformation("Iniciando importación de {Count} productos", request.Products.Count);
-        
-        // Lista para acumular productos válidos para bulk insert
+        var marcasToCreate = new Dictionary<string, NombreMarca>();
+        var categoriasToCreate = new Dictionary<string, Category>();
         var productsToInsert = new List<Product>();
 
+        // 2. Primera pasada: Identificar dependencias faltantes
         foreach (var item in request.Products)
         {
-            try
+            if (existingCodes.Contains(item.Codigo.ToLower()))
             {
-                // Verificar duplicados por código
-                if (existingCodes.Contains(item.Codigo.ToLower()))
-                {
-                    result.Duplicates++;
-                    continue;
-                }
+                result.Duplicates++;
+                continue;
+            }
 
-                // Resolver marca (por ID o por nombre)
-                int marcaId = 0;
-                if (item.MarcaId.HasValue && item.MarcaId.Value > 0)
+            // Marca
+            if (!item.MarcaId.HasValue && !string.IsNullOrWhiteSpace(item.MarcaNombre))
+            {
+                var marcaKey = item.MarcaNombre.ToLower().Trim();
+                if (!marcasCache.ContainsKey(marcaKey) && !marcasToCreate.ContainsKey(marcaKey))
                 {
-                    marcaId = item.MarcaId.Value;
-                }
-                else if (!string.IsNullOrWhiteSpace(item.MarcaNombre))
-                {
-                    var marcaNombreLower = item.MarcaNombre.ToLower().Trim();
-                    
-                    if (marcasCache.TryGetValue(marcaNombreLower, out var existingMarcaId))
+                    if (request.AutoCreateEntities)
                     {
-                        marcaId = existingMarcaId;
-                    }
-                    else if (request.AutoCreateEntities)
-                    {
-                        _logger.LogInformation("Creando marca: {MarcaNombre}", item.MarcaNombre);
-                        var newMarca = new NombreMarca
+                        marcasToCreate[marcaKey] = new NombreMarca
                         {
                             Nombre = item.MarcaNombre.Trim(),
                             IsActive = true,
                             CreatedAt = DateTime.UtcNow
                         };
-                        var createdMarca = await _nombreMarcaRepository.CreateAsync(newMarca);
-                        marcaId = createdMarca.Id;
-                        marcasCache[marcaNombreLower] = marcaId;
-                        result.MarcasCreated++;
-                        _logger.LogInformation("Marca creada con ID: {MarcaId}", marcaId);
-                    }
-                    else
-                    {
-                        result.Failed++;
-                        result.Errors.Add($"Marca '{item.MarcaNombre}' no existe para producto '{item.Codigo}'");
-                        continue;
                     }
                 }
+            }
 
-                if (marcaId == 0)
+            // Categoría
+            if (!item.CategoryId.HasValue && !string.IsNullOrWhiteSpace(item.CategoriaNombre))
+            {
+                var catKey = item.CategoriaNombre.ToLower().Trim();
+                if (!categoriasCache.ContainsKey(catKey) && !categoriasToCreate.ContainsKey(catKey))
                 {
-                    result.Failed++;
-                    result.Errors.Add($"Marca no especificada para producto '{item.Codigo}'");
-                    continue;
-                }
-
-                // Resolver categoría (por ID o por nombre)
-                int categoryId = 0;
-                if (item.CategoryId.HasValue && item.CategoryId.Value > 0)
-                {
-                    categoryId = item.CategoryId.Value;
-                }
-                else if (!string.IsNullOrWhiteSpace(item.CategoriaNombre))
-                {
-                    var categoriaNombreLower = item.CategoriaNombre.ToLower().Trim();
-                    
-                    if (categoriasCache.TryGetValue(categoriaNombreLower, out var existingCategoryId))
+                    if (request.AutoCreateEntities)
                     {
-                        categoryId = existingCategoryId;
-                    }
-                    else if (request.AutoCreateEntities)
-                    {
-                        var newCategory = new Category
+                        categoriasToCreate[catKey] = new Category
                         {
                             Name = item.CategoriaNombre.Trim(),
                             Description = $"Categoría importada: {item.CategoriaNombre.Trim()}",
                             IsActive = true,
                             CreatedAt = DateTime.UtcNow
                         };
-                        await _categoryRepository.AddAsync(newCategory);
-                        categoryId = newCategory.Id;
-                        categoriasCache[categoriaNombreLower] = categoryId;
-                        result.CategoriasCreated++;
-                    }
-                    else
-                    {
-                        result.Failed++;
-                        result.Errors.Add($"Categoría '{item.CategoriaNombre}' no existe para producto '{item.Codigo}'");
-                        continue;
                     }
                 }
+            }
+        }
 
-                if (categoryId == 0)
-                {
-                    result.Failed++;
-                    result.Errors.Add($"Categoría no especificada para producto '{item.Codigo}'");
-                    continue;
-                }
-
-                // Usar Codigo como CodigoComer si está vacío
-                var codigoComer = string.IsNullOrWhiteSpace(item.CodigoComer) ? item.Codigo : item.CodigoComer;
-
-            var product = new Product
+        // 3. Crear dependencias masivamente
+        if (marcasToCreate.Count > 0)
+        {
+            _logger.LogInformation("Creando {Count} nuevas marcas masivamente...", marcasToCreate.Count);
+            await _nombreMarcaRepository.CreateRangeAsync(marcasToCreate.Values);
+            result.MarcasCreated = marcasToCreate.Count;
+            
+            // Reconstruir cache o agregar las nuevas con sus IDs generados
+            foreach (var m in marcasToCreate.Values)
             {
-                Codigo = item.Codigo,
-                CodigoComer = codigoComer,
+                marcasCache[m.Nombre.ToLower().Trim()] = m.Id;
+            }
+        }
+
+        if (categoriasToCreate.Count > 0)
+        {
+            _logger.LogInformation("Creando {Count} nuevas categorías masivamente...", categoriasToCreate.Count);
+            // CategoryRepository hereda de Repository<T>, debe tener AddRangeAsync
+            await _categoryRepository.AddRangeAsync(categoriasToCreate.Values);
+            result.CategoriasCreated = categoriasToCreate.Count;
+            
+            // Reconstruir cache
+            foreach (var c in categoriasToCreate.Values)
+            {
+                categoriasCache[c.Name.ToLower().Trim()] = c.Id;
+            }
+        }
+
+        // 4. Segunda pasada: Construir productos con IDs resueltos
+        foreach (var item in request.Products)
+        {
+            // Skip duplicados (ya contados arriba)
+            if (existingCodes.Contains(item.Codigo.ToLower())) continue;
+
+            int marcaId = 0;
+            if (item.MarcaId.HasValue && item.MarcaId.Value > 0)
+            {
+                marcaId = item.MarcaId.Value;
+            }
+            else if (!string.IsNullOrWhiteSpace(item.MarcaNombre))
+            {
+                if (marcasCache.TryGetValue(item.MarcaNombre.ToLower().Trim(), out var id))
+                {
+                    marcaId = id;
+                }
+            }
+
+            int categoryId = 0;
+            if (item.CategoryId.HasValue && item.CategoryId.Value > 0)
+            {
+                categoryId = item.CategoryId.Value;
+            }
+            else if (!string.IsNullOrWhiteSpace(item.CategoriaNombre))
+            {
+                if (categoriasCache.TryGetValue(item.CategoriaNombre.ToLower().Trim(), out var id))
+                {
+                    categoryId = id;
+                }
+            }
+
+            if (marcaId == 0 || categoryId == 0)
+            {
+                result.Failed++;
+                result.Errors.Add($"Falta Marca o Categoría para '{item.Codigo}'. MarcaID: {marcaId}, CatID: {categoryId}");
+                continue;
+            }
+
+            // Usar Codigo como CodigoComer si está vacío
+            var codigoComer = string.IsNullOrWhiteSpace(item.CodigoComer) ? item.Codigo : item.CodigoComer;
+
+            productsToInsert.Add(new Product
+            {
+                Codigo = item.Codigo.ToUpper(),
+                CodigoComer = codigoComer.ToUpper(),
                 Producto = item.Producto,
                 CategoryId = categoryId,
                 MarcaId = marcaId,
                 Descripcion = item.Descripcion,
                 FichaTecnica = item.FichaTecnica,
+                ImagenPrincipal = item.ImagenPrincipal,
+                Imagen2 = item.Imagen2,
+                Imagen3 = item.Imagen3,
+                Imagen4 = item.Imagen4,
                 CreatedAt = DateTime.UtcNow,
                 IsActive = true,
                 IsFeatured = false
-            };
+            });
 
-                // Agregar a la lista para bulk insert
-                productsToInsert.Add(product);
-                existingCodes.Add(item.Codigo.ToLower());
-            }
-            catch (Exception ex)
-            {
-                result.Failed++;
-                result.Errors.Add($"Error al procesar '{item.Codigo}': {ex.Message}");
-                _logger.LogError(ex, "Error al procesar producto {Codigo}", item.Codigo);
-            }
+            // Evitar procesar el mismo código si viene duplicado en el MISMO request
+            existingCodes.Add(item.Codigo.ToLower());
         }
 
-        // Bulk insert de todos los productos válidos
+        // 5. Bulk insert de productos
         if (productsToInsert.Count > 0)
         {
             try
             {
-                _logger.LogInformation("Ejecutando bulk insert de {Count} productos", productsToInsert.Count);
+                _logger.LogInformation("Ejecutando bulk insert FINAL de {Count} productos", productsToInsert.Count);
                 await _productRepository.BulkInsertAsync(productsToInsert);
                 result.Imported = productsToInsert.Count;
                 _logger.LogInformation("Bulk insert completado exitosamente");

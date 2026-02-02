@@ -23,4 +23,7 @@ public class Product
     
     public int MarcaId { get; set; }
     public NombreMarca Marca { get; set; } = null!;
+
+    // New Relationship (1:N)
+    public ICollection<ProductImage> Images { get; set; } = new List<ProductImage>();
 }

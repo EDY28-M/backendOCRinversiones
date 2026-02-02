@@ -43,4 +43,6 @@ public interface IProductRepository : IRepository<Product>
 
     Task<IEnumerable<int>> GetDistinctCategoryIdsWithActiveProductsAsync();
     Task<IEnumerable<int>> GetDistinctBrandIdsWithActiveProductsAsync();
+
+    Task DeleteAllAsync();
 }

@@ -9,5 +9,10 @@ public interface ICategoryRepository : IRepository<Category>
     /// <summary>
     /// Obtiene categorías activas filtradas por IDs (query optimizada en BD)
     /// </summary>
+    /// <summary>
+    /// Obtiene categorías activas filtradas por IDs (query optimizada en BD)
+    /// </summary>
     Task<IEnumerable<Category>> GetActiveByIdsAsync(IEnumerable<int> ids);
+
+    Task DeleteAllAsync();
 }

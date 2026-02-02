@@ -144,4 +144,20 @@ public class NombreMarcasController : ControllerBase
 
         return Ok(new { message = "Nombre de marca eliminado exitosamente" });
     }
+
+    [HttpDelete("delete-all")]
+    [Authorize(Roles = "Administrador")]
+    public async Task<IActionResult> DeleteAll()
+    {
+        try
+        {
+            await _repository.DeleteAllAsync();
+            _logger.LogInformation("TODAS las marcas eliminadas por {CurrentUser}", User.Identity?.Name);
+            return Ok(new { message = "Todas las marcas han sido eliminadas correctamente" });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = "Error al eliminar todas las marcas", error = ex.Message });
+        }
+    }
 }

@@ -39,6 +39,18 @@ public class BulkProductItemDto
     // Ahora acepta nombre de categoría en lugar de ID
     public int? CategoryId { get; set; }
     public string? CategoriaNombre { get; set; }
+
+    [Url(ErrorMessage = "La URL de la imagen principal no es válida")]
+    public string? ImagenPrincipal { get; set; }
+
+    [Url(ErrorMessage = "La URL de la imagen 2 no es válida")]
+    public string? Imagen2 { get; set; }
+
+    [Url(ErrorMessage = "La URL de la imagen 3 no es válida")]
+    public string? Imagen3 { get; set; }
+
+    [Url(ErrorMessage = "La URL de la imagen 4 no es válida")]
+    public string? Imagen4 { get; set; }
 }
 
 public class BulkImportResultDto

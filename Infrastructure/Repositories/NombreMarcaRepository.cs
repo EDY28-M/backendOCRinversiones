@@ -78,4 +78,14 @@ public class NombreMarcaRepository : INombreMarcaRepository
             .OrderBy(nm => nm.Nombre)
             .ToListAsync();
     }
+    public async Task CreateRangeAsync(IEnumerable<NombreMarca> marcas)
+    {
+        await _context.NombreMarcas.AddRangeAsync(marcas);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task DeleteAllAsync()
+    {
+        await _context.NombreMarcas.ExecuteDeleteAsync();
+    }
 }

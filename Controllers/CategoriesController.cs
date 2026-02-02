@@ -147,4 +147,20 @@ public class CategoriesController : ControllerBase
 
         return Ok(new { message = "Categoría eliminada correctamente" });
     }
+
+    [HttpDelete("delete-all")]
+    [Authorize(Roles = "Administrador")]
+    public async Task<IActionResult> DeleteAll()
+    {
+        try
+        {
+            await _categoryRepository.DeleteAllAsync();
+            _logger.LogInformation("TODAS las categorías eliminadas por {CurrentUser}", User.Identity?.Name);
+            return Ok(new { message = "Todas las categorías han sido eliminadas correctamente" });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = "Error al eliminar todas las categorías", error = ex.Message });
+        }
+    }
 }
