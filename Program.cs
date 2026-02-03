@@ -22,6 +22,7 @@ using backendORCinverisones.Infrastructure.Repositories;
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(new ConfigurationBuilder()
         .AddJsonFile("appsettings.json")
+        .AddEnvironmentVariables()
         .Build())
     .Enrich.FromLogContext()
     .Enrich.WithMachineName()
@@ -32,26 +33,33 @@ Log.Logger = new LoggerConfiguration()
 
 var builder = WebApplication.CreateBuilder(args);
 
+// ✅ Agregar variables de entorno a la configuración
+builder.Configuration.AddEnvironmentVariables();
+
 // ✅ Usar Serilog como logger
 builder.Host.UseSerilog();
+
+// ✅ Obtener connection string (prioridad: variable de entorno > appsettings)
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+Log.Information("🗄️ Base de datos configurada. Host detectado del connection string.");
 
 // ✅ OPTIMIZED Database Configuration
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
+        connectionString,
         sqlOptions =>
         {
             sqlOptions.EnableRetryOnFailure(
-                maxRetryCount: 3,
-                maxRetryDelay: TimeSpan.FromSeconds(5),
+                maxRetryCount: 5,
+                maxRetryDelay: TimeSpan.FromSeconds(10),
                 errorNumbersToAdd: null);
 
             // ✅ Query splitting para mejorar performance en Include()
             sqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
 
             // ✅ Command timeout extendido para queries pesadas
-            sqlOptions.CommandTimeout(60);
+            sqlOptions.CommandTimeout(120);
         });
 
     // ✅ Solo en desarrollo: mostrar queries SQL

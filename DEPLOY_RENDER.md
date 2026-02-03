@@ -7,47 +7,80 @@ Este proyecto está configurado para desplegarse en Render usando **Docker**.
 1.  Crea un **New Web Service**.
 2.  Conecta tu repositorio de GitHub.
 3.  **Configuración del Servicio:**
-    *   **Name:** `backend-orc` (o el nombre que prefieras)
-    *   **Region:** La más cercana a tus usuarios (ej. Oregon / Ohio).
+    *   **Name:** `backendocrinversiones` (debe coincidir con render.yaml)
+    *   **Region:** Oregon (o la más cercana a tus usuarios).
     *   **Runtime:** **Docker**.
-    *   **Build Command:** (Déjalo vacío, usará el Dockerfile).
-    *   **Start Command:** (Déjalo vacío, usará el ENTRYPOINT del Dockerfile).
+    *   **Dockerfile Path:** `./backend/Dockerfile`
+    *   **Docker Context:** `./backend`
 
-## 2. Variables de Entorno (Environment Variables)
+## 2. ⚠️ IMPORTANTE: Variables de Entorno
 
-Para que la aplicación funcione en producción, DEBES agregar las siguientes variables en la pestaña **Environment** de Render:
+**EL ERROR 500 OCURRE PORQUE LA BASE DE DATOS NO ES ACCESIBLE.**
 
-| Clave | Valor Recomendado / Descripción |
-| :--- | :--- |
-| `ASPNETCORE_ENVIRONMENT` | `Production` |
-| `ASPNETCORE_URLS` | `http://+:8080` (Render usa el puerto 10000 interno por defecto pero 8080 es estándar para contenedores .NET) |
-| `ConnectionStrings__DefaultConnection` | **Tu cadena de conexión a SQL Server**. <br>Nota: Asegúrate de que tu base de datos permita conexiones externas o esté en la misma red. |
-| `Jwt__Key` | `wGToCQBmp1KVBRm59nKjn6YngYaSOOcb0/qhr6Mpi57KK2nkMl0DIopjpvO` (Generada para ti) |
-| `Jwt__Issuer` | `ORCInversionesAPI` (o lo que configures) |
-| `Jwt__Audience` | `ORCInversionesClient` (o lo que configures) |
-| `AllowedHosts` | `*` (O el dominio de tu frontend si quieres restringirlo) |
-| `FrontedUrl` | La URL de tu frontend en producción (ej. `https://mi-frontend.onrender.com`). Usada para CORS. |
+Debes configurar estas variables en el **Dashboard de Render > Environment**:
 
-### ⚠️ Importante sobre CORS en Producción
+| Variable | Valor | Descripción |
+| :--- | :--- | :--- |
+| `ASPNETCORE_ENVIRONMENT` | `Production` | Ambiente de producción |
+| `ASPNETCORE_URLS` | `http://+:8080` | Puerto del contenedor |
+| `ConnectionStrings__DefaultConnection` | `Server=TU_SERVER;Database=TU_DB;User Id=TU_USER;Password=TU_PASSWORD;TrustServerCertificate=true;` | **⚠️ CRÍTICO: Debe ser un SQL Server accesible desde internet** |
+| `Jwt__Key` | `B!SCbzDrUu5Ce3|PX(@mvrZg}!Q_NhkQ59HHexB?QNO|yD{}t41N@az2$ZZaHLF,` | Clave JWT (mínimo 32 caracteres) |
+| `Jwt__Issuer` | `ORCInversionesAPI` | Emisor del token |
+| `Jwt__Audience` | `ORCInversionesClient` | Audiencia del token |
+| `CorsOrigins` | `https://frontedocrinversiones.onrender.com` | URL del frontend permitida |
 
-En `appsettings.json` o en las variables de entorno, asegúrate de sobreescribir la configuración de CORS para que acepte tu frontend de producción.
+## 3. 🗄️ Base de Datos - SOLUCIONES
 
-Puedes agregar una variable llamada `CorsOrigins` con la URL de tu frontend:
-`CorsOrigins` = `https://tu-app-frontend.onrender.com`
+El servidor `sql.bsite.net` es un hosting GRATUITO y puede tener:
+- Restricciones de firewall (no permite conexiones desde Render)
+- Límites de conexiones simultáneas
+- Tiempos de respuesta lentos
 
-(Nota: El código actual en `Program.cs` puede necesitar una pequeña modificación para leer esta variable si no es automática).
+### Opciones recomendadas:
 
-## 3. Base de Datos en la Nube
+#### Opción A: Azure SQL Database (Recomendada)
+1. Crea una base de datos en [Azure Portal](https://portal.azure.com)
+2. Habilita "Allow Azure services" en el firewall
+3. Usa la cadena de conexión proporcionada por Azure
 
-Como estás usando **SQL Server**, necesitas una instancia accesible desde internet.
-*   **Opción A (Recomendada):** Usar un servicio gestionado como **Azure SQL Database** o **AWS RDS**.
-*   **Opción B:** Si usas una base de datos local en tu PC, Render **NO** podrá acceder a ella a menos que uses un túnel (como Ngrok), pero no se recomienda para producción constante.
-*   **Opción C:** Usar PostgreSQL (Supabase/Neon) si decidieras migrar (el código actual usa SQL Server).
+#### Opción B: Usar Supabase (PostgreSQL) - Requiere migración
+1. Crea proyecto en [Supabase](https://supabase.com)
+2. Migra el esquema de SQL Server a PostgreSQL
+3. Cambia `UseSqlServer` por `UseNpgsql` en Program.cs
+
+#### Opción C: ElephantSQL u otro PostgreSQL gratuito
+Similar a Opción B
+
+#### Opción D: SQL Server en la nube
+- [db4free.net](https://www.db4free.net/) (MySQL gratuito)
+- [Aiven](https://aiven.io/) (trial gratuito)
 
 ## 4. Health Check
 
-Render verificará que tu servicio esté corriendo.
-La aplicación escucha en el puerto `8080`.
+El endpoint `/api/setup/health` verifica:
+- Estado del servidor
+- Conexión a la base de datos
+
+Visita: `https://backendocrinversiones.onrender.com/api/setup/health`
+
+## 5. Verificar Despliegue
+
+1. Revisa los logs en Render Dashboard
+2. Visita `/swagger` para ver la documentación de la API
+3. Visita `/api/setup/health` para verificar el estado
+
+## 6. Troubleshooting
+
+### Error 500 en login:
+```
+"Error de conexión a la base de datos"
+```
+**Causa:** El servidor SQL no es accesible desde Render.
+**Solución:** Configura `ConnectionStrings__DefaultConnection` con un servidor SQL accesible.
+
+### Error de CORS:
+**Causa:** El frontend no está en la lista de orígenes permitidos.
+**Solución:** Agrega la URL del frontend en `CorsOrigins`.
 
 ---
 **Nota:** El Dockerfile utiliza una imagen "Multi-stage build" para mantener el contenedor ligero y seguro.
