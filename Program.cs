@@ -219,12 +219,15 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAll", policy =>
     {
         var corsOrigins = builder.Configuration["CorsOrigins"]?.Split(',', StringSplitOptions.RemoveEmptyEntries) 
-                          ?? new[] { "http://localhost:5173" };
+                          ?? new[] { "http://localhost:5173", "https://frontedocrinversiones.onrender.com" };
+
+        Log.Information("🌐 CORS configurado para: {Origins}", string.Join(", ", corsOrigins));
 
         policy.WithOrigins(corsOrigins)
-              .WithMethods("GET", "POST", "PUT", "DELETE", "PATCH") // Métodos específicos
-              .WithHeaders("Content-Type", "Authorization", "X-Requested-With") // Headers específicos
-              .AllowCredentials();
+              .WithMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS") // Agregado OPTIONS para preflight
+              .WithHeaders("Content-Type", "Authorization", "X-Requested-With", "Accept") // Agregado Accept
+              .AllowCredentials()
+              .SetIsOriginAllowedToAllowWildcardSubdomains(); // Permite subdominio wildcard si es necesario
     });
 });
 
