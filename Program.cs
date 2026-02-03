@@ -233,10 +233,13 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+// ✅ CORS DEBE IR PRIMERO - Antes de cualquier otro middleware
+app.UseCors("AllowAll");
+
 // ✅ Serilog request logging
 app.UseSerilogRequestLogging();
 
-// ✅ Rate Limiting - DEBE IR ANTES de otros middlewares
+// ✅ Rate Limiting - DESPUÉS de CORS para que preflight funcione
 app.UseIpRateLimiting();
 
 // Middleware de manejo de errores
@@ -251,8 +254,6 @@ if (app.Environment.IsDevelopment())
 
 // Comentado para desarrollo con ngrok (usa HTTP en red local)
 // app.UseHttpsRedirection();
-
-app.UseCors("AllowAll");
 
 // ✅ Response Compression ANTES de Response Caching
 app.UseResponseCompression();
