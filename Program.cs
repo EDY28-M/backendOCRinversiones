@@ -108,13 +108,13 @@ builder.Services.Configure<IpRateLimitOptions>(options =>
         {
             Endpoint = "*",
             Period = "1m",
-            Limit = 100 // 100 requests por minuto por IP (general)
+            Limit = 200 // 200 requests por minuto por IP (general)
         },
         new RateLimitRule
         {
             Endpoint = "POST:/api/auth/login",
-            Period = "5m",
-            Limit = 5 // Solo 5 intentos de login cada 5 minutos (anti-brute force)
+            Period = "1m",
+            Limit = 20 // 20 intentos de login por minuto (más permisivo para desarrollo)
         },
         new RateLimitRule
         {
@@ -227,7 +227,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAll", policy =>
     {
         var corsOrigins = builder.Configuration["CorsOrigins"]?.Split(',', StringSplitOptions.RemoveEmptyEntries) 
-                          ?? new[] { "http://localhost:5173", "https://frontedocrinversiones.onrender.com" };
+                          ?? new[] { "http://localhost:5173", "https://frontedocrinversiones.onrender.com","https://orcinversionesperu.com","https://www.orcinversionesperu.com" };
 
         Log.Information("🌐 CORS configurado para: {Origins}", string.Join(", ", corsOrigins));
 
