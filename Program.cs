@@ -245,12 +245,13 @@ app.UseIpRateLimiting();
 // Middleware de manejo de errores
 app.UseMiddleware<ErrorHandlingMiddleware>();
 
-// Configure the HTTP request pipeline
-if (app.Environment.IsDevelopment())
+// ✅ Swagger habilitado en TODOS los ambientes (producción incluido)
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Backend ORC Inversiones API v1");
+    c.RoutePrefix = "swagger";
+});
 
 // Comentado para desarrollo con ngrok (usa HTTP en red local)
 // app.UseHttpsRedirection();

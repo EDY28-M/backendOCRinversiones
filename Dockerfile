@@ -22,6 +22,10 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
+# Variables de entorno para producción
+ENV ASPNETCORE_ENVIRONMENT=Production
+ENV ASPNETCORE_URLS=http://+:8080
+
 # Cambiar a usuario no root para seguridad (recomendado en producción)
 USER app
 
