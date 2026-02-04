@@ -43,6 +43,10 @@
 
     <!-- CQRS Pattern (MediatR) -->
     <PackageReference Include="MediatR" Version="12.2.0" />
+    
+    <!-- Health Checks -->
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="8.0.0" />
 
     <!-- Response Compression -->
     <PackageReference Include="Microsoft.AspNetCore.ResponseCompression" Version="2.2.0" />

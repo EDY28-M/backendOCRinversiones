@@ -1,8 +1,9 @@
-using System.Text;
 using System.IO.Compression;
+using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using FluentValidation;
@@ -17,8 +18,11 @@ using backendORCinverisones.Application.Mappings;
 using backendORCinverisones.Application.Validators;
 using backendORCinverisones.Infrastructure.Data;
 using backendORCinverisones.Infrastructure.Repositories;
+using backendORCinverisones.Infrastructure.HealthChecks;
 
+// ============================================
 // ✅ SERILOG - Logging estructurado de alto rendimiento
+// ============================================
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(new ConfigurationBuilder()
         .AddJsonFile("appsettings.json")
@@ -39,17 +43,37 @@ builder.Configuration.AddEnvironmentVariables();
 // ✅ Usar Serilog como logger
 builder.Host.UseSerilog();
 
-// ✅ Obtener connection string (prioridad: variable de entorno > appsettings)
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-Log.Information("🗄️ Base de datos configurada. Host detectado del connection string.");
+// ============================================
+// ✅ OPTIMIZACIÓN: Configuración de Kestrel
+// ============================================
+builder.WebHost.ConfigureKestrel(options =>
+{
+    // Aumentar límites de conexión para alta concurrencia
+    options.Limits.MaxConcurrentConnections = 1000;
+    options.Limits.MaxConcurrentUpgradedConnections = 1000;
+    
+    // Configurar timeouts
+    options.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(2);
+    options.Limits.RequestHeadersTimeout = TimeSpan.FromMinutes(1);
+    
+    // Habilitar compresión de respuestas grandes
+    options.Limits.MaxResponseBufferSize = 64 * 1024; // 64KB
+    options.Limits.MaxRequestBufferSize = 64 * 1024;  // 64KB
+});
 
-// ✅ OPTIMIZED Database Configuration
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+// ============================================
+// ✅ DATABASE CONFIGURATION - EF Core Optimizado
+// ============================================
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+Log.Information("🗄️ Base de datos configurada");
+
+builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
 {
     options.UseSqlServer(
         connectionString,
         sqlOptions =>
         {
+            // Retry policy para resiliencia
             sqlOptions.EnableRetryOnFailure(
                 maxRetryCount: 5,
                 maxRetryDelay: TimeSpan.FromSeconds(10),
@@ -58,11 +82,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
             // ✅ Query splitting para mejorar performance en Include()
             sqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
 
-            // ✅ Command timeout extendido para queries pesadas
+            // Command timeout extendido para queries pesadas
             sqlOptions.CommandTimeout(120);
         });
 
-    // ✅ Solo en desarrollo: mostrar queries SQL
+    // Solo en desarrollo: mostrar queries SQL
     if (builder.Environment.IsDevelopment())
     {
         options.EnableSensitiveDataLogging();
@@ -71,7 +95,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
     // ✅ Deshabilitar tracking global (mejora performance para reads)
     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+    
+    // ✅ Agregar interceptor de performance
+    options.AddInterceptors(serviceProvider.GetRequiredService<DatabasePerformanceInterceptor>());
 });
+
+// ============================================
+// ✅ REGISTRO DE SERVICIOS
+// ============================================
 
 // Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -84,17 +115,21 @@ builder.Services.AddScoped<INombreMarcaRepository, NombreMarcaRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<ICodeGeneratorService, CodeGeneratorService>();
-builder.Services.AddScoped<ICacheService, CacheService>();
+builder.Services.AddScoped<ICacheService>(sp => sp.GetRequiredService<HybridCacheService>());
+builder.Services.AddScoped<HybridCacheService>();
 builder.Services.AddScoped<IImageCompressionService, ImageCompressionService>();
-
-// ✅ DAPPER - Queries de alto rendimiento
 builder.Services.AddScoped<IDapperQueryService, DapperQueryService>();
 
-// Memory Cache and Response Caching
+// Interceptores
+builder.Services.AddSingleton<DatabasePerformanceInterceptor>();
+
+// Memory Cache y Response Caching
 builder.Services.AddMemoryCache();
 builder.Services.AddResponseCaching();
 
-// ✅ RATE LIMITING - Protección contra DDoS y fuerza bruta
+// ============================================
+// ✅ RATE LIMITING - Protección contra abuso
+// ============================================
 builder.Services.Configure<IpRateLimitOptions>(options =>
 {
     options.EnableEndpointRateLimiting = true;
@@ -108,13 +143,13 @@ builder.Services.Configure<IpRateLimitOptions>(options =>
         {
             Endpoint = "*",
             Period = "1m",
-            Limit = 200 // 200 requests por minuto por IP (general)
+            Limit = 200 // 200 requests por minuto por IP
         },
         new RateLimitRule
         {
             Endpoint = "POST:/api/auth/login",
             Period = "1m",
-            Limit = 20 // 20 intentos de login por minuto (más permisivo para desarrollo)
+            Limit = 20 // 20 intentos de login por minuto
         },
         new RateLimitRule
         {
@@ -131,7 +166,9 @@ builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>()
 builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
 builder.Services.AddInMemoryRateLimiting();
 
-// JWT Authentication
+// ============================================
+// ✅ JWT AUTHENTICATION
+// ============================================
 var jwtKey = builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key not configured");
 var key = Encoding.UTF8.GetBytes(jwtKey);
 
@@ -157,35 +194,53 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-// ✅ AUTOMAPPER - Mapeo automatizado de entidades a DTOs
+// ============================================
+// ✅ AUTOMAPPER
+// ============================================
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
-// ✅ FLUENTVALIDATION - Validaciones declarativas
+// ============================================
+// ✅ FLUENTVALIDATION
+// ============================================
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateProductRequestValidator>();
 
-// ✅ RESPONSE COMPRESSION - Compresión GZIP/Brotli
+// ============================================
+// ✅ RESPONSE COMPRESSION - Brotli + GZIP
+// ============================================
 builder.Services.AddResponseCompression(options =>
 {
     options.EnableForHttps = true;
     options.Providers.Add<BrotliCompressionProvider>();
     options.Providers.Add<GzipCompressionProvider>();
+    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+        new[] { "application/json", "text/plain", "text/css", "application/javascript" });
 });
 
 builder.Services.Configure<BrotliCompressionProviderOptions>(options =>
 {
-    options.Level = CompressionLevel.Fastest;
+    options.Level = CompressionLevel.Optimal;
 });
 
 builder.Services.Configure<GzipCompressionProviderOptions>(options =>
 {
-    options.Level = CompressionLevel.Fastest;
+    options.Level = CompressionLevel.Optimal;
 });
 
 builder.Services.AddControllers();
 
-// Swagger Configuration with JWT
+// ============================================
+// ✅ HEALTH CHECKS
+// ============================================
+builder.Services.AddHealthChecks()
+    .AddCheck<DatabaseHealthCheck>("database", tags: new[] { "db", "sql" })
+    .AddCheck<CacheHealthCheck>("cache", tags: new[] { "cache", "redis" })
+    .AddCheck<MemoryHealthCheck>("memory", tags: new[] { "memory", "system" });
+
+// ============================================
+// ✅ SWAGGER CONFIGURATION
+// ============================================
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -193,7 +248,12 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "Backend ORC Inversiones API",
         Version = "v1",
-        Description = "API Backend con Clean Architecture para gestión de usuarios, roles, productos y categorías"
+        Description = "API Backend con Clean Architecture para gestión de usuarios, roles, productos y categorías",
+        Contact = new OpenApiContact
+        {
+            Name = "ORC Inversiones",
+            Email = "support@orcinversionesperu.com"
+        }
     });
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -221,7 +281,9 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// ✅ CORS - Restringido a orígenes específicos (sin wildcards)
+// ============================================
+// ✅ CORS CONFIGURATION
+// ============================================
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -232,50 +294,98 @@ builder.Services.AddCors(options =>
         Log.Information("🌐 CORS configurado para: {Origins}", string.Join(", ", corsOrigins));
 
         policy.WithOrigins(corsOrigins)
-              .WithMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS") // Agregado OPTIONS para preflight
-              .WithHeaders("Content-Type", "Authorization", "X-Requested-With", "Accept") // Agregado Accept
+              .WithMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
+              .WithHeaders("Content-Type", "Authorization", "X-Requested-With", "Accept")
               .AllowCredentials()
-              .SetIsOriginAllowedToAllowWildcardSubdomains(); // Permite subdominio wildcard si es necesario
+              .SetIsOriginAllowedToAllowWildcardSubdomains();
     });
 });
 
+// ============================================
+// ✅ BUILD APPLICATION
+// ============================================
 var app = builder.Build();
 
-// ✅ CORS DEBE IR PRIMERO - Antes de cualquier otro middleware
+// ✅ CORS PRIMERO - Antes de cualquier otro middleware
 app.UseCors("AllowAll");
 
 // ✅ Serilog request logging
-app.UseSerilogRequestLogging();
+app.UseSerilogRequestLogging(options =>
+{
+    options.MessageTemplate = "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000}ms";
+});
 
-// ✅ Rate Limiting - DESPUÉS de CORS para que preflight funcione
+// ✅ Rate Limiting - DESPUÉS de CORS
 app.UseIpRateLimiting();
 
-// Middleware de manejo de errores
+// ✅ Middleware de manejo de errores
 app.UseMiddleware<ErrorHandlingMiddleware>();
 
-// ✅ Swagger habilitado en TODOS los ambientes (producción incluido)
+// ✅ Swagger en todos los ambientes
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Backend ORC Inversiones API v1");
     c.RoutePrefix = "swagger";
+    c.DefaultModelsExpandDepth(-1); // Colapsar modelos por defecto
 });
-
-// Comentado para desarrollo con ngrok (usa HTTP en red local)
-// app.UseHttpsRedirection();
 
 // ✅ Response Compression ANTES de Response Caching
 app.UseResponseCompression();
 app.UseResponseCaching();
+
+// ✅ Health Checks endpoints
+app.MapHealthChecks("/health", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+{
+    ResponseWriter = async (context, report) =>
+    {
+        context.Response.ContentType = "application/json";
+        
+        var response = new
+        {
+            Status = report.Status.ToString(),
+            TotalDuration = report.TotalDuration.TotalMilliseconds,
+            Checks = report.Entries.Select(e => new
+            {
+                Name = e.Key,
+                Status = e.Value.Status.ToString(),
+                Duration = e.Value.Duration.TotalMilliseconds,
+                Description = e.Value.Description,
+                Data = e.Value.Data
+            })
+        };
+        
+        await context.Response.WriteAsJsonAsync(response);
+    }
+});
+
+app.MapHealthChecks("/health/ready", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+{
+    Predicate = check => check.Tags.Contains("db"),
+    ResponseWriter = async (context, report) =>
+    {
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsJsonAsync(new { Status = report.Status.ToString() });
+    }
+});
+
+app.MapHealthChecks("/health/live", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+{
+    Predicate = _ => false // Solo verifica que la app esté viva
+});
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
+// ============================================
+// ✅ START APPLICATION
+// ============================================
 try
 {
     Log.Information("🚀 Backend ORC Inversiones iniciado correctamente");
+    Log.Information("📊 Health checks disponibles en: /health, /health/ready, /health/live");
     app.Run();
 }
 catch (Exception ex)
