@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using backendORCinverisones.Application.DTOs.Products;
 using backendORCinverisones.Application.Interfaces.Repositories;
 using backendORCinverisones.Application.Interfaces.Services;
-using backendORCinverisones.Application.Constants;
+using backendORCinverisones.Application.Logging;
 using backendORCinverisones.Domain.Entities;
 using backendORCinverisones.Infrastructure.Repositories;
 
@@ -266,7 +266,7 @@ public class ProductsController : ControllerBase
             await _productRepository.AddAsync(product);
             _logger.LogInformation("Producto {Codigo} creado por {CurrentUser}", product.Codigo, User.Identity?.Name);
 
-            _cacheService.RemoveByPrefix(CacheKeys.ProductsPrefix);
+            _cacheService.RemoveByPrefix(Application.Constants.CacheKeys.ProductsPrefix);
 
             // Respuesta desde entidad ya creada + category/marca ya cargados (evita GetByIdWithCategoryAsync)
             var response = new ProductResponseDto
@@ -312,75 +312,48 @@ public class ProductsController : ControllerBase
             if (product == null)
                 return NotFound(new { message = "Producto no encontrado" });
 
-            // VALIDACIONES ASÍNCRONAS EN PARALELO (Fail fast)
-            var tasks = new List<Task>();
-
+            // ✅ VALIDACIONES SECUENCIALES (evita DbContext concurrency issues)
+            // EF Core no soporta operaciones paralelas en el mismo DbContext
+            
             // Validar código si se está actualizando
             if (request.Codigo != null && request.Codigo.ToUpper() != product.Codigo.ToUpper())
             {
-                tasks.Add(_productRepository.IsCodigoExistsAsync(request.Codigo, id).ContinueWith(t => 
-                {
-                    if (t.Result) throw new InvalidOperationException($"El código '{request.Codigo}' ya existe");
-                }));
+                if (await _productRepository.IsCodigoExistsAsync(request.Codigo, id))
+                    return BadRequest(new { message = $"El código '{request.Codigo}' ya existe" });
             }
 
             // Validar código comercial si se está actualizando
             if (request.CodigoComer != null && request.CodigoComer.ToUpper() != product.CodigoComer.ToUpper())
             {
-                tasks.Add(_productRepository.IsCodigoComercialExistsAsync(request.CodigoComer, id).ContinueWith(t => 
-                {
-                    if (t.Result) throw new InvalidOperationException($"El código comercial '{request.CodigoComer}' ya existe");
-                }));
+                if (await _productRepository.IsCodigoComercialExistsAsync(request.CodigoComer, id))
+                    return BadRequest(new { message = $"El código comercial '{request.CodigoComer}' ya existe" });
             }
             
-            // Validar existencia de Categoría y Marca si cambiaron
-            Task<Category?> categoryTask = Task.FromResult<Category?>(null);
+            // Validar existencia de Categoría si cambió
             if (request.CategoryId.HasValue && request.CategoryId != product.CategoryId)
             {
-                categoryTask = _categoryRepository.GetByIdAsync(request.CategoryId.Value);
-                tasks.Add(categoryTask);
+                var category = await _categoryRepository.GetByIdAsync(request.CategoryId.Value);
+                if (category == null) 
+                    return BadRequest(new { message = "La categoría especificada no existe" });
+                product.CategoryId = request.CategoryId.Value;
             }
 
-            Task<NombreMarca?> marcaTask = Task.FromResult<NombreMarca?>(null);
+            // Validar existencia de Marca si cambió
             if (request.MarcaId.HasValue && request.MarcaId != product.MarcaId)
             {
-                marcaTask = _nombreMarcaRepository.GetByIdAsync(request.MarcaId.Value);
-                tasks.Add(marcaTask);
+                var marca = await _nombreMarcaRepository.GetByIdAsync(request.MarcaId.Value);
+                if (marca == null) 
+                    return BadRequest(new { message = "La marca especificada no existe" });
+                product.MarcaId = request.MarcaId.Value;
             }
 
-            // ✅ COMPRESIÓN DE IMÁGENES EN PARALELO
-            // Iniciamos la compresión mientras se realizan las validaciones de DB
-            // Solo mandamos a comprimir si no es null
+            // ✅ COMPRESIÓN DE IMÁGENES EN PARALELO (Esto sí es seguro - no usa EF Core)
             var taskImg1 = request.ImagenPrincipal != null ? _imageCompressionService.CompressBase64Async(request.ImagenPrincipal) : Task.FromResult<string?>(null);
             var taskImg2 = request.Imagen2 != null ? _imageCompressionService.CompressBase64Async(request.Imagen2) : Task.FromResult<string?>(null);
             var taskImg3 = request.Imagen3 != null ? _imageCompressionService.CompressBase64Async(request.Imagen3) : Task.FromResult<string?>(null);
             var taskImg4 = request.Imagen4 != null ? _imageCompressionService.CompressBase64Async(request.Imagen4) : Task.FromResult<string?>(null);
 
-            // Esperar validaciones y compresiones
-            try 
-            {
-                await Task.WhenAll(tasks);
-                await Task.WhenAll(taskImg1, taskImg2, taskImg3, taskImg4);
-            }
-            catch (AggregateException ae)
-            {
-                 // Desempaquetar excepción de validación (InvalidOperationException)
-                 var firstError = ae.InnerExceptions.FirstOrDefault(e => e is InvalidOperationException);
-                 if (firstError != null) return BadRequest(new { message = firstError.Message });
-                 throw; // Re-lanzar si es otro error
-            }
-            
-            // Verificar resultados de Category/Marca si se buscaron
-            if (request.CategoryId.HasValue && request.CategoryId != product.CategoryId)
-            {
-                 if (await categoryTask == null) return BadRequest(new { message = "La categoría especificada no existe" });
-                 product.CategoryId = request.CategoryId.Value;
-            }
-            if (request.MarcaId.HasValue && request.MarcaId != product.MarcaId)
-            {
-                 if (await marcaTask == null) return BadRequest(new { message = "La marca especificada no existe" });
-                  product.MarcaId = request.MarcaId.Value;
-            }
+            await Task.WhenAll(taskImg1, taskImg2, taskImg3, taskImg4);
 
             // ACTUALIZAR PROPIEDADES DIRECTAS
             if (request.Codigo != null) product.Codigo = request.Codigo.ToUpper();
@@ -391,7 +364,7 @@ public class ProductsController : ControllerBase
             if (request.IsActive.HasValue) product.IsActive = request.IsActive.Value;
             if (request.IsFeatured.HasValue) product.IsFeatured = request.IsFeatured.Value;
 
-            // ASIGNAR IMÁGENES COMPRIMIDAS (Solo si se enviaron en el request)
+            // ASIGNAR IMÁGENES COMPRIMIDAS
             if (request.ImagenPrincipal != null) product.ImagenPrincipal = await taskImg1;
             if (request.Imagen2 != null) product.Imagen2 = await taskImg2;
             if (request.Imagen3 != null) product.Imagen3 = await taskImg3;
@@ -400,10 +373,10 @@ public class ProductsController : ControllerBase
             product.UpdatedAt = DateTime.UtcNow;
 
             await _productRepository.UpdateAsync(product);
-            _logger.LogInformation("Producto {Codigo} actualizado por {CurrentUser}", product.Codigo, User.Identity?.Name);
+            _logger.ProductUpdated(product.Codigo, User.Identity?.Name);
 
             // Invalidar caches
-            _cacheService.RemoveByPrefix(CacheKeys.ProductsPrefix);
+            _cacheService.RemoveByPrefix(Application.Constants.CacheKeys.ProductsPrefix);
 
             var updatedProduct = await _productRepository.GetByIdWithCategoryAsync(id);
             var response = new ProductResponseDto
@@ -432,10 +405,6 @@ public class ProductsController : ControllerBase
         }
         catch (Exception ex)
         {
-             // Capturar excepciones directas lanzadas desde continuaciones
-            if (ex is InvalidOperationException)
-                return BadRequest(new { message = ex.Message });
-                
             return SecureError(500, "Error al actualizar el producto", ex);
         }
     }
@@ -452,9 +421,9 @@ public class ProductsController : ControllerBase
                 id, request.IsActive, User.Identity?.Name);
 
             // Invalidar caches
-            _cacheService.RemoveByPrefix(CacheKeys.ProductsPrefix);
-            _cacheService.Remove(CacheKeys.PublicBrands);
-            _cacheService.Remove(CacheKeys.PublicCategories);
+            _cacheService.RemoveByPrefix(Application.Constants.CacheKeys.ProductsPrefix);
+            _cacheService.Remove(Application.Constants.CacheKeys.PublicBrands);
+            _cacheService.Remove(Application.Constants.CacheKeys.PublicCategories);
 
             return Ok(new { message = "Estado actualizado correctamente" });
         }
@@ -496,7 +465,7 @@ public class ProductsController : ControllerBase
                 id, request.IsFeatured, User.Identity?.Name);
 
             // Invalidar caches
-            _cacheService.RemoveByPrefix(CacheKeys.ProductsPrefix);
+            _cacheService.RemoveByPrefix(Application.Constants.CacheKeys.ProductsPrefix);
 
             return Ok(new { message = "Destacado actualizado correctamente", isFeatured = request.IsFeatured });
         }
@@ -515,10 +484,10 @@ public class ProductsController : ControllerBase
             return NotFound(new { message = "Producto no encontrado" });
 
         await _productRepository.DeleteAsync(product);
-        _logger.LogInformation("Producto {Codigo} eliminado por {CurrentUser}", product.Codigo, User.Identity?.Name);
+        _logger.ProductDeleted(product.Codigo, User.Identity?.Name);
 
         // Invalidar caches
-        _cacheService.RemoveByPrefix(CacheKeys.ProductsPrefix);
+        _cacheService.RemoveByPrefix(Application.Constants.CacheKeys.ProductsPrefix);
 
         return Ok(new { message = "Producto eliminado correctamente" });
     }
@@ -533,9 +502,9 @@ public class ProductsController : ControllerBase
             _logger.LogInformation("TODOS los productos han sido eliminados por {CurrentUser}", User.Identity?.Name);
             
             // Invalidar caches
-            _cacheService.RemoveByPrefix(CacheKeys.ProductsPrefix);
-            _cacheService.Remove(CacheKeys.PublicBrands);
-            _cacheService.Remove(CacheKeys.PublicCategories);
+            _cacheService.RemoveByPrefix(Application.Constants.CacheKeys.ProductsPrefix);
+            _cacheService.Remove(Application.Constants.CacheKeys.PublicBrands);
+            _cacheService.Remove(Application.Constants.CacheKeys.PublicCategories);
 
             return Ok(new { message = "Todos los productos han sido eliminados correctamente" });
         }
@@ -879,7 +848,7 @@ public class ProductsController : ControllerBase
     {
         try
         {
-            var brands = await _cacheService.GetOrCreateAsync(CacheKeys.PublicBrands, async () =>
+            var brands = await _cacheService.GetOrCreateAsync(Application.Constants.CacheKeys.PublicBrands, async () =>
             {
                 var brandIds = await _productRepository.GetDistinctBrandIdsWithActiveProductsAsync();
 
@@ -889,7 +858,7 @@ public class ProductsController : ControllerBase
                 return marcas
                     .Select(m => new { Id = m.Id, Nombre = m.Nombre })
                     .ToList();
-            }, CacheExpiration.PublicMetadata);
+            }, Application.Constants.CacheExpiration.PublicMetadata);
 
             return Ok(brands);
         }
@@ -909,7 +878,7 @@ public class ProductsController : ControllerBase
     {
         try
         {
-            var activeCategories = await _cacheService.GetOrCreateAsync(CacheKeys.PublicCategories, async () =>
+            var activeCategories = await _cacheService.GetOrCreateAsync(Application.Constants.CacheKeys.PublicCategories, async () =>
             {
                 var categoryIds = await _productRepository.GetDistinctCategoryIdsWithActiveProductsAsync();
 
@@ -923,7 +892,7 @@ public class ProductsController : ControllerBase
                         Name = c.Name
                     })
                     .ToList();
-            }, CacheExpiration.PublicMetadata);
+            }, Application.Constants.CacheExpiration.PublicMetadata);
 
             return Ok(activeCategories);
         }
