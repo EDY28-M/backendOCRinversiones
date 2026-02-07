@@ -40,6 +40,20 @@ public class CreateProductRequestValidator : AbstractValidator<CreateProductRequ
             .MaximumLength(5000).WithMessage("La ficha técnica no puede exceder 5000 caracteres")
             .When(x => !string.IsNullOrWhiteSpace(x.FichaTecnica));
 
+        // Validar formato de URLs de imágenes
+        RuleFor(x => x.ImagenPrincipal)
+            .Must(BeValidImageUrlOrEmpty).WithMessage("La URL de la imagen principal no es válida (debe ser http/https o data:image)")
+            .When(x => !string.IsNullOrWhiteSpace(x.ImagenPrincipal));
+        RuleFor(x => x.Imagen2)
+            .Must(BeValidImageUrlOrEmpty).WithMessage("La URL de la imagen 2 no es válida")
+            .When(x => !string.IsNullOrWhiteSpace(x.Imagen2));
+        RuleFor(x => x.Imagen3)
+            .Must(BeValidImageUrlOrEmpty).WithMessage("La URL de la imagen 3 no es válida")
+            .When(x => !string.IsNullOrWhiteSpace(x.Imagen3));
+        RuleFor(x => x.Imagen4)
+            .Must(BeValidImageUrlOrEmpty).WithMessage("La URL de la imagen 4 no es válida")
+            .When(x => !string.IsNullOrWhiteSpace(x.Imagen4));
+
         // Validar que al menos una imagen sea válida
         RuleFor(x => x)
             .Must(HaveAtLeastOneImage)
@@ -47,11 +61,21 @@ public class CreateProductRequestValidator : AbstractValidator<CreateProductRequ
             .WithName("Imágenes");
     }
 
+    private static bool BeValidImageUrlOrEmpty(string? url)
+    {
+        if (string.IsNullOrWhiteSpace(url)) return true;
+        var trimmed = url.Trim();
+        if (trimmed.StartsWith("data:image/", StringComparison.OrdinalIgnoreCase)) return true;
+        return Uri.TryCreate(trimmed, UriKind.Absolute, out var uri) &&
+               (uri.Scheme == "http" || uri.Scheme == "https");
+    }
+
     private bool HaveAtLeastOneImage(CreateProductRequestDto dto)
     {
-        return !string.IsNullOrWhiteSpace(dto.ImagenPrincipal) ||
-               !string.IsNullOrWhiteSpace(dto.Imagen2) ||
-               !string.IsNullOrWhiteSpace(dto.Imagen3) ||
-               !string.IsNullOrWhiteSpace(dto.Imagen4);
+        // Al menos una imagen debe ser una URL/data URI válida
+        return BeValidImageUrlOrEmpty(dto.ImagenPrincipal) && !string.IsNullOrWhiteSpace(dto.ImagenPrincipal) ||
+               BeValidImageUrlOrEmpty(dto.Imagen2) && !string.IsNullOrWhiteSpace(dto.Imagen2) ||
+               BeValidImageUrlOrEmpty(dto.Imagen3) && !string.IsNullOrWhiteSpace(dto.Imagen3) ||
+               BeValidImageUrlOrEmpty(dto.Imagen4) && !string.IsNullOrWhiteSpace(dto.Imagen4);
     }
 }

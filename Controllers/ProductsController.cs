@@ -51,6 +51,23 @@ public class ProductsController : ControllerBase
         return StatusCode(statusCode, new { message, error = errorDetails });
     }
 
+    /// <summary>
+    /// Sanitiza URL de imagen: retorna null si no es una URL válida (http/https o data:image)
+    /// Previene que URLs corruptas/inválidas lleguen al frontend público
+    /// </summary>
+    private static string? SanitizeImageUrl(string? url)
+    {
+        if (string.IsNullOrWhiteSpace(url)) return null;
+        var trimmed = url.Trim();
+        if (trimmed.StartsWith("data:image/", StringComparison.OrdinalIgnoreCase)) return trimmed;
+        if (Uri.TryCreate(trimmed, UriKind.Absolute, out var uri) &&
+            (uri.Scheme == "http" || uri.Scheme == "https"))
+        {
+            return trimmed;
+        }
+        return null;
+    }
+
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -549,10 +566,10 @@ public class ProductsController : ControllerBase
                     Producto = p.Producto,
                     Descripcion = p.Descripcion,
                     FichaTecnica = p.FichaTecnica,
-                    ImagenPrincipal = p.ImagenPrincipal,
-                    Imagen2 = p.Imagen2,
-                    Imagen3 = p.Imagen3,
-                    Imagen4 = p.Imagen4,
+                    ImagenPrincipal = SanitizeImageUrl(p.ImagenPrincipal),
+                    Imagen2 = SanitizeImageUrl(p.Imagen2),
+                    Imagen3 = SanitizeImageUrl(p.Imagen3),
+                    Imagen4 = SanitizeImageUrl(p.Imagen4),
                     IsActive = p.IsActive,
                     IsFeatured = p.IsFeatured,
                     CreatedAt = p.CreatedAt,
@@ -599,10 +616,10 @@ public class ProductsController : ControllerBase
                     Producto = p.Producto,
                     Descripcion = p.Descripcion,
                     FichaTecnica = p.FichaTecnica,
-                    ImagenPrincipal = p.ImagenPrincipal,
-                    Imagen2 = p.Imagen2,
-                    Imagen3 = p.Imagen3,
-                    Imagen4 = p.Imagen4,
+                    ImagenPrincipal = SanitizeImageUrl(p.ImagenPrincipal),
+                    Imagen2 = SanitizeImageUrl(p.Imagen2),
+                    Imagen3 = SanitizeImageUrl(p.Imagen3),
+                    Imagen4 = SanitizeImageUrl(p.Imagen4),
                     IsActive = p.IsActive,
                     IsFeatured = p.IsFeatured,
                     CreatedAt = p.CreatedAt,
