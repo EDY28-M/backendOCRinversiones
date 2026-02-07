@@ -226,15 +226,8 @@ public class ProductsController : ControllerBase
             if (marca == null)
                 return BadRequest(new { message = "La marca especificada no existe" });
 
-            // ✅ COMPRESIÓN DE IMÁGENES
-            // Procesamos todas las imágenes en paralelo
-            var compressedImages = await Task.WhenAll(
-                _imageCompressionService.CompressBase64Async(request.ImagenPrincipal),
-                _imageCompressionService.CompressBase64Async(request.Imagen2),
-                _imageCompressionService.CompressBase64Async(request.Imagen3),
-                _imageCompressionService.CompressBase64Async(request.Imagen4)
-            );
-
+            // ✅ IMÁGENES: Ahora se almacenan como URLs (Backblaze, etc.)
+            // Ya no se hace compresión Base64, se guardan las URLs directamente
             var product = new Product
             {
                 Codigo = request.Codigo.ToUpper(),
@@ -242,11 +235,11 @@ public class ProductsController : ControllerBase
                 Producto = request.Producto,
                 Descripcion = request.Descripcion,
                 FichaTecnica = request.FichaTecnica,
-                // Asignamos las versiones comprimidas a las columnas legacy (por compatibilidad)
-                ImagenPrincipal = compressedImages[0],
-                Imagen2 = compressedImages[1],
-                Imagen3 = compressedImages[2],
-                Imagen4 = compressedImages[3],
+                // URLs de imágenes (Backblaze u otro CDN)
+                ImagenPrincipal = request.ImagenPrincipal,
+                Imagen2 = request.Imagen2,
+                Imagen3 = request.Imagen3,
+                Imagen4 = request.Imagen4,
                 CategoryId = request.CategoryId,
                 MarcaId = request.MarcaId,
                 CreatedAt = DateTime.UtcNow,
@@ -347,14 +340,6 @@ public class ProductsController : ControllerBase
                 product.MarcaId = request.MarcaId.Value;
             }
 
-            // ✅ COMPRESIÓN DE IMÁGENES EN PARALELO (Esto sí es seguro - no usa EF Core)
-            var taskImg1 = request.ImagenPrincipal != null ? _imageCompressionService.CompressBase64Async(request.ImagenPrincipal) : Task.FromResult<string?>(null);
-            var taskImg2 = request.Imagen2 != null ? _imageCompressionService.CompressBase64Async(request.Imagen2) : Task.FromResult<string?>(null);
-            var taskImg3 = request.Imagen3 != null ? _imageCompressionService.CompressBase64Async(request.Imagen3) : Task.FromResult<string?>(null);
-            var taskImg4 = request.Imagen4 != null ? _imageCompressionService.CompressBase64Async(request.Imagen4) : Task.FromResult<string?>(null);
-
-            await Task.WhenAll(taskImg1, taskImg2, taskImg3, taskImg4);
-
             // ACTUALIZAR PROPIEDADES DIRECTAS
             if (request.Codigo != null) product.Codigo = request.Codigo.ToUpper();
             if (request.CodigoComer != null) product.CodigoComer = request.CodigoComer.ToUpper();
@@ -364,11 +349,11 @@ public class ProductsController : ControllerBase
             if (request.IsActive.HasValue) product.IsActive = request.IsActive.Value;
             if (request.IsFeatured.HasValue) product.IsFeatured = request.IsFeatured.Value;
 
-            // ASIGNAR IMÁGENES COMPRIMIDAS
-            if (request.ImagenPrincipal != null) product.ImagenPrincipal = await taskImg1;
-            if (request.Imagen2 != null) product.Imagen2 = await taskImg2;
-            if (request.Imagen3 != null) product.Imagen3 = await taskImg3;
-            if (request.Imagen4 != null) product.Imagen4 = await taskImg4;
+            // ✅ IMÁGENES: Ahora se almacenan como URLs directamente (Backblaze, etc.)
+            if (request.ImagenPrincipal != null) product.ImagenPrincipal = request.ImagenPrincipal;
+            if (request.Imagen2 != null) product.Imagen2 = request.Imagen2;
+            if (request.Imagen3 != null) product.Imagen3 = request.Imagen3;
+            if (request.Imagen4 != null) product.Imagen4 = request.Imagen4;
 
             product.UpdatedAt = DateTime.UtcNow;
 
