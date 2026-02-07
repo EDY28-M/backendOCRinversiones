@@ -835,6 +835,26 @@ public class ProductsController : ControllerBase
             }
         }
 
+        // 6. Invalidar caches relacionados (productos, marcas, categorías)
+        if (productsToInsert.Count > 0)
+        {
+            _cacheService.RemoveByPrefix(Application.Constants.CacheKeys.ProductsPrefix);
+            _cacheService.Remove(Application.Constants.CacheKeys.PublicBrands);
+            _cacheService.Remove(Application.Constants.CacheKeys.PublicCategories);
+        }
+
+        if (marcasToCreate.Count > 0)
+        {
+            _cacheService.RemoveByPrefix("marcas:");
+            _cacheService.Remove(Application.Constants.CacheKeys.PublicBrands);
+        }
+
+        if (categoriasToCreate.Count > 0)
+        {
+            _cacheService.RemoveByPrefix("categories:");
+            _cacheService.Remove(Application.Constants.CacheKeys.PublicCategories);
+        }
+
         _logger.LogInformation(
             "Importación masiva completada por {CurrentUser}: {Imported} importados, {Failed} fallidos, {Duplicates} duplicados, {MarcasCreated} marcas creadas, {CategoriasCreated} categorías creadas",
             User.Identity?.Name, result.Imported, result.Failed, result.Duplicates, result.MarcasCreated, result.CategoriasCreated);
