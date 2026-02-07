@@ -256,7 +256,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
 - [ ] Implementar Health Checks
 - [ ] Agregar Rate Limiting
 - [ ] Configurar CORS específico por dominio
-- [ ] Implementar caché con Redis
+- [x] Implementar caché en memoria del backend
 - [ ] Agregar notificaciones por email
 - [ ] Crear dashboard de métricas
 

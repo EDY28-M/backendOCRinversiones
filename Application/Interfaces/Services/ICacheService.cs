@@ -1,7 +1,7 @@
 namespace backendORCinverisones.Application.Interfaces.Services;
 
 /// <summary>
-/// Interfaz para servicio de caché híbrida (Memory + Redis)
+/// Interfaz para servicio de caché
 /// </summary>
 public interface ICacheService
 {

@@ -6,7 +6,7 @@ namespace backendORCinverisones.Infrastructure.HealthChecks;
 
 /// <summary>
 /// ✅ HEALTH CHECK PARA SERVICIO DE CACHÉ
-/// Verifica el estado de MemoryCache y Redis
+/// Verifica el estado de MemoryCache
 /// </summary>
 public class CacheHealthCheck : IHealthCheck
 {
@@ -29,9 +29,7 @@ public class CacheHealthCheck : IHealthCheck
             
             var data = new Dictionary<string, object>
             {
-                ["MemoryCacheKeys"] = status.MemoryCacheKeys,
-                ["RedisEnabled"] = status.RedisEnabled,
-                ["RedisConnected"] = status.RedisConnected
+                ["MemoryCacheKeys"] = status.MemoryCacheKeys
             };
 
             // Test de escritura/lectura en caché
@@ -49,16 +47,8 @@ public class CacheHealthCheck : IHealthCheck
                     data: data));
             }
 
-            // Si Redis está habilitado pero no conectado, degradar
-            if (status.RedisEnabled && !status.RedisConnected)
-            {
-                return Task.FromResult(HealthCheckResult.Degraded(
-                    "Redis is enabled but not connected. Falling back to MemoryCache only.",
-                    data: data));
-            }
-
             return Task.FromResult(HealthCheckResult.Healthy(
-                "Cache is healthy",
+                "Memory cache is healthy",
                 data: data));
         }
         catch (Exception ex)

@@ -51,10 +51,6 @@
     <!-- Response Compression -->
     <PackageReference Include="Microsoft.AspNetCore.ResponseCompression" Version="2.2.0" />
 
-    <!-- Caché Distribuido (Redis) -->
-    <PackageReference Include="StackExchange.Redis" Version="2.7.17" />
-    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.0" />
-
     <!-- Documentación API -->
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>

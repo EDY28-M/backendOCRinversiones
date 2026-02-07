@@ -380,7 +380,7 @@ public async Task GetByIdAsync_UsuarioExiste_RetornaUsuario()
 ### Fase 2: Funcionalidades Avanzadas
 - [ ] Refresh tokens
 - [ ] Rate limiting
-- [ ] Caching con Redis
+- [x] Caching en memoria del backend
 - [ ] Notificaciones por email
 
 ### Fase 3: Escalabilidad

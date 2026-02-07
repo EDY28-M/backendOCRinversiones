@@ -115,8 +115,8 @@ builder.Services.AddScoped<INombreMarcaRepository, NombreMarcaRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<ICodeGeneratorService, CodeGeneratorService>();
-builder.Services.AddScoped<ICacheService>(sp => sp.GetRequiredService<HybridCacheService>());
-builder.Services.AddScoped<HybridCacheService>();
+builder.Services.AddSingleton<HybridCacheService>();
+builder.Services.AddSingleton<ICacheService>(sp => sp.GetRequiredService<HybridCacheService>());
 builder.Services.AddScoped<IImageCompressionService, ImageCompressionService>();
 builder.Services.AddScoped<IDapperQueryService, DapperQueryService>();
 
@@ -235,7 +235,7 @@ builder.Services.AddControllers();
 // ============================================
 builder.Services.AddHealthChecks()
     .AddCheck<DatabaseHealthCheck>("database", tags: new[] { "db", "sql" })
-    .AddCheck<CacheHealthCheck>("cache", tags: new[] { "cache", "redis" })
+    .AddCheck<CacheHealthCheck>("cache", tags: new[] { "cache", "memory" })
     .AddCheck<MemoryHealthCheck>("memory", tags: new[] { "memory", "system" });
 
 // ============================================
