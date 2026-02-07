@@ -504,6 +504,7 @@ public class ProductsController : ControllerBase
     /// </summary>
     [HttpGet("public/active")]
     [AllowAnonymous]
+    [ResponseCache(Duration = 60, VaryByQueryKeys = new[] { "page", "pageSize", "q", "categoryId", "brandIds" })]
     public async Task<IActionResult> GetPublicActive(
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 16,
@@ -579,6 +580,7 @@ public class ProductsController : ControllerBase
     /// </summary>
     [HttpGet("public/featured")]
     [AllowAnonymous]
+    [ResponseCache(Duration = 120, VaryByQueryKeys = new[] { "page", "pageSize" })]
     public async Task<IActionResult> GetPublicFeatured(
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 9)
