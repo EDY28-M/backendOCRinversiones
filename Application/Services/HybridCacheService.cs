@@ -178,36 +178,48 @@ public class HybridCacheService : ICacheService, IDisposable
 
     /// <summary>
     /// Elimina todas las claves que comienzan con el prefijo especificado
+    /// Compatible con Upstash (Redis serverless) - NO usa SCAN
     /// </summary>
     public void RemoveByPrefix(string prefix)
     {
-        // Eliminar de MemoryCache
+        // 1. Obtener claves conocidas que coinciden con el prefijo
         var keysToRemove = _cacheKeys.Keys.Where(k => k.StartsWith(prefix)).ToList();
+        
+        // 2. Eliminar de MemoryCache
         foreach (var key in keysToRemove)
         {
             _memoryCache.Remove(key);
             _cacheKeys.TryRemove(key, out _);
         }
 
-        // Eliminar de Redis (usar SCAN para no bloquear)
-        if (_redisEnabled && _redis != null)
+        // 3. Eliminar de Redis usando las claves conocidas (sin SCAN)
+        //    Esto es compatible con Upstash y Redis serverless
+        if (_redisEnabled && _redisDb != null && keysToRemove.Count > 0)
         {
-            _ = Task.Run(async () =>
+            try
             {
-                try
+                var redisKeys = keysToRemove.Select(k => (RedisKey)k).ToArray();
+                // Síncrono y directo - sin Task.Run ni SCAN
+                _redisDb.KeyDelete(redisKeys);
+                _logger.LogDebug("Redis: eliminadas {Count} claves con prefijo {Prefix}", redisKeys.Length, prefix);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Error eliminando claves conocidas de Redis con prefijo {Prefix}. Intentando una por una...", prefix);
+                
+                // Fallback: eliminar una por una si el batch falla
+                foreach (var key in keysToRemove)
                 {
-                    var server = _redis.GetServer(_redis.GetEndPoints().First());
-                    var keys = server.Keys(pattern: $"{prefix}*", pageSize: 100).ToArray();
-                    if (keys.Length > 0)
+                    try
                     {
-                        await _redisDb!.KeyDeleteAsync(keys);
+                        _redisDb.KeyDelete(key);
+                    }
+                    catch (Exception innerEx)
+                    {
+                        _logger.LogWarning(innerEx, "Error eliminando clave {Key} de Redis", key);
                     }
                 }
-                catch (Exception ex)
-                {
-                    _logger.LogWarning(ex, "Error removiendo claves con prefijo {Prefix} de Redis", prefix);
-                }
-            });
+            }
         }
 
         _logger.CacheInvalidated(prefix);
@@ -215,31 +227,44 @@ public class HybridCacheService : ICacheService, IDisposable
 
     /// <summary>
     /// Invalida toda la caché (usar con precaución)
+    /// Compatible con Upstash (Redis serverless) - NO usa FlushDatabase ni SCAN
     /// </summary>
     public void InvalidateAll()
     {
-        // Limpiar MemoryCache
-        foreach (var key in _cacheKeys.Keys.ToList())
+        // 1. Recopilar todas las claves conocidas antes de limpiar
+        var allKeys = _cacheKeys.Keys.ToList();
+
+        // 2. Limpiar MemoryCache
+        foreach (var key in allKeys)
         {
             _memoryCache.Remove(key);
         }
         _cacheKeys.Clear();
 
-        // Limpiar Redis
-        if (_redisEnabled && _redis != null)
+        // 3. Limpiar Redis usando las claves conocidas (sin FlushDatabase ni SCAN)
+        if (_redisEnabled && _redisDb != null && allKeys.Count > 0)
         {
-            _ = Task.Run(async () =>
+            try
             {
-                try
+                var redisKeys = allKeys.Select(k => (RedisKey)k).ToArray();
+                _redisDb.KeyDelete(redisKeys);
+                _logger.LogDebug("Redis: eliminadas {Count} claves en InvalidateAll", redisKeys.Length);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Error limpiando claves de Redis en InvalidateAll. Intentando una por una...");
+                foreach (var key in allKeys)
                 {
-                    var server = _redis.GetServer(_redis.GetEndPoints().First());
-                    await server.FlushDatabaseAsync();
+                    try
+                    {
+                        _redisDb.KeyDelete(key);
+                    }
+                    catch (Exception innerEx)
+                    {
+                        _logger.LogWarning(innerEx, "Error eliminando clave {Key} de Redis", key);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    _logger.LogWarning(ex, "Error limpiando Redis");
-                }
-            });
+            }
         }
 
         _logger.LogInformation("🗑️ Toda la caché ha sido invalidada");
