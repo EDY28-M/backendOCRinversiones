@@ -289,7 +289,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAll", policy =>
     {
         var corsOrigins = builder.Configuration["CorsOrigins"]?.Split(',', StringSplitOptions.RemoveEmptyEntries) 
-                          ?? new[] { "http://localhost:5173", "https://frontedocrinversiones.onrender.com","https://orcinversionesperu.com","https://www.orcinversionesperu.com" };
+                          ?? new[] { "http://localhost:5173", "https://frontedocrinversiones.onrender.com","https://orcinversionesperu.com","https://frontedocrinversiones.orcinversionespe.workers.dev " };
 
         Log.Information("🌐 CORS configurado para: {Origins}", string.Join(", ", corsOrigins));
 
