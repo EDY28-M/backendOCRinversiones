@@ -1,0 +1,811 @@
+ appsettings.json:
+ 
+  "EmailSettings": {
+    "SmtpServer": "smtp.gmail.com",
+    "SmtpPort": 587,
+    "SenderEmail": "caterno99@gmail.com",
+    "SenderName": "SGI Unitecg Academica",
+    "Password": "",
+    "EnableSsl": true
+  },
+
+  emailservice.cs:
+  using System;
+using System.Net;
+using System.Net.Mail;
+
+namespace API_REST_CURSOSACADEMICOS.Services
+{
+    /// <summary>
+    /// Servicio para envío de correos electrónicos mediante SMTP
+    /// </summary>
+    public class EmailService
+    {
+        private readonly IConfiguration _configuration;
+        private readonly ILogger<EmailService> _logger;
+
+        public EmailService(IConfiguration configuration, ILogger<EmailService> logger)
+        {
+            _configuration = configuration;
+            _logger = logger;
+        }
+
+        /// <summary>
+        /// Envía un correo electrónico
+        /// </summary>
+        public async Task<bool> SendEmailAsync(string toEmail, string subject, string body, bool isHtml = true)
+        {
+            try
+            {
+                var smtpServer = _configuration["EmailSettings:SmtpServer"];
+                var smtpPort = int.Parse(_configuration["EmailSettings:SmtpPort"] ?? "587");
+                var senderEmail = _configuration["EmailSettings:SenderEmail"];
+                var senderName = _configuration["EmailSettings:SenderName"];
+                var password = _configuration["EmailSettings:Password"];
+                var enableSsl = bool.Parse(_configuration["EmailSettings:EnableSsl"] ?? "true");
+
+                // Validar configuración básica
+                if (string.IsNullOrEmpty(smtpServer) || string.IsNullOrEmpty(senderEmail))
+                {
+                    _logger.LogWarning("⚠️ Email no configurado correctamente. Configure EmailSettings en appsettings.json");
+                    _logger.LogInformation($"📧 [SIMULADO] Email para: {toEmail}");
+                    _logger.LogInformation($"📧 [SIMULADO] Asunto: {subject}");
+                    return true; // Simular éxito en desarrollo
+                }
+
+                // Si el password no está en appsettings, permitir configurarlo por variables de entorno (recomendado)
+                // - Docker Compose: EMAIL_PASSWORD -> EmailSettings__Password
+                // - Local dev: setx EMAIL_PASSWORD "..."
+                if (string.IsNullOrWhiteSpace(password) ||
+                    password == "CHANGE_ME_APP_PASSWORD" ||
+                    password == "TU_CONTRASEÑA_DE_APLICACION_AQUI")
+                {
+                    password =
+                        Environment.GetEnvironmentVariable("EMAIL_PASSWORD") ??
+                        Environment.GetEnvironmentVariable("GMAIL_APP_PASSWORD") ??
+                        password;
+                }
+
+                // Si sigue sin password, simular SOLO en Development (evitar falsas "ok" en producción)
+                if (string.IsNullOrWhiteSpace(password) ||
+                    password == "CHANGE_ME_APP_PASSWORD" ||
+                    password == "TU_CONTRASEÑA_DE_APLICACION_AQUI")
+                {
+                    var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
+
+                    if (environmentName.Equals("Development", StringComparison.OrdinalIgnoreCase))
+                    {
+                        _logger.LogWarning("⚠️ Email sin password. Configura EMAIL_PASSWORD (recomendado) o EmailSettings:Password.");
+                        _logger.LogInformation($"📧 [SIMULADO] Email para: {toEmail}");
+                        _logger.LogInformation($"📧 [SIMULADO] Asunto: {subject}");
+                        _logger.LogInformation($"📧 [SIMULADO] Para Gmail usa una 'Contraseña de aplicación' (2FA) y guárdala como secret/ENV.");
+                        return true;
+                    }
+
+                    _logger.LogError("❌ Email no configurado: falta EmailSettings:Password / EMAIL_PASSWORD en entorno no-Development.");
+                    return false;
+                }
+
+                // Configurar cliente SMTP con soporte para STARTTLS
+                using var client = new SmtpClient(smtpServer, smtpPort)
+                {
+                    Credentials = new NetworkCredential(senderEmail, password),
+                    EnableSsl = enableSsl,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    Timeout = 30000,
+                    UseDefaultCredentials = false
+                };
+
+                // Para Gmail, asegurar que se use STARTTLS correctamente
+                if (smtpServer?.Contains("gmail.com") == true && smtpPort == 587)
+                {
+                    // Gmail requiere STARTTLS en el puerto 587
+                    // EnableSsl = true ya maneja STARTTLS automáticamente
+                    client.EnableSsl = true;
+                }
+                else if (smtpServer?.Contains("gmail.com") == true && smtpPort == 465)
+                {
+                    // Gmail puerto 465 usa SSL/TLS directo
+                    client.EnableSsl = true;
+                }
+
+                using var message = new MailMessage
+                {
+                    From = new MailAddress(senderEmail!, senderName),
+                    Subject = subject,
+                    Body = body,
+                    IsBodyHtml = isHtml
+                };
+                message.To.Add(toEmail);
+
+                await client.SendMailAsync(message);
+                
+                _logger.LogInformation($"✅ Email enviado exitosamente a: {toEmail}");
+                return true;
+            }
+            catch (SmtpException smtpEx)
+            {
+                _logger.LogError($"❌ Error SMTP al enviar email a {toEmail}: {smtpEx.Message}");
+                _logger.LogError($"   StatusCode: {smtpEx.StatusCode}");
+                
+                // Mensajes más específicos según el error
+                if (smtpEx.StatusCode == SmtpStatusCode.MustIssueStartTlsFirst)
+                {
+                    _logger.LogError($"   💡 Solución: Asegúrate de que EnableSsl esté en 'true' y uses el puerto 587 para Gmail");
+                }
+                else if (smtpEx.Message.Contains("Authentication", StringComparison.OrdinalIgnoreCase) ||
+                         smtpEx.Message.Contains("5.7.0", StringComparison.OrdinalIgnoreCase))
+                {
+                    _logger.LogError($"   💡 Solución: Verifica que la contraseña de aplicación sea correcta");
+                    _logger.LogError($"   💡 Para Gmail: Usa una 'Contraseña de aplicación', no tu contraseña normal");
+                    _logger.LogError($"   💡 Pasos: Google Account -> Seguridad -> Verificación en 2 pasos -> Contraseñas de aplicación");
+                }
+                
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"❌ Error al enviar email a {toEmail}: {ex.Message}");
+                _logger.LogError($"   StackTrace: {ex.StackTrace}");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Envía el correo de recuperación de contraseña
+        /// </summary>
+        public async Task<bool> SendPasswordResetEmailAsync(string toEmail, string resetToken, string userName, string tipoUsuario = "")
+        {
+            var frontendUrl = _configuration["AppSettings:FrontendUrl"] ?? "http://localhost:3000";
+            
+            // Construir la URL según el tipo de usuario
+            string resetPath = tipoUsuario switch
+            {
+                "Docente" => "/docente/reset-password",
+                "Estudiante" => "/estudiante/reset-password",
+                "Usuario" => "/admin/reset-password",
+                _ => "/reset-password" // Fallback
+            };
+            
+            var resetLink = $"{frontendUrl}{resetPath}?token={Uri.EscapeDataString(resetToken)}";
+
+            var subject = "🔐 Recuperación de Contraseña - Academia Global";
+            
+            var body = $@"
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+</head>
+<body style='font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px;'>
+    <div style='max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);'>
+        
+        <!-- Header -->
+        <div style='background: linear-gradient(135deg, #003366 0%, #004488 100%); padding: 30px; text-align: center;'>
+            <h1 style='color: #ffffff; margin: 0; font-size: 24px;'>
+                ACADEMIA <span style='color: #C7A740;'>GLOBAL</span>
+            </h1>
+            <p style='color: rgba(255,255,255,0.8); margin: 10px 0 0 0; font-size: 14px;'>
+                Sistema de Gestión Académica
+            </p>
+        </div>
+        
+        <!-- Content -->
+        <div style='padding: 40px 30px;'>
+            <h2 style='color: #003366; margin: 0 0 20px 0; font-size: 20px;'>
+                Hola{(string.IsNullOrEmpty(userName) ? "" : $" {userName}")},
+            </h2>
+            
+            <p style='color: #4a4a4a; line-height: 1.6; margin: 0 0 20px 0;'>
+                Hemos recibido una solicitud para restablecer tu contraseña. Si no realizaste esta solicitud, puedes ignorar este correo.
+            </p>
+            
+            <p style='color: #4a4a4a; line-height: 1.6; margin: 0 0 30px 0;'>
+                Para restablecer tu contraseña, haz clic en el siguiente botón:
+            </p>
+            
+            <!-- Button -->
+            <div style='text-align: center; margin: 30px 0;'>
+                <a href='{resetLink}' 
+                   style='display: inline-block; background: linear-gradient(135deg, #003366 0%, #004488 100%); color: #ffffff; text-decoration: none; padding: 15px 40px; border-radius: 8px; font-weight: bold; font-size: 16px;'>
+                    Restablecer Contraseña
+                </a>
+            </div>
+            
+            <p style='color: #888888; font-size: 12px; line-height: 1.6; margin: 30px 0 0 0;'>
+                Si el botón no funciona, copia y pega el siguiente enlace en tu navegador:
+            </p>
+            <p style='color: #003366; font-size: 12px; word-break: break-all; margin: 10px 0;'>
+                {resetLink}
+            </p>
+            
+            <!-- Warning -->
+            <div style='background-color: #fff3cd; border-left: 4px solid #C7A740; padding: 15px; margin: 30px 0; border-radius: 0 8px 8px 0;'>
+                <p style='color: #856404; margin: 0; font-size: 14px;'>
+                    ⏰ <strong>Importante:</strong> Este enlace expirará en <strong>24 horas</strong> por seguridad.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div style='background-color: #f8f9fa; padding: 20px 30px; text-align: center; border-top: 1px solid #e9ecef;'>
+            <p style='color: #888888; font-size: 12px; margin: 0;'>
+                Este es un correo automático, por favor no respondas a este mensaje.
+            </p>
+            <p style='color: #888888; font-size: 12px; margin: 10px 0 0 0;'>
+                © 2025 Academia Global. Todos los derechos reservados.
+            </p>
+        </div>
+    </div>
+</body>
+</html>";
+
+            return await SendEmailAsync(toEmail, subject, body, true);
+        }
+    }
+}
+
+
+passwordreset service:
+using API_REST_CURSOSACADEMICOS.Data;
+using API_REST_CURSOSACADEMICOS.DTOs;
+using API_REST_CURSOSACADEMICOS.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+
+namespace API_REST_CURSOSACADEMICOS.Services
+{
+    public interface IPasswordResetService
+    {
+        Task<ForgotPasswordResponseDto> RequestPasswordResetAsync(string email, string? tipoUsuario = null);
+        Task<ValidateTokenResponseDto> ValidateTokenAsync(string token);
+        Task<ResetPasswordResponseDto> ResetPasswordAsync(string token, string newPassword);
+    }
+
+    public class PasswordResetService : IPasswordResetService
+    {
+        private readonly GestionAcademicaContext _context;
+        private readonly ILogger<PasswordResetService> _logger;
+        private readonly IConfiguration _configuration;
+        private readonly EmailService _emailService;
+
+        public PasswordResetService(
+            GestionAcademicaContext context,
+            ILogger<PasswordResetService> logger,
+            IConfiguration configuration,
+            EmailService emailService)
+        {
+            _context = context;
+            _logger = logger;
+            _configuration = configuration;
+            _emailService = emailService;
+        }
+
+        /// <summary>
+        /// Solicita un token de recuperación de contraseña
+        /// </summary>
+        public async Task<ForgotPasswordResponseDto> RequestPasswordResetAsync(string email, string? tipoUsuarioSolicitado = null)
+        {
+            try
+            {
+                email = email.Trim().ToLower();
+
+                // Buscar en todas las tablas que pueden tener usuarios
+                var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email != null && u.Email.ToLower() == email);
+                
+                // Buscar docente por correo directo O por el usuario relacionado
+                var docente = await _context.Docentes
+                    .FirstOrDefaultAsync(d => 
+                        (d.Correo != null && d.Correo.ToLower() == email) ||
+                        (usuario != null && d.IdUsuario != null && d.IdUsuario == usuario.Id));
+                
+                // Buscar estudiante por correo directo O por el usuario relacionado
+                var estudiante = await _context.Estudiantes
+                    .FirstOrDefaultAsync(e => 
+                        (e.Correo != null && e.Correo.ToLower() == email) ||
+                        (usuario != null && e.IdUsuario != null && e.IdUsuario == usuario.Id));
+
+                // Contar cuántas coincidencias hay
+                int coincidencias = 0;
+                if (usuario != null) coincidencias++;
+                if (docente != null) coincidencias++;
+                if (estudiante != null) coincidencias++;
+
+                string tipoUsuario = "";
+                int? idUsuario = null;
+                int? idDocente = null;
+                int? idEstudiante = null;
+
+                // Si hay múltiples coincidencias, requerir que se especifique el tipo
+                if (coincidencias > 1)
+                {
+                    if (string.IsNullOrWhiteSpace(tipoUsuarioSolicitado))
+                    {
+                        var tiposEncontrados = new List<string>();
+                        if (usuario != null) tiposEncontrados.Add("Administrador");
+                        if (docente != null) tiposEncontrados.Add("Docente");
+                        if (estudiante != null) tiposEncontrados.Add("Estudiante");
+
+                        return new ForgotPasswordResponseDto
+                        {
+                            Success = false,
+                            Message = $"Este correo electrónico está asociado a múltiples cuentas ({string.Join(", ", tiposEncontrados)}). Por favor, especifica el tipo de cuenta desde el portal correspondiente."
+                        };
+                    }
+
+                    // Validar el tipo solicitado
+                    tipoUsuarioSolicitado = tipoUsuarioSolicitado.Trim();
+                    if (tipoUsuarioSolicitado.Equals("Usuario", StringComparison.OrdinalIgnoreCase) || 
+                        tipoUsuarioSolicitado.Equals("Administrador", StringComparison.OrdinalIgnoreCase) || 
+                        tipoUsuarioSolicitado.Equals("Admin", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (usuario == null)
+                        {
+                            return new ForgotPasswordResponseDto
+                            {
+                                Success = false,
+                                Message = "No se encontró una cuenta de Administrador con este correo electrónico."
+                            };
+                        }
+                        tipoUsuario = "Usuario";
+                        idUsuario = usuario.Id;
+                    }
+                    else if (tipoUsuarioSolicitado.Equals("Docente", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (docente == null)
+                        {
+                            return new ForgotPasswordResponseDto
+                            {
+                                Success = false,
+                                Message = "No se encontró una cuenta de Docente con este correo electrónico."
+                            };
+                        }
+                        tipoUsuario = "Docente";
+                        idDocente = docente.Id;
+                    }
+                    else if (tipoUsuarioSolicitado.Equals("Estudiante", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (estudiante == null)
+                        {
+                            return new ForgotPasswordResponseDto
+                            {
+                                Success = false,
+                                Message = "No se encontró una cuenta de Estudiante con este correo electrónico."
+                            };
+                        }
+                        tipoUsuario = "Estudiante";
+                        idEstudiante = estudiante.Id;
+                    }
+                    else
+                    {
+                        return new ForgotPasswordResponseDto
+                        {
+                            Success = false,
+                            Message = "Tipo de usuario no válido. Debe ser: Administrador, Docente o Estudiante."
+                        };
+                    }
+                }
+                else if (coincidencias == 1)
+                {
+                    // Solo una coincidencia, pero si se especificó un tipo, validarlo
+                    if (!string.IsNullOrWhiteSpace(tipoUsuarioSolicitado))
+                    {
+                        tipoUsuarioSolicitado = tipoUsuarioSolicitado.Trim();
+                        // Validar que el tipo solicitado coincida con el encontrado
+                        if ((tipoUsuarioSolicitado.Equals("Usuario", StringComparison.OrdinalIgnoreCase) || 
+                             tipoUsuarioSolicitado.Equals("Administrador", StringComparison.OrdinalIgnoreCase) || 
+                             tipoUsuarioSolicitado.Equals("Admin", StringComparison.OrdinalIgnoreCase)) && usuario != null)
+                        {
+                            tipoUsuario = "Usuario";
+                            idUsuario = usuario.Id;
+                        }
+                        else if (tipoUsuarioSolicitado.Equals("Docente", StringComparison.OrdinalIgnoreCase) && docente != null)
+                        {
+                            tipoUsuario = "Docente";
+                            idDocente = docente.Id;
+                        }
+                        else if (tipoUsuarioSolicitado.Equals("Estudiante", StringComparison.OrdinalIgnoreCase) && estudiante != null)
+                        {
+                            tipoUsuario = "Estudiante";
+                            idEstudiante = estudiante.Id;
+                        }
+                        else
+                        {
+                            // El tipo solicitado no coincide con el encontrado
+                            return new ForgotPasswordResponseDto
+                            {
+                                Success = false,
+                                Message = $"El tipo de cuenta especificado no coincide con el correo electrónico. Por favor, usa el portal correcto."
+                            };
+                        }
+                    }
+                    else
+                    {
+                        // No se especificó tipo, usar el encontrado
+                        if (usuario != null)
+                        {
+                            tipoUsuario = "Usuario";
+                            idUsuario = usuario.Id;
+                        }
+                        else if (docente != null)
+                        {
+                            tipoUsuario = "Docente";
+                            idDocente = docente.Id;
+                        }
+                        else if (estudiante != null)
+                        {
+                            tipoUsuario = "Estudiante";
+                            idEstudiante = estudiante.Id;
+                        }
+                    }
+                }
+                else
+                {
+                    _logger.LogWarning("Intento de recuperación de contraseña para email no registrado: {Email}", email);
+                    return new ForgotPasswordResponseDto
+                    {
+                        Success = false,
+                        Message = "Usuario no registrado. El correo electrónico ingresado no está asociado a ninguna cuenta."
+                    };
+                }
+
+                // Invalidar tokens anteriores para este email
+                var tokensAnteriores = await _context.PasswordResetTokens
+                    .Where(t => t.Email.ToLower() == email && !t.Usado)
+                    .ToListAsync();
+
+                foreach (var token in tokensAnteriores)
+                {
+                    token.Usado = true;
+                }
+
+                // Generar nuevo token
+                var nuevoToken = GenerateSecureToken();
+                var expiracion = DateTime.Now.AddHours(24); // Token válido por 24 horas
+
+                var resetToken = new PasswordResetToken
+                {
+                    Email = email,
+                    Token = nuevoToken,
+                    FechaCreacion = DateTime.Now,
+                    FechaExpiracion = expiracion,
+                    Usado = false,
+                    TipoUsuario = tipoUsuario,
+                    IdUsuario = idUsuario,
+                    IdDocente = idDocente,
+                    IdEstudiante = idEstudiante
+                };
+
+                _context.PasswordResetTokens.Add(resetToken);
+                await _context.SaveChangesAsync();
+
+                // Obtener nombre del usuario para el email
+                string userName = "";
+                if (usuario != null) userName = $"{usuario.Nombres} {usuario.Apellidos}";
+                else if (docente != null) userName = $"{docente.Nombres} {docente.Apellidos}";
+                else if (estudiante != null) userName = $"{estudiante.Nombres} {estudiante.Apellidos}";
+
+                // Enviar email de recuperación
+                var emailEnviado = await _emailService.SendPasswordResetEmailAsync(email, nuevoToken, userName, tipoUsuario);
+
+                _logger.LogInformation(
+                    "Token de recuperación generado para {Email} (expira: {Expiracion}) - Email enviado: {Enviado}",
+                    email, expiracion, emailEnviado);
+
+                var exposeToken = ShouldExposeResetToken();
+
+                // Si el email no se pudo enviar pero estamos en modo desarrollo, aún devolver éxito
+                // En producción, deberíamos informar al usuario
+                var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+                var isDevelopment = string.Equals(environment, "Development", StringComparison.OrdinalIgnoreCase);
+
+                if (!emailEnviado && !isDevelopment)
+                {
+                    _logger.LogWarning("⚠️ El token se generó pero el email no se pudo enviar para {Email}", email);
+                    // Aún así devolvemos éxito para no revelar si el email existe
+                    // Pero el usuario debería verificar su configuración de email
+                }
+
+                return new ForgotPasswordResponseDto
+                {
+                    Success = true,
+                    Message = emailEnviado 
+                        ? "¡Instrucciones enviadas! Por favor, revisa tu bandeja de entrada (y la carpeta de spam)."
+                        : "Token generado. Si no recibes el email, verifica la configuración del servidor SMTP.",
+                    Email = MaskEmail(email),
+                    Token = exposeToken ? nuevoToken : null
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al procesar solicitud de recuperación de contraseña para {Email}", email);
+                return new ForgotPasswordResponseDto
+                {
+                    Success = false,
+                    Message = "Error al procesar la solicitud. Por favor, intenta nuevamente."
+                };
+            }
+        }
+
+        /// <summary>
+        /// Valida si un token es válido
+        /// </summary>
+        public async Task<ValidateTokenResponseDto> ValidateTokenAsync(string token)
+        {
+            try
+            {
+                var resetToken = await _context.PasswordResetTokens
+                    .FirstOrDefaultAsync(t => t.Token == token);
+
+                if (resetToken == null)
+                {
+                    return new ValidateTokenResponseDto
+                    {
+                        Valid = false,
+                        Message = "Token no válido o no encontrado."
+                    };
+                }
+
+                if (resetToken.Usado)
+                {
+                    return new ValidateTokenResponseDto
+                    {
+                        Valid = false,
+                        Message = "Este enlace ya fue utilizado. Solicita uno nuevo."
+                    };
+                }
+
+                if (resetToken.FechaExpiracion < DateTime.Now)
+                {
+                    return new ValidateTokenResponseDto
+                    {
+                        Valid = false,
+                        Message = "El enlace ha expirado. Solicita uno nuevo."
+                    };
+                }
+
+                return new ValidateTokenResponseDto
+                {
+                    Valid = true,
+                    Email = MaskEmail(resetToken.Email),
+                    TipoUsuario = resetToken.TipoUsuario,
+                    Message = "Token válido."
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al validar token de recuperación");
+                return new ValidateTokenResponseDto
+                {
+                    Valid = false,
+                    Message = "Error al validar el token."
+                };
+            }
+        }
+
+        /// <summary>
+        /// Resetea la contraseña usando el token
+        /// </summary>
+        public async Task<ResetPasswordResponseDto> ResetPasswordAsync(string token, string newPassword)
+        {
+            try
+            {
+                var resetToken = await _context.PasswordResetTokens
+                    .FirstOrDefaultAsync(t => t.Token == token);
+
+                if (resetToken == null)
+                {
+                    return new ResetPasswordResponseDto
+                    {
+                        Success = false,
+                        Message = "Token no válido o no encontrado."
+                    };
+                }
+
+                if (resetToken.Usado)
+                {
+                    return new ResetPasswordResponseDto
+                    {
+                        Success = false,
+                        Message = "Este enlace ya fue utilizado."
+                    };
+                }
+
+                if (resetToken.FechaExpiracion < DateTime.Now)
+                {
+                    return new ResetPasswordResponseDto
+                    {
+                        Success = false,
+                        Message = "El enlace ha expirado."
+                    };
+                }
+
+                // Obtener la contraseña actual para verificar que la nueva sea diferente
+                string? currentPasswordHash = null;
+
+                if (resetToken.TipoUsuario == "Usuario" && resetToken.IdUsuario.HasValue)
+                {
+                    var usuario = await _context.Usuarios.FindAsync(resetToken.IdUsuario.Value);
+                    if (usuario != null)
+                    {
+                        currentPasswordHash = usuario.PasswordHash;
+                    }
+                }
+                else if (resetToken.TipoUsuario == "Docente" && resetToken.IdDocente.HasValue)
+                {
+                    var docente = await _context.Docentes.FindAsync(resetToken.IdDocente.Value);
+                    if (docente != null)
+                    {
+                        currentPasswordHash = docente.PasswordHash;
+                    }
+                }
+                else if (resetToken.TipoUsuario == "Estudiante" && resetToken.IdEstudiante.HasValue)
+                {
+                    var estudiante = await _context.Estudiantes.FindAsync(resetToken.IdEstudiante.Value);
+                    if (estudiante != null && estudiante.IdUsuario > 0)
+                    {
+                        var usuario = await _context.Usuarios.FindAsync(estudiante.IdUsuario);
+                        if (usuario != null)
+                        {
+                            currentPasswordHash = usuario.PasswordHash;
+                        }
+                    }
+                }
+
+                // Verificar que la nueva contraseña sea diferente a la anterior
+                if (!string.IsNullOrEmpty(currentPasswordHash))
+                {
+                    if (BCrypt.Net.BCrypt.Verify(newPassword, currentPasswordHash))
+                    {
+                        return new ResetPasswordResponseDto
+                        {
+                            Success = false,
+                            Message = "La nueva contraseña debe ser diferente a la contraseña actual."
+                        };
+                    }
+                }
+
+                // Hash de la nueva contraseña
+                var passwordHash = BCrypt.Net.BCrypt.HashPassword(newPassword);
+
+                // Actualizar la contraseña según el tipo de usuario
+                bool updated = false;
+
+                if (resetToken.TipoUsuario == "Usuario" && resetToken.IdUsuario.HasValue)
+                {
+                    var usuario = await _context.Usuarios.FindAsync(resetToken.IdUsuario.Value);
+                    if (usuario != null)
+                    {
+                        usuario.PasswordHash = passwordHash;
+                        usuario.FechaActualizacion = DateTime.Now;
+                        updated = true;
+                    }
+                }
+                else if (resetToken.TipoUsuario == "Docente" && resetToken.IdDocente.HasValue)
+                {
+                    var docente = await _context.Docentes.FindAsync(resetToken.IdDocente.Value);
+                    if (docente != null)
+                    {
+                        docente.PasswordHash = passwordHash;
+                        updated = true;
+                    }
+                }
+                else if (resetToken.TipoUsuario == "Estudiante" && resetToken.IdEstudiante.HasValue)
+                {
+                    // Si los estudiantes tienen su propio campo de contraseña
+                    // Por ahora, actualizamos el usuario asociado si existe
+                    var estudiante = await _context.Estudiantes.FindAsync(resetToken.IdEstudiante.Value);
+                    if (estudiante != null && estudiante.IdUsuario > 0)
+                    {
+                        var usuario = await _context.Usuarios.FindAsync(estudiante.IdUsuario);
+                        if (usuario != null)
+                        {
+                            usuario.PasswordHash = passwordHash;
+                            usuario.FechaActualizacion = DateTime.Now;
+                            updated = true;
+                        }
+                    }
+                }
+
+                if (!updated)
+                {
+                    return new ResetPasswordResponseDto
+                    {
+                        Success = false,
+                        Message = "No se pudo actualizar la contraseña. Contacta a soporte."
+                    };
+                }
+
+                // Marcar token como usado
+                resetToken.Usado = true;
+
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation(
+                    "Contraseña actualizada exitosamente para {Email} ({TipoUsuario})",
+                    resetToken.Email, resetToken.TipoUsuario);
+
+                return new ResetPasswordResponseDto
+                {
+                    Success = true,
+                    Message = "¡Contraseña actualizada exitosamente! Ya puedes iniciar sesión."
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al resetear contraseña");
+                return new ResetPasswordResponseDto
+                {
+                    Success = false,
+                    Message = "Error al actualizar la contraseña. Por favor, intenta nuevamente."
+                };
+            }
+        }
+
+        /// <summary>
+        /// Genera un token seguro aleatorio
+        /// </summary>
+        private string GenerateSecureToken()
+        {
+            var bytes = new byte[32];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(bytes);
+            }
+            return Convert.ToBase64String(bytes).Replace("+", "-").Replace("/", "_").TrimEnd('=');
+        }
+
+        /// <summary>
+        /// Enmascara el email para mostrar parcialmente
+        /// </summary>
+        private string MaskEmail(string email)
+        {
+            var parts = email.Split('@');
+            if (parts.Length != 2) return email;
+
+            var name = parts[0];
+            var domain = parts[1];
+
+            if (name.Length <= 2)
+                return $"{name[0]}***@{domain}";
+
+            return $"{name[0]}{name[1]}***@{domain}";
+        }
+
+        /// <summary>
+        /// Simula el envío de email (para desarrollo)
+        /// En producción, integrar con un servicio real como SendGrid, AWS SES, etc.
+        /// </summary>
+        private async Task SimularEnvioEmail(string email, string token)
+        {
+            // Construir URL de reset (ajustar según tu frontend)
+            var frontendUrl = _configuration["AppSettings:FrontendUrl"] ?? "http://localhost:3000";
+            var resetUrl = $"{frontendUrl}/reset-password?token={token}";
+
+            _logger.LogInformation(
+                "========== EMAIL DE RECUPERACIÓN (SIMULADO) ==========\n" +
+                "Para: {Email}\n" +
+                "Asunto: Recuperación de Contraseña - Academia Universitaria\n" +
+                "Enlace de recuperación: {ResetUrl}\n" +
+                "Expira en: 24 horas\n" +
+                "======================================================",
+                email, resetUrl);
+
+            await Task.CompletedTask;
+        }
+
+        private bool ShouldExposeResetToken()
+        {
+            var configured = _configuration["AppSettings:ExposePasswordResetToken"];
+            if (bool.TryParse(configured, out var value))
+            {
+                return value;
+            }
+
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            return string.Equals(environment, "Development", StringComparison.OrdinalIgnoreCase);
+        }
+    }
+}
+

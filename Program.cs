@@ -119,6 +119,8 @@ builder.Services.AddSingleton<HybridCacheService>();
 builder.Services.AddSingleton<ICacheService>(sp => sp.GetRequiredService<HybridCacheService>());
 builder.Services.AddScoped<IImageCompressionService, ImageCompressionService>();
 builder.Services.AddScoped<IDapperQueryService, DapperQueryService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IContactService, ContactService>();
 
 // Interceptores
 builder.Services.AddSingleton<DatabasePerformanceInterceptor>();
