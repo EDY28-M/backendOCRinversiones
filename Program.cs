@@ -122,6 +122,9 @@ builder.Services.AddScoped<IDapperQueryService, DapperQueryService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IContactService, ContactService>();
 
+// ✅ WARMUP: Pre-calentar DB, EF Core y BCrypt al iniciar la app (reduce cold start)
+builder.Services.AddHostedService<backendORCinverisones.Infrastructure.WarmupService>();
+
 // Interceptores
 builder.Services.AddSingleton<DatabasePerformanceInterceptor>();
 

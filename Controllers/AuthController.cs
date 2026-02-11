@@ -37,4 +37,14 @@ public class AuthController : ControllerBase
     {
         return Ok(new { message = "Sesión cerrada correctamente" });
     }
+
+    /// <summary>
+    /// Endpoint ultraligero para despertar el servidor (warmup/keep-alive).
+    /// No requiere autenticación. Respuesta mínima ~1ms.
+    /// </summary>
+    [HttpGet("ping")]
+    public IActionResult Ping()
+    {
+        return Ok(new { status = "ok", timestamp = DateTime.UtcNow });
+    }
 }
