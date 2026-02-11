@@ -387,10 +387,11 @@ public class ProductsController : ControllerBase
             if (request.IsFeatured.HasValue) product.IsFeatured = request.IsFeatured.Value;
 
             // ✅ IMÁGENES: Ahora se almacenan como URLs directamente (Backblaze, etc.)
-            if (request.ImagenPrincipal != null) product.ImagenPrincipal = request.ImagenPrincipal;
-            if (request.Imagen2 != null) product.Imagen2 = request.Imagen2;
-            if (request.Imagen3 != null) product.Imagen3 = request.Imagen3;
-            if (request.Imagen4 != null) product.Imagen4 = request.Imagen4;
+            // Si se envía string vacío, se limpia la imagen (permite quitar imágenes)
+            if (request.ImagenPrincipal != null) product.ImagenPrincipal = string.IsNullOrWhiteSpace(request.ImagenPrincipal) ? null : request.ImagenPrincipal;
+            if (request.Imagen2 != null) product.Imagen2 = string.IsNullOrWhiteSpace(request.Imagen2) ? null : request.Imagen2;
+            if (request.Imagen3 != null) product.Imagen3 = string.IsNullOrWhiteSpace(request.Imagen3) ? null : request.Imagen3;
+            if (request.Imagen4 != null) product.Imagen4 = string.IsNullOrWhiteSpace(request.Imagen4) ? null : request.Imagen4;
 
             product.UpdatedAt = DateTime.UtcNow;
 
