@@ -82,7 +82,6 @@ public partial class ProductRepository
             .Take(maxResults)
             .ToListAsync(cancellationToken);
     }
-    }
 
     /// <summary>
     /// Obtiene solo los IDs de productos para operaciones masivas
