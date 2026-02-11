@@ -13,13 +13,11 @@ public class CreateProductRequestValidator : AbstractValidator<CreateProductRequ
     {
         RuleFor(x => x.Codigo)
             .NotEmpty().WithMessage("El código es requerido")
-            .MaximumLength(100).WithMessage("El código no puede exceder 100 caracteres")
-            .Matches(@"^[A-Z0-9\-]+$").WithMessage("El código solo puede contener letras mayúsculas, números y guiones");
+            .MaximumLength(100).WithMessage("El código no puede exceder 100 caracteres");
 
         RuleFor(x => x.CodigoComer)
             .NotEmpty().WithMessage("El código comercial es requerido")
-            .MaximumLength(100).WithMessage("El código comercial no puede exceder 100 caracteres")
-            .Matches(@"^[A-Z0-9\-]+$").WithMessage("El código comercial solo puede contener letras mayúsculas, números y guiones");
+            .MaximumLength(100).WithMessage("El código comercial no puede exceder 100 caracteres");
 
         RuleFor(x => x.Producto)
             .NotEmpty().WithMessage("El nombre del producto es requerido")

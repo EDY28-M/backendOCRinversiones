@@ -12,12 +12,10 @@ public class UpdateProductRequestValidator : AbstractValidator<UpdateProductRequ
     {
         RuleFor(x => x.Codigo)
             .MaximumLength(100).WithMessage("El código no puede exceder 100 caracteres")
-            .Matches(@"^[A-Z0-9\-]+$").WithMessage("El código solo puede contener letras mayúsculas, números y guiones")
             .When(x => !string.IsNullOrWhiteSpace(x.Codigo));
 
         RuleFor(x => x.CodigoComer)
             .MaximumLength(100).WithMessage("El código comercial no puede exceder 100 caracteres")
-            .Matches(@"^[A-Z0-9\-]+$").WithMessage("El código comercial solo puede contener letras mayúsculas, números y guiones")
             .When(x => !string.IsNullOrWhiteSpace(x.CodigoComer));
 
         RuleFor(x => x.Producto)
