@@ -52,11 +52,7 @@ public class CreateProductRequestValidator : AbstractValidator<CreateProductRequ
             .Must(BeValidImageUrlOrEmpty).WithMessage("La URL de la imagen 4 no es válida")
             .When(x => !string.IsNullOrWhiteSpace(x.Imagen4));
 
-        // Validar que al menos una imagen sea válida
-        RuleFor(x => x)
-            .Must(HaveAtLeastOneImage)
-            .WithMessage("Debe proporcionar al menos una imagen válida")
-            .WithName("Imágenes");
+        // Las imágenes son opcionales - se puede crear un producto sin imágenes
     }
 
     private static bool BeValidImageUrlOrEmpty(string? url)
@@ -68,12 +64,5 @@ public class CreateProductRequestValidator : AbstractValidator<CreateProductRequ
                (uri.Scheme == "http" || uri.Scheme == "https");
     }
 
-    private bool HaveAtLeastOneImage(CreateProductRequestDto dto)
-    {
-        // Al menos una imagen debe ser una URL/data URI válida
-        return BeValidImageUrlOrEmpty(dto.ImagenPrincipal) && !string.IsNullOrWhiteSpace(dto.ImagenPrincipal) ||
-               BeValidImageUrlOrEmpty(dto.Imagen2) && !string.IsNullOrWhiteSpace(dto.Imagen2) ||
-               BeValidImageUrlOrEmpty(dto.Imagen3) && !string.IsNullOrWhiteSpace(dto.Imagen3) ||
-               BeValidImageUrlOrEmpty(dto.Imagen4) && !string.IsNullOrWhiteSpace(dto.Imagen4);
-    }
+
 }
