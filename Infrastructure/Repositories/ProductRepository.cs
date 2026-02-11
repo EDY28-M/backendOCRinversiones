@@ -113,16 +113,20 @@ public partial class ProductRepository : Repository<Product>, IProductRepository
                 !string.IsNullOrWhiteSpace(p.Imagen4));
         }
 
-        // Search filter - SQL LIKE
+        // Search filter - Búsqueda inteligente por tokens (AND logic)
         if (!string.IsNullOrWhiteSpace(searchTerm))
         {
-            var term = searchTerm.ToLower();
-            query = query.Where(p =>
-                p.Producto.ToLower().Contains(term) ||
-                p.Codigo.ToLower().Contains(term) ||
-                p.CodigoComer.ToLower().Contains(term) ||
-                (p.Category != null && p.Category.Name.ToLower().Contains(term)) ||
-                (p.Marca != null && p.Marca.Nombre.ToLower().Contains(term)));
+            var tokens = searchTerm.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            foreach (var token in tokens)
+            {
+                var t = token; // captura para closure
+                query = query.Where(p =>
+                    p.Producto.ToLower().Contains(t) ||
+                    p.Codigo.ToLower().Contains(t) ||
+                    p.CodigoComer.ToLower().Contains(t) ||
+                    (p.Category != null && p.Category.Name.ToLower().Contains(t)) ||
+                    (p.Marca != null && p.Marca.Nombre.ToLower().Contains(t)));
+            }
         }
 
         // Category filter
@@ -158,16 +162,20 @@ public partial class ProductRepository : Repository<Product>, IProductRepository
                 !string.IsNullOrWhiteSpace(p.Imagen3) ||
                 !string.IsNullOrWhiteSpace(p.Imagen4));
 
-        // Search filter - SQL LIKE
+        // Search filter - Búsqueda inteligente por tokens (AND logic)
         if (!string.IsNullOrWhiteSpace(searchTerm))
         {
-            var term = searchTerm.ToLower();
-            query = query.Where(p =>
-                p.Producto.ToLower().Contains(term) ||
-                p.Codigo.ToLower().Contains(term) ||
-                p.CodigoComer.ToLower().Contains(term) ||
-                (p.Category != null && p.Category.Name.ToLower().Contains(term)) ||
-                (p.Marca != null && p.Marca.Nombre.ToLower().Contains(term)));
+            var tokens = searchTerm.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            foreach (var token in tokens)
+            {
+                var t = token;
+                query = query.Where(p =>
+                    p.Producto.ToLower().Contains(t) ||
+                    p.Codigo.ToLower().Contains(t) ||
+                    p.CodigoComer.ToLower().Contains(t) ||
+                    (p.Category != null && p.Category.Name.ToLower().Contains(t)) ||
+                    (p.Marca != null && p.Marca.Nombre.ToLower().Contains(t)));
+            }
         }
 
         // Category filter

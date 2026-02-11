@@ -51,36 +51,25 @@ public partial class ProductRepository
         int maxResults = 20,
         CancellationToken cancellationToken = default)
     {
-        // Si el término es muy corto, usar LIKE tradicional
-        if (searchTerm.Length < 3)
-        {
-            var pattern = $"%{searchTerm}%";
-            return await _dbSet
-                .AsNoTracking()
-                .Where(p => p.IsActive)
-                .Where(p => EF.Functions.Like(p.Producto, pattern) || 
-                           EF.Functions.Like(p.Codigo, pattern))
-                .OrderBy(p => p.Codigo)
-                .Select(p => new ProductSearchResultDto
-                {
-                    Id = p.Id,
-                    Codigo = p.Codigo,
-                    Producto = p.Producto,
-                    ImagenPrincipal = p.ImagenPrincipal,
-                    CategoryName = p.Category.Name
-                })
-                .Take(maxResults)
-                .ToListAsync(cancellationToken);
-        }
-
-        // Para búsquedas más complejas, usar el método existente
-        var term = searchTerm.ToLower();
-        return await _dbSet
+        var query = _dbSet
             .AsNoTracking()
             .Where(p => p.IsActive)
-            .Where(p => p.Producto.ToLower().Contains(term) ||
-                       p.Codigo.ToLower().Contains(term) ||
-                       p.CodigoComer.ToLower().Contains(term))
+            .AsQueryable();
+
+        // Búsqueda inteligente por tokens (AND logic)
+        var tokens = searchTerm.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        foreach (var token in tokens)
+        {
+            var t = token;
+            query = query.Where(p =>
+                p.Producto.ToLower().Contains(t) ||
+                p.Codigo.ToLower().Contains(t) ||
+                p.CodigoComer.ToLower().Contains(t) ||
+                (p.Category != null && p.Category.Name.ToLower().Contains(t)) ||
+                (p.Marca != null && p.Marca.Nombre.ToLower().Contains(t)));
+        }
+
+        return await query
             .OrderBy(p => p.Codigo)
             .Select(p => new ProductSearchResultDto
             {
@@ -92,6 +81,7 @@ public partial class ProductRepository
             })
             .Take(maxResults)
             .ToListAsync(cancellationToken);
+    }
     }
 
     /// <summary>
