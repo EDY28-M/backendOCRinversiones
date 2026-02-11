@@ -29,6 +29,7 @@ public partial class ProductRepository
             query = query.Where(p => p.CategoryId == categoryId.Value);
 
         return query
+            .OrderBy(p => p.Id)
             .Select(p => new ProductListItemDto
             {
                 Id = p.Id,
@@ -59,6 +60,7 @@ public partial class ProductRepository
                 .Where(p => p.IsActive)
                 .Where(p => EF.Functions.Like(p.Producto, pattern) || 
                            EF.Functions.Like(p.Codigo, pattern))
+                .OrderBy(p => p.Id)
                 .Select(p => new ProductSearchResultDto
                 {
                     Id = p.Id,
@@ -79,6 +81,7 @@ public partial class ProductRepository
             .Where(p => p.Producto.ToLower().Contains(term) ||
                        p.Codigo.ToLower().Contains(term) ||
                        p.CodigoComer.ToLower().Contains(term))
+            .OrderBy(p => p.Id)
             .Select(p => new ProductSearchResultDto
             {
                 Id = p.Id,
@@ -104,6 +107,7 @@ public partial class ProductRepository
             query = query.Where(p => p.IsActive);
 
         return await query
+            .OrderBy(p => p.Id)
             .Select(p => p.Id)
             .ToListAsync(cancellationToken);
     }

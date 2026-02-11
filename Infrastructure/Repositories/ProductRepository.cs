@@ -27,6 +27,7 @@ public partial class ProductRepository : Repository<Product>, IProductRepository
             .Include(p => p.Category)
             .Include(p => p.Marca)
             .Where(p => p.CategoryId == categoryId)
+            .OrderBy(p => p.Id)
             .ToListAsync();
     }
 
@@ -35,6 +36,7 @@ public partial class ProductRepository : Repository<Product>, IProductRepository
         return await _dbSet
             .Include(p => p.Category)
             .Include(p => p.Marca)
+            .OrderBy(p => p.Id)
             .ToListAsync();
     }
 
@@ -42,6 +44,7 @@ public partial class ProductRepository : Repository<Product>, IProductRepository
     {
         return await _dbSet
             .AsNoTracking()
+            .OrderBy(p => p.Id)
             .Select(p => new ProductResponseDto
             {
                 Id = p.Id,
@@ -131,9 +134,9 @@ public partial class ProductRepository : Repository<Product>, IProductRepository
         // Total count BEFORE pagination
         var total = await query.CountAsync();
 
-        // Paginate and execute
+        // Paginate and execute - Ordenar por Id ascendente para orden determinístico
         var items = await query
-            .OrderByDescending(p => p.CreatedAt)
+            .OrderBy(p => p.Id)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
@@ -182,9 +185,9 @@ public partial class ProductRepository : Repository<Product>, IProductRepository
         // Total count BEFORE pagination
         var total = await query.CountAsync();
 
-        // Paginate and execute
+        // Paginate and execute - Ordenar por Id ascendente para orden determinístico
         var items = await query
-            .OrderByDescending(p => p.CreatedAt)
+            .OrderBy(p => p.Id)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
@@ -208,8 +211,9 @@ public partial class ProductRepository : Repository<Product>, IProductRepository
 
         var total = await query.CountAsync();
 
+        // Ordenar por Id ascendente para orden determinístico
         var items = await query
-            .OrderByDescending(p => p.CreatedAt)
+            .OrderBy(p => p.Id)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
