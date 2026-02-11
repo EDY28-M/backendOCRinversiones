@@ -27,7 +27,7 @@ public partial class ProductRepository : Repository<Product>, IProductRepository
             .Include(p => p.Category)
             .Include(p => p.Marca)
             .Where(p => p.CategoryId == categoryId)
-            .OrderBy(p => p.Id)
+            .OrderBy(p => p.Codigo)
             .ToListAsync();
     }
 
@@ -36,7 +36,7 @@ public partial class ProductRepository : Repository<Product>, IProductRepository
         return await _dbSet
             .Include(p => p.Category)
             .Include(p => p.Marca)
-            .OrderBy(p => p.Id)
+            .OrderBy(p => p.Codigo)
             .ToListAsync();
     }
 
@@ -44,7 +44,7 @@ public partial class ProductRepository : Repository<Product>, IProductRepository
     {
         return await _dbSet
             .AsNoTracking()
-            .OrderBy(p => p.Id)
+            .OrderBy(p => p.Codigo)
             .Select(p => new ProductResponseDto
             {
                 Id = p.Id,
@@ -134,9 +134,9 @@ public partial class ProductRepository : Repository<Product>, IProductRepository
         // Total count BEFORE pagination
         var total = await query.CountAsync();
 
-        // Paginate and execute - Ordenar por Id ascendente para orden determinístico
+        // Paginate and execute - Ordenar por Codigo ascendente
         var items = await query
-            .OrderBy(p => p.Id)
+            .OrderBy(p => p.Codigo)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
@@ -185,9 +185,9 @@ public partial class ProductRepository : Repository<Product>, IProductRepository
         // Total count BEFORE pagination
         var total = await query.CountAsync();
 
-        // Paginate and execute - Ordenar por Id ascendente para orden determinístico
+        // Paginate and execute - Ordenar por Codigo ascendente
         var items = await query
-            .OrderBy(p => p.Id)
+            .OrderBy(p => p.Codigo)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
@@ -211,9 +211,9 @@ public partial class ProductRepository : Repository<Product>, IProductRepository
 
         var total = await query.CountAsync();
 
-        // Ordenar por Id ascendente para orden determinístico
+        // Ordenar por Codigo ascendente
         var items = await query
-            .OrderBy(p => p.Id)
+            .OrderBy(p => p.Codigo)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
