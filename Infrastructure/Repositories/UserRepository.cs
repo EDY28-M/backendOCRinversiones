@@ -13,16 +13,14 @@ public class UserRepository : Repository<User>, IUserRepository
 
     public async Task<User?> GetByUsernameAsync(string username)
     {
-        return await _dbSet
-            .Include(u => u.Role)
-            .FirstOrDefaultAsync(u => u.Username == username);
+        // ✅ Usar compiled query pre-compilada (evita re-parsear SQL en cada login)
+        return await CompiledQueries.GetUserByUsernameAsync(_context, username);
     }
 
     public async Task<User?> GetByEmailAsync(string email)
     {
-        return await _dbSet
-            .Include(u => u.Role)
-            .FirstOrDefaultAsync(u => u.Email == email);
+        // ✅ Usar compiled query pre-compilada
+        return await CompiledQueries.GetUserByEmailAsync(_context, email);
     }
 
     public async Task<User?> GetByIdWithRoleAsync(int id)
