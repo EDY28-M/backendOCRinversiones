@@ -309,6 +309,26 @@ public partial class ProductRepository : Repository<Product>, IProductRepository
             .Distinct()
             .ToListAsync();
     }
+
+    public async Task<IReadOnlyList<RecentProductDto>> GetRecentProductsAsync(int limit)
+    {
+        return await _dbSet
+            .AsNoTracking()
+            .OrderByDescending(p => p.CreatedAt)
+            .ThenByDescending(p => p.Id)
+            .Take(limit)
+            .Select(p => new RecentProductDto
+            {
+                Id = p.Id,
+                Codigo = p.Codigo,
+                Producto = p.Producto,
+                MarcaNombre = p.Marca.Nombre,
+                CategoryName = p.Category.Name,
+                CreatedAt = p.CreatedAt
+            })
+            .ToListAsync();
+    }
+
     public async Task DeleteAllAsync()
     {
         await _dbSet.ExecuteDeleteAsync();

@@ -76,6 +76,26 @@ public class ProductsController : ControllerBase
     }
 
     /// <summary>
+    /// Obtiene los últimos productos creados (historial reciente).
+    /// </summary>
+    [HttpGet("recent")]
+    public async Task<IActionResult> GetRecent([FromQuery] int limit = 10)
+    {
+        try
+        {
+            // Validar rango: mínimo 1, máximo 100
+            limit = Math.Clamp(limit, 1, 100);
+
+            var recentProducts = await _productRepository.GetRecentProductsAsync(limit);
+            return Ok(recentProducts);
+        }
+        catch (Exception ex)
+        {
+            return SecureError(500, "Error al obtener productos recientes", ex);
+        }
+    }
+
+    /// <summary>
     /// Obtiene productos disponibles (con al menos 1 imagen válida) con paginación
     /// </summary>
     [HttpGet("available")]
@@ -127,7 +147,7 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<IActionResult> GetById(int id)
     {
         var product = await _productRepository.GetByIdWithCategoryAsync(id);
@@ -309,7 +329,7 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     [Authorize(Roles = "Administrador,Vendedor")]
     public async Task<IActionResult> Update(int id, [FromBody] UpdateProductRequestDto request)
     {
@@ -411,7 +431,7 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpPatch("{id}/status")]
+    [HttpPatch("{id:int}/status")]
     [Authorize(Roles = "Administrador,Vendedor")]
     public async Task<IActionResult> UpdateStatus(int id, [FromBody] UpdateProductStatusRequestDto request)
     {
@@ -435,7 +455,7 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpPatch("{id}/featured")]
+    [HttpPatch("{id:int}/featured")]
     [Authorize(Roles = "Administrador,Vendedor")]
     public async Task<IActionResult> UpdateFeatured(int id, [FromBody] UpdateProductFeaturedRequestDto request)
     {
@@ -477,7 +497,7 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> Delete(int id)
     {

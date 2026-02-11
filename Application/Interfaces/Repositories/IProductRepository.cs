@@ -44,5 +44,10 @@ public interface IProductRepository : IRepository<Product>
     Task<IEnumerable<int>> GetDistinctCategoryIdsWithActiveProductsAsync();
     Task<IEnumerable<int>> GetDistinctBrandIdsWithActiveProductsAsync();
 
+    /// <summary>
+    /// Obtiene los últimos productos creados, ordenados por fecha de creación descendente.
+    /// </summary>
+    Task<IReadOnlyList<RecentProductDto>> GetRecentProductsAsync(int limit);
+
     Task DeleteAllAsync();
 }
