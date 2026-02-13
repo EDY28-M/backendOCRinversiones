@@ -887,12 +887,17 @@ public class ProductsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "❌ Error en BulkImport: {Message} | Inner: {Inner}", ex.Message, ex.InnerException?.Message);
+            // Extraer el error más profundo para mostrar al usuario
+            var innerMsg = ex.InnerException?.InnerException?.Message 
+                        ?? ex.InnerException?.Message 
+                        ?? ex.Message;
+            _logger.LogError(ex, "❌ Error en BulkImport: {Message} | Inner: {Inner} | DeepInner: {Deep}", 
+                ex.Message, ex.InnerException?.Message, ex.InnerException?.InnerException?.Message);
             return StatusCode(500, new 
             { 
-                message = $"Error en importación masiva: {ex.Message}",
+                message = $"Error en importación: {innerMsg}",
                 innerError = ex.InnerException?.Message,
-                errors = new[] { ex.Message, ex.InnerException?.Message }.Where(e => e != null)
+                deepError = ex.InnerException?.InnerException?.Message
             });
         }
     }
