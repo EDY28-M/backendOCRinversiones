@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "/home/matias-tesista/Descargas/backendORCinverisones/backend/backendORCinverisones.csproj": {}
+    "C:\\Users\\USER\\Downloads\\MATIAS\\backendOCRinversiones\\backendORCinverisones.csproj": {}
   },
   "projects": {
-    "/home/matias-tesista/Descargas/backendORCinverisones/backend/backendORCinverisones.csproj": {
+    "C:\\Users\\USER\\Downloads\\MATIAS\\backendOCRinversiones\\backendORCinverisones.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/matias-tesista/Descargas/backendORCinverisones/backend/backendORCinverisones.csproj",
+        "projectUniqueName": "C:\\Users\\USER\\Downloads\\MATIAS\\backendOCRinversiones\\backendORCinverisones.csproj",
         "projectName": "backendORCinverisones",
-        "projectPath": "/home/matias-tesista/Descargas/backendORCinverisones/backend/backendORCinverisones.csproj",
-        "packagesPath": "/home/matias-tesista/.nuget/packages/",
-        "outputPath": "/home/matias-tesista/Descargas/backendORCinverisones/backend/obj/",
+        "projectPath": "C:\\Users\\USER\\Downloads\\MATIAS\\backendOCRinversiones\\backendORCinverisones.csproj",
+        "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\USER\\Downloads\\MATIAS\\backendOCRinversiones\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/home/matias-tesista/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -32,7 +38,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -154,6 +166,24 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.23, 8.0.23]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[8.0.23, 8.0.23]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.23, 8.0.23]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.23, 8.0.23]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -162,7 +192,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.123/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

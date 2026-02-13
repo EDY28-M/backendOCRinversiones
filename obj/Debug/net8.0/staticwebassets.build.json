@@ -1,11 +1,1 @@
-{
-  "Version": 1,
-  "Hash": "NjxF+SQQhAiVuDg66eB/wXZriYM8Kao8UQZnjiCn0Do=",
-  "Source": "backendORCinverisones",
-  "BasePath": "_content/backendORCinverisones",
-  "Mode": "Default",
-  "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
-}
+{"Version":1,"Hash":"ukLwE9IiMjTlvCZKopO1pxsp+g0aX1kXmCS57ms2S6s=","Source":"backendORCinverisones","BasePath":"/","Mode":"Root","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}

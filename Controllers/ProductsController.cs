@@ -895,6 +895,14 @@ public class ProductsController : ControllerBase
         // 5. Bulk insert de productos
         if (productsToInsert.Count > 0)
         {
+            // ✅ VALIDACIÓN PREVIA DE LONGITUDES (Evita errores de truncado)
+            foreach (var p in productsToInsert)
+            {
+                if (p.Codigo.Length > 100) p.Codigo = p.Codigo.Substring(0, 100);
+                if (p.CodigoComer.Length > 100) p.CodigoComer = p.CodigoComer.Substring(0, 100);
+                if (p.Producto.Length > 300) p.Producto = p.Producto.Substring(0, 300);
+            }
+
             try
             {
                 _logger.LogInformation("Ejecutando bulk insert FINAL de {Count} productos", productsToInsert.Count);
@@ -904,10 +912,43 @@ public class ProductsController : ControllerBase
             }
             catch (Exception ex)
             {
-                result.Failed += productsToInsert.Count;
-                result.Imported = 0;
-                result.Errors.Add($"Error en bulk insert: {ex.Message}");
-                _logger.LogError(ex, "Error al ejecutar bulk insert");
+                _logger.LogWarning(ex, "Error en BulkInsert, intentando inserción individual...");
+                
+                // Fallback: Insertar uno por uno para salvar los válidos
+                int successCount = 0;
+                
+                // Detach entities if they were attached by BulkInsert (usually they aren't, but good practice)
+                var tracked = _context.ChangeTracker.Entries<Product>().Where(e => e.State != Microsoft.EntityFrameworkCore.EntityState.Detached).ToList();
+                foreach(var entry in tracked) entry.State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+
+                foreach (var p in productsToInsert)
+                {
+                    try
+                    {
+                        // Re-validar duplicados por si acaso (aunque ya se filtró)
+                        if (await _productRepository.IsCodigoExistsAsync(p.Codigo, null))
+                        {
+                            result.Duplicates++;
+                            continue;
+                        }
+
+                        // Reset ID just in case
+                        p.Id = 0; 
+                        await _productRepository.AddAsync(p);
+                        successCount++;
+                    }
+                    catch (Exception innerEx)
+                    {
+                        result.Failed++;
+                        var msg = innerEx.InnerException?.Message ?? innerEx.Message;
+                        if (msg.Contains("IX_Products_Codigo")) msg = $"Código '{p.Codigo}' ya existe (duplicado en BD).";
+                        else if (msg.Contains("IX_Products_CodigoComer")) msg = $"Código Comercial '{p.CodigoComer}' ya existe.";
+                        
+                        result.Errors.Add($"Error en '{p.Codigo}': {msg}");
+                    }
+                }
+                
+                result.Imported = successCount;
             }
         }
 
