@@ -5,6 +5,7 @@ using backendORCinverisones.Application.Interfaces.Repositories;
 using backendORCinverisones.Application.Interfaces.Services;
 using backendORCinverisones.Application.Logging;
 using backendORCinverisones.Domain.Entities;
+using backendORCinverisones.Infrastructure.Data;
 using backendORCinverisones.Infrastructure.Repositories;
 
 namespace backendORCinverisones.Controllers;
@@ -22,6 +23,7 @@ public class ProductsController : ControllerBase
     private readonly IImageCompressionService _imageCompressionService;
     private readonly IWebHostEnvironment _env;
     private readonly ILogger<ProductsController> _logger;
+    private readonly ApplicationDbContext _context;
 
     public ProductsController(
         IProductRepository productRepository,
@@ -31,7 +33,8 @@ public class ProductsController : ControllerBase
         ICacheService cacheService,
         IImageCompressionService imageCompressionService,
         IWebHostEnvironment env,
-        ILogger<ProductsController> logger)
+        ILogger<ProductsController> logger,
+        ApplicationDbContext context)
     {
         _productRepository = productRepository;
         _categoryRepository = categoryRepository;
@@ -41,6 +44,7 @@ public class ProductsController : ControllerBase
         _imageCompressionService = imageCompressionService;
         _env = env;
         _logger = logger;
+        _context = context;
     }
 
     // ✅ SEGURIDAD: Helper para retornar errores sin exponer detalles en producción
@@ -684,18 +688,20 @@ public class ProductsController : ControllerBase
         var result = new BulkImportResultDto();
         
         // Cache de códigos existentes (Optimizado: Solo traer códigos, no entidades completas)
+        // Cache de códigos existentes (Optimizado: Solo traer códigos, no entidades completas)
         var existingCodesInfo = await _productRepository.GetCodigosForGenerationAsync();
-        var existingCodes = existingCodesInfo.Select(x => x.Codigo.ToLower()).ToHashSet();
+        var existingCodes = existingCodesInfo.Select(x => NormalizeKey(x.Codigo)).ToHashSet();
 
         _logger.LogInformation("Iniciando importación OPTIMIZADA de {Count} productos", request.Products.Count);
 
         // 1. Identificar Marcas y Categorías nuevas vs existentes
-        // Traemos todas para asegurar mapeo correcto (optimización: solo id y nombre si fuera posible, pero repository trae todo, ok)
         var allMarcas = await _nombreMarcaRepository.GetAllAsync();
         var allCategories = await _categoryRepository.GetAllAsync();
 
-        var marcasCache = allMarcas.ToDictionary(m => m.Nombre.ToLower().Trim(), m => m.Id);
-        var categoriasCache = allCategories.ToDictionary(c => c.Name.ToLower().Trim(), c => c.Id);
+
+
+        var marcasCache = allMarcas.ToDictionary(m => NormalizeKey(m.Nombre), m => m.Id);
+        var categoriasCache = allCategories.ToDictionary(c => NormalizeKey(c.Name), c => c.Id);
 
         var marcasToCreate = new Dictionary<string, NombreMarca>();
         var categoriasToCreate = new Dictionary<string, Category>();
@@ -713,7 +719,7 @@ public class ProductsController : ControllerBase
             // Marca
             if (!item.MarcaId.HasValue && !string.IsNullOrWhiteSpace(item.MarcaNombre))
             {
-                var marcaKey = item.MarcaNombre.ToLower().Trim();
+                var marcaKey = NormalizeKey(item.MarcaNombre);
                 if (!marcasCache.ContainsKey(marcaKey) && !marcasToCreate.ContainsKey(marcaKey))
                 {
                     if (request.AutoCreateEntities)
@@ -731,7 +737,7 @@ public class ProductsController : ControllerBase
             // Categoría
             if (!item.CategoryId.HasValue && !string.IsNullOrWhiteSpace(item.CategoriaNombre))
             {
-                var catKey = item.CategoriaNombre.ToLower().Trim();
+                var catKey = NormalizeKey(item.CategoriaNombre);
                 if (!categoriasCache.ContainsKey(catKey) && !categoriasToCreate.ContainsKey(catKey))
                 {
                     if (request.AutoCreateEntities)
@@ -748,39 +754,84 @@ public class ProductsController : ControllerBase
             }
         }
 
-        // 3. Crear dependencias masivamente
+        // 3. Crear dependencias masivamente (con manejo de duplicados)
         if (marcasToCreate.Count > 0)
         {
-            _logger.LogInformation("Creando {Count} nuevas marcas masivamente...", marcasToCreate.Count);
-            await _nombreMarcaRepository.CreateRangeAsync(marcasToCreate.Values);
-            result.MarcasCreated = marcasToCreate.Count;
-            
-            // Reconstruir cache o agregar las nuevas con sus IDs generados
-            foreach (var m in marcasToCreate.Values)
+            _logger.LogInformation("Creando {Count} nuevas marcas...", marcasToCreate.Count);
+            try
             {
-                marcasCache[m.Nombre.ToLower().Trim()] = m.Id;
+                await _nombreMarcaRepository.CreateRangeAsync(marcasToCreate.Values);
             }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Error en CreateRange de marcas, insertando individualmente...");
+                // Detach todas las entidades tracked para evitar conflictos
+                // Detach todas las entidades tracked para evitar conflictos
+                var trackedEntries = _context.ChangeTracker.Entries()
+                    .Where(e => e.State == Microsoft.EntityFrameworkCore.EntityState.Added || e.State == Microsoft.EntityFrameworkCore.EntityState.Modified)
+                    .ToList();
+                
+                foreach (var entry in trackedEntries)
+                    entry.State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+                
+                // Fallback: insertar una por una, saltando duplicados
+                foreach (var marca in marcasToCreate.Values)
+                {
+                    try 
+                    { 
+                        var newMarca = new NombreMarca { Nombre = marca.Nombre, IsActive = true, CreatedAt = DateTime.UtcNow };
+                        await _nombreMarcaRepository.CreateAsync(newMarca); 
+                    }
+                    catch { _logger.LogWarning("Marca ya existe: {Nombre}", marca.Nombre); }
+                }
+            }
+            // Recargar marcas desde BD para obtener IDs correctos
+            allMarcas = await _nombreMarcaRepository.GetAllAsync();
+            marcasCache = allMarcas.ToDictionary(m => NormalizeKey(m.Nombre), m => m.Id);
+            result.MarcasCreated = marcasToCreate.Count;
         }
 
         if (categoriasToCreate.Count > 0)
         {
-            _logger.LogInformation("Creando {Count} nuevas categorías masivamente...", categoriasToCreate.Count);
-            // CategoryRepository hereda de Repository<T>, debe tener AddRangeAsync
-            await _categoryRepository.AddRangeAsync(categoriasToCreate.Values);
-            result.CategoriasCreated = categoriasToCreate.Count;
-            
-            // Reconstruir cache
-            foreach (var c in categoriasToCreate.Values)
+            _logger.LogInformation("Creando {Count} nuevas categorías...", categoriasToCreate.Count);
+            try
             {
-                categoriasCache[c.Name.ToLower().Trim()] = c.Id;
+                await _categoryRepository.AddRangeAsync(categoriasToCreate.Values);
             }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Error en AddRange de categorías, insertando individualmente...");
+                // Detach todas las entidades tracked para evitar conflictos
+                // Detach todas las entidades tracked para evitar conflictos
+                var trackedEntries = _context.ChangeTracker.Entries()
+                    .Where(e => e.State == Microsoft.EntityFrameworkCore.EntityState.Added || e.State == Microsoft.EntityFrameworkCore.EntityState.Modified)
+                    .ToList();
+
+                foreach (var entry in trackedEntries)
+                    entry.State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+                
+                // Fallback: insertar una por una, saltando duplicados  
+                foreach (var cat in categoriasToCreate.Values)
+                {
+                    try 
+                    { 
+                        var newCat = new Category { Name = cat.Name, Description = cat.Description, IsActive = true, CreatedAt = DateTime.UtcNow };
+                        await _categoryRepository.AddAsync(newCat); 
+                    }
+                    catch { _logger.LogWarning("Categoría ya existe: {Name}", cat.Name); }
+                }
+            }
+            // Recargar categorías desde BD para obtener IDs correctos
+            allCategories = await _categoryRepository.GetAllAsync();
+            categoriasCache = allCategories.ToDictionary(c => NormalizeKey(c.Name), c => c.Id);
+            result.CategoriasCreated = categoriasToCreate.Count;
         }
 
         // 4. Segunda pasada: Construir productos con IDs resueltos
         foreach (var item in request.Products)
         {
             // Skip duplicados (ya contados arriba)
-            if (existingCodes.Contains(item.Codigo.ToLower())) continue;
+            if (existingCodes.Contains(NormalizeKey(item.Codigo))) continue;
 
             int marcaId = 0;
             if (item.MarcaId.HasValue && item.MarcaId.Value > 0)
@@ -789,7 +840,7 @@ public class ProductsController : ControllerBase
             }
             else if (!string.IsNullOrWhiteSpace(item.MarcaNombre))
             {
-                if (marcasCache.TryGetValue(item.MarcaNombre.ToLower().Trim(), out var id))
+                if (marcasCache.TryGetValue(NormalizeKey(item.MarcaNombre), out var id))
                 {
                     marcaId = id;
                 }
@@ -802,7 +853,7 @@ public class ProductsController : ControllerBase
             }
             else if (!string.IsNullOrWhiteSpace(item.CategoriaNombre))
             {
-                if (categoriasCache.TryGetValue(item.CategoriaNombre.ToLower().Trim(), out var id))
+                if (categoriasCache.TryGetValue(NormalizeKey(item.CategoriaNombre), out var id))
                 {
                     categoryId = id;
                 }
@@ -837,7 +888,8 @@ public class ProductsController : ControllerBase
             });
 
             // Evitar procesar el mismo código si viene duplicado en el MISMO request
-            existingCodes.Add(item.Codigo.ToLower());
+            // Evitar procesar el mismo código si viene duplicado en el MISMO request
+            existingCodes.Add(NormalizeKey(item.Codigo));
         }
 
         // 5. Bulk insert de productos
@@ -895,7 +947,7 @@ public class ProductsController : ControllerBase
                 ex.Message, ex.InnerException?.Message, ex.InnerException?.InnerException?.Message);
             return StatusCode(500, new 
             { 
-                message = $"Error en importación: {innerMsg}",
+                message = $"[V4] Error en importación: {innerMsg}",
                 innerError = ex.InnerException?.Message,
                 deepError = ex.InnerException?.InnerException?.Message
             });
@@ -964,5 +1016,18 @@ public class ProductsController : ControllerBase
         {
             return SecureError(500, "Error al obtener categorías públicas", ex);
         }
+    }
+    // Helper: normalizar texto quitando acentos para comparación
+    private static string NormalizeKey(string text)
+    {
+        if (string.IsNullOrWhiteSpace(text)) return "";
+        var normalized = text.Normalize(System.Text.NormalizationForm.FormD);
+        var sb = new System.Text.StringBuilder();
+        foreach (var c in normalized)
+        {
+            if (System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c) != System.Globalization.UnicodeCategory.NonSpacingMark)
+                sb.Append(c);
+        }
+        return sb.ToString().Normalize(System.Text.NormalizationForm.FormC).ToLower().Trim();
     }
 }
