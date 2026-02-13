@@ -673,6 +673,9 @@ public class ProductsController : ControllerBase
         if (request.Products == null || request.Products.Count == 0)
             return BadRequest(new { message = "No hay productos para importar" });
 
+        try
+        {
+
         // ✅ SEGURIDAD: Validar límite (DESHABILITADO POR SOLICITUD DE USUARIO)
         // const int MAX_BULK_IMPORT = 1000;
         // if (request.Products.Count > MAX_BULK_IMPORT)
@@ -881,6 +884,17 @@ public class ProductsController : ControllerBase
             User.Identity?.Name, result.Imported, result.Failed, result.Duplicates, result.MarcasCreated, result.CategoriasCreated);
 
         return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "❌ Error en BulkImport: {Message} | Inner: {Inner}", ex.Message, ex.InnerException?.Message);
+            return StatusCode(500, new 
+            { 
+                message = $"Error en importación masiva: {ex.Message}",
+                innerError = ex.InnerException?.Message,
+                errors = new[] { ex.Message, ex.InnerException?.Message }.Where(e => e != null)
+            });
+        }
     }
 
     /// <summary>

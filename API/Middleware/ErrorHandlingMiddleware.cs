@@ -36,11 +36,12 @@ public class ErrorHandlingMiddleware
         string errorMessage;
         string userMessage;
 
-        // ✅ Detectar errores de conexión a base de datos
-        if (exception is SqlException sqlEx || 
+        // ✅ Detectar errores de conexión a base de datos (solo errores REALES de conexión)
+        if (exception is SqlException || 
             exception.InnerException is SqlException ||
-            exception.Message.Contains("SqlClient") ||
-            exception.Message.Contains("connection"))
+            exception.Message.Contains("Cannot open database") ||
+            exception.Message.Contains("A network-related") ||
+            exception.Message.Contains("The server was not found"))
         {
             errorMessage = "Error de conexión a la base de datos";
             userMessage = "No se pudo conectar a la base de datos. Verifique la configuración del servidor.";
@@ -49,7 +50,8 @@ public class ErrorHandlingMiddleware
         else
         {
             errorMessage = "Ocurrió un error interno en el servidor";
-            userMessage = "Ha ocurrido un error. Por favor contacte al administrador.";
+            userMessage = exception.Message; // Mostrar el mensaje real para debugging
+            _logger.LogError("❌ SERVER ERROR: {Message} | InnerException: {Inner}", exception.Message, exception.InnerException?.Message);
         }
 
         // ✅ SEGURIDAD: Solo exponer detalles en desarrollo
