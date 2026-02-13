@@ -148,7 +148,7 @@ builder.Services.Configure<IpRateLimitOptions>(options =>
         {
             Endpoint = "*",
             Period = "1m",
-            Limit = 200 // 200 requests por minuto por IP
+            Limit = 500 // 500 requests por minuto por IP (admin panel hace muchas calls)
         },
         new RateLimitRule
         {
@@ -160,7 +160,7 @@ builder.Services.Configure<IpRateLimitOptions>(options =>
         {
             Endpoint = "POST:/api/products/bulk-import",
             Period = "1h",
-            Limit = 10 // Solo 10 bulk imports por hora
+            Limit = 50 // 50 bulk imports por hora
         }
     };
 });
