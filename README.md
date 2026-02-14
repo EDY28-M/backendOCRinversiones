@@ -1,442 +1,276 @@
-# Backend ORC Inversiones - Clean Architecture
+# Backend ORC Inversiones
 
-[![.NET](https://img.shields.io/badge/.NET-8.0-purple)](https://dotnet.microsoft.com/)
-[![ASP.NET Core](https://img.shields.io/badge/ASP.NET%20Core-Web%20API-blue)](https://docs.microsoft.com/en-us/aspnet/core/)
-[![Architecture](https://img.shields.io/badge/Architecture-Clean%20Architecture-green)](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+API REST para el sistema de gestión de repuestos vehiculares de ORC Inversiones Perú S.A.C. Desarrollado con ASP.NET Core 8.0 y desplegado en Render con Docker.
 
-Backend profesional desarrollado con **ASP.NET Core Web API**, implementando **Clean Architecture**, **SOLID principles** y **mejores prácticas de la industria**.
+## Requisitos previos
 
----
+- .NET SDK 8.0
+- SQL Server o Azure SQL Database
+- Docker (solo para producción)
 
-## 📋 Características Principales
+## Configuración de la base de datos
 
-✅ **Clean Architecture** con separación de capas (Domain, Application, Infrastructure, API)  
-✅ **Autenticación JWT** con roles (Administrador, Vendedor)  
-✅ **Repository Pattern** + **Unit of Work**  
-✅ **Dependency Injection** nativo de .NET  
-✅ **AutoMapper** para mapeo de DTOs  
-✅ **FluentValidation** para validaciones robustas  
-✅ **Entity Framework Core** con SQL Server  
-✅ **Manejo centralizado de errores** con middleware personalizado  
-✅ **Logging estructurado** con Serilog  
-✅ **Swagger/OpenAPI** para documentación de API  
-✅ **CORS** configurado  
-✅ **Paginación** en endpoints de listado  
-
----
-
-## 🏗️ Arquitectura
-
-Este proyecto sigue **Clean Architecture** con 4 capas principales:
+La base de datos se llama `ORCInversiones` y se aloja en Azure SQL Database. La cadena de conexión es:
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                    API (Presentation)                    │
-│              Controllers, Middleware, Filters            │
-└───────────────────────────┬─────────────────────────────┘
-                            │ ↓ depende de
-┌───────────────────────────▼─────────────────────────────┐
-│                     Application                          │
-│          Services, DTOs, Interfaces, Validators          │
-└───────────────────────────┬─────────────────────────────┘
-                            │ ↓ depende de
-┌───────────────────────────▼─────────────────────────────┐
-│                       Domain (Core)                      │
-│               Entities, Exceptions, Enums                │
-└─────────────────────────────────────────────────────────┘
-                            ↑ es usado por
-┌───────────────────────────┴─────────────────────────────┐
-│                    Infrastructure                        │
-│         EF Core, Repositories, External Services         │
-└─────────────────────────────────────────────────────────┘
+Server=tcp:bdinversiones.database.windows.net,1433;Initial Catalog=ORCInversiones;Persist Security Info=False;User ID=orcinversiones;Password=Inversionesperu2026;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
 ```
 
-**Más detalles**: Ver [`ARCHITECTURE.md`](ARCHITECTURE.md)
+Para inicializar las tablas, ejecutar el script `supabase_migration.sql` (ubicado en la raíz del monorepo) desde una conexión directa a la base de datos `ORCInversiones`. No ejecutar desde `master`.
+
+### Tablas del sistema
+
+| Tabla | Descripción |
+|-------|-------------|
+| Roles | Roles del sistema (Administrador, Vendedor) |
+| Users | Usuarios con autenticación por contraseña (BCrypt) |
+| Categories | Categorías de productos |
+| NombreMarcas | Marcas de vehículos (JAC, Foton, Hyundai, etc.) |
+| Products | Catálogo de repuestos con imágenes, códigos y fichas técnicas |
+
+### Usuario administrador por defecto
+
+- **Usuario:** admin
+- **Contraseña:** Admin123!
+- **Rol:** Administrador
 
 ---
 
-## 📦 Módulos del Sistema
+## Levantar en local
 
-### 1. Autenticación
-- ✅ Login con email/password
-- ✅ Generación de token JWT
-- ✅ Autorización basada en roles
+1. Clonar el repositorio:
 
-### 2. Gestión de Usuarios
-- ✅ CRUD de usuarios
-- ✅ Asignación de roles
-- ✅ Cambio de contraseñas
-- ✅ Activación/Desactivación (soft delete)
-
-### 3. Gestión de Roles
-- ✅ Listado de roles
-- ✅ Roles predefinidos: Administrador, Vendedor
-
-### 4. Gestión de Productos
-- ✅ CRUD de productos
-- ✅ Asignación de vendedores
-- ✅ Control de stock
-- ✅ Categorización
-
-### 5. Gestión de Categorías
-- ✅ CRUD de categorías
-- ✅ Relación con productos
-
----
-
-## 🗂️ Estructura del Proyecto
-
-```
-backendORCinverisones/
-│
-├── src/
-│   ├── Domain/                 # Entidades, excepciones de negocio
-│   ├── Application/            # Servicios, DTOs, interfaces, validadores
-│   ├── Infrastructure/         # EF Core, repositorios, JWT, external services
-│   └── API/                    # Controllers, middleware, configuración
-│
-├── docs/                       # Documentación
-│   ├── ARCHITECTURE.md         # Arquitectura del sistema
-│   ├── ENTITIES.md             # Diseño de entidades
-│   ├── ENDPOINTS.md            # Especificación de API
-│   ├── IMPLEMENTATION.md       # Guía de implementación
-│   └── BEST_PRACTICES.md       # Mejores prácticas
-│
-├── backendORCinverisones.sln   # Solución .NET
-└── README.md                   # Este archivo
-```
-
----
-
-## 🚀 Inicio Rápido
-
-### Prerrequisitos
-
-- [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
-- [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) o [SQL Server Express](https://www.microsoft.com/en-us/sql-server/sql-server-editions-express)
-- [Visual Studio 2022](https://visualstudio.microsoft.com/) o [VS Code](https://code.visualstudio.com/)
-
-### Instalación
-
-1. **Clonar el repositorio**
 ```bash
-git clone https://github.com/tu-usuario/backendORCinverisones.git
-cd backendORCinverisones
+git clone https://github.com/EDY28-M/backendOCRinversiones.git
+cd backend
 ```
 
-2. **Restaurar paquetes NuGet**
+2. Restaurar dependencias:
+
 ```bash
 dotnet restore
 ```
 
-3. **Configurar cadena de conexión**
+3. Configurar la cadena de conexión en `appsettings.json` o `appsettings.Development.json`:
 
-Editar `src/API/appsettings.json`:
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=BackendORC;Trusted_Connection=true;MultipleActiveResultSets=true"
+    "DefaultConnection": "Server=tcp:bdinversiones.database.windows.net,1433;Initial Catalog=ORCInversiones;Persist Security Info=False;User ID=orcinversiones;Password=Inversionesperu2026;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
   }
 }
 ```
 
-4. **Aplicar migraciones**
-```bash
-cd src/API
-dotnet ef database update --project ../Infrastructure
-```
+4. Ejecutar la aplicación:
 
-5. **Ejecutar la aplicación**
 ```bash
 dotnet run
 ```
 
-6. **Acceder a Swagger**
+La API estará disponible en `https://localhost:5001` o `http://localhost:5000`.
+
+5. Acceder a la documentación Swagger:
+
 ```
-https://localhost:7001/swagger
+http://localhost:5000/swagger
 ```
 
 ---
 
-## 📚 Documentación
+## Despliegue en producción (Render)
 
-| Documento | Descripción |
-|-----------|-------------|
-| [**ARCHITECTURE.md**](ARCHITECTURE.md) | Arquitectura del sistema, capas, flujo de datos, patrones de diseño |
-| [**ENTITIES.md**](ENTITIES.md) | Diseño de entidades, relaciones, reglas de negocio |
-| [**ENDPOINTS.md**](ENDPOINTS.md) | Especificación completa de API REST, autorización por rol |
-| [**IMPLEMENTATION.md**](IMPLEMENTATION.md) | Guía paso a paso para implementar el sistema |
-| [**BEST_PRACTICES.md**](BEST_PRACTICES.md) | Seguridad, clean code, performance, logging, testing |
+El backend se despliega en Render como servicio Docker. El archivo `render.yaml` en la raíz del monorepo ya tiene la configuración necesaria.
 
----
+### Pasos
 
-## 🔐 Autenticación y Autorización
+1. Crear un servicio tipo **Web Service** en Render apuntando al repositorio de GitHub.
 
-### Autenticación JWT
+2. Configurar como **Docker** con las siguientes opciones:
+   - Dockerfile Path: `./backend/Dockerfile`
+   - Docker Context: `./backend`
 
-```bash
-POST /api/auth/login
-Content-Type: application/json
+3. Configurar las variables de entorno en el dashboard de Render:
 
-{
-  "email": "admin@ejemplo.com",
-  "password": "Admin123!"
-}
+| Variable | Valor |
+|----------|-------|
+| `ASPNETCORE_ENVIRONMENT` | `Production` |
+| `ASPNETCORE_URLS` | `http://+:8080` |
+| `ConnectionStrings__DefaultConnection` | (cadena de conexión de Azure SQL) |
+| `Jwt__Key` | (clave secreta JWT de al menos 64 caracteres) |
+| `Jwt__Issuer` | `ORCInversionesAPI` |
+| `Jwt__Audience` | `ORCInversionesClient` |
+| `CorsOrigins` | `https://orcinversionesperu.com,https://www.orcinversionesperu.com` |
 
-# Response
-{
-  "success": true,
-  "data": {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "usuario": {
-      "id": 1,
-      "nombre": "Admin",
-      "email": "admin@ejemplo.com",
-      "rol": "Administrador"
-    },
-    "expiracion": "2026-01-23T14:00:00Z"
-  }
-}
-```
+4. Render detecta el Dockerfile y construye la imagen automáticamente al hacer push a `main`.
 
-### Usar Token en Requests
+### Health check
 
-```bash
-GET /api/usuarios
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-```
-
-### Roles del Sistema
-
-| Rol | Permisos |
-|-----|----------|
-| **Administrador** | Acceso completo al sistema |
-| **Vendedor** | Acceso limitado a productos asignados |
-
-**Más detalles**: Ver [`ENDPOINTS.md`](ENDPOINTS.md#autorización-por-rol)
+Render usa el endpoint `/api/setup/health` para verificar que el servicio esté activo. Este endpoint también valida la conexión a la base de datos.
 
 ---
 
-## 🛠️ Tecnologías Utilizadas
+## Estructura del proyecto
 
-### Backend
-- **ASP.NET Core 8.0** - Framework web
-- **Entity Framework Core 8.0** - ORM
-- **SQL Server** - Base de datos
-- **AutoMapper** - Mapeo objeto-objeto
-- **FluentValidation** - Validaciones
-- **BCrypt.Net** - Hashing de contraseñas
+```
+backend/
+├── Controllers/          # Controladores de la API
+├── Domain/
+│   ├── Entities/         # Modelos de datos (Product, User, Category, etc.)
+│   └── Enums/
+├── Application/
+│   ├── DTOs/             # Objetos de transferencia (request/response)
+│   ├── Interfaces/       # Contratos de repositorios y servicios
+│   ├── Services/         # Lógica de negocio
+│   ├── Validators/       # Validaciones con FluentValidation
+│   └── Mappings/         # Perfiles de AutoMapper
+├── Infrastructure/
+│   ├── Data/             # DbContext y configuración de EF Core
+│   ├── Repositories/     # Implementación de acceso a datos
+│   └── HealthChecks/     # Health checks personalizados
+├── Migrations/           # Migraciones de Entity Framework
+├── Program.cs            # Punto de entrada y configuración de servicios
+├── appsettings.json      # Configuración general
+└── Dockerfile            # Imagen Docker para producción
+```
+
+---
+
+## Referencia de la API
+
+Todas las rutas empiezan con `/api`. Los endpoints marcados con "Auth" requieren token JWT en el header `Authorization: Bearer {token}`.
 
 ### Autenticación
-- **JWT (JSON Web Tokens)** - Autenticación stateless
 
-### Documentación
-- **Swagger/OpenAPI** - Documentación interactiva de API
+| Método | Ruta | Auth | Descripción |
+|--------|------|------|-------------|
+| POST | `/api/auth/login` | No | Iniciar sesión. Enviar `{ username, password }`. Devuelve el token JWT. |
+| POST | `/api/auth/logout` | No | Cerrar sesión. |
+| GET | `/api/auth/ping` | No | Ping para keep-alive del servidor. |
 
-### Logging
-- **Serilog** - Logging estructurado
+### Productos (admin)
 
-### Testing (Futuro)
-- **xUnit** - Framework de pruebas
-- **Moq** - Mocking
+Requieren autenticación. Los endpoints de escritura requieren rol Administrador.
 
----
+| Método | Ruta | Rol | Descripción |
+|--------|------|-----|-------------|
+| GET | `/api/products` | Autenticado | Listar todos los productos |
+| GET | `/api/products/{id}` | Autenticado | Obtener producto por ID |
+| GET | `/api/products/recent` | Autenticado | Últimos productos creados |
+| GET | `/api/products/available` | Autenticado | Productos con imágenes, paginados |
+| GET | `/api/products/generate-codes` | Autenticado | Generar siguiente código disponible |
+| GET | `/api/products/check-codigo/{codigo}` | Autenticado | Verificar si un código está disponible |
+| POST | `/api/products` | Administrador | Crear producto |
+| PUT | `/api/products/{id}` | Administrador | Actualizar producto |
+| PATCH | `/api/products/{id}/status` | Administrador | Activar/desactivar producto |
+| PATCH | `/api/products/{id}/featured` | Administrador | Marcar como destacado |
+| DELETE | `/api/products/{id}` | Administrador | Eliminar producto |
+| DELETE | `/api/products/delete-all` | Administrador | Eliminar todos los productos |
+| POST | `/api/products/bulk-import` | Administrador | Importación masiva desde Excel |
 
-## 📊 Modelo de Datos
+### Productos (público)
 
-### Entidades Principales
+No requieren autenticación. Son los que consume el frontend público.
 
-```
-Usuario ──┬── Rol
-          │
-          └── Producto ──── Categoria
-```
-
-**Diagrama ER completo**: Ver [`ENTITIES.md`](ENTITIES.md#diagrama-entidad-relación-er)
-
----
-
-## 🔧 Comandos Útiles
-
-### Migraciones de Base de Datos
-
-```bash
-# Crear migración
-dotnet ef migrations add NombreMigracion --project src/Infrastructure --startup-project src/API
-
-# Aplicar migraciones
-dotnet ef database update --project src/Infrastructure --startup-project src/API
-
-# Eliminar última migración
-dotnet ef migrations remove --project src/Infrastructure --startup-project src/API
-
-# Generar script SQL
-dotnet ef migrations script --project src/Infrastructure --startup-project src/API
-```
-
-### Compilación y Ejecución
-
-```bash
-# Compilar solución
-dotnet build
-
-# Ejecutar API
-cd src/API
-dotnet run
-
-# Ejecutar con watch (auto-restart)
-dotnet watch run
-
-# Publicar para producción
-dotnet publish -c Release -o ./publish
-```
-
-### Testing (cuando se implementen)
-
-```bash
-# Ejecutar todas las pruebas
-dotnet test
-
-# Ejecutar con cobertura
-dotnet test /p:CollectCoverage=true
-```
-
----
-
-## 🌐 Endpoints Principales
-
-### Autenticación
-```
-POST   /api/auth/login          # Login
-POST   /api/auth/logout         # Logout (opcional)
-```
-
-### Usuarios
-```
-GET    /api/usuarios            # Listar usuarios (paginado)
-GET    /api/usuarios/{id}       # Obtener por ID
-POST   /api/usuarios            # Crear usuario
-PUT    /api/usuarios/{id}       # Actualizar usuario
-DELETE /api/usuarios/{id}       # Desactivar usuario
-PUT    /api/usuarios/{id}/cambiar-password  # Cambiar contraseña
-```
-
-### Productos
-```
-GET    /api/productos           # Listar productos (paginado)
-GET    /api/productos/{id}      # Obtener por ID
-POST   /api/productos           # Crear producto
-PUT    /api/productos/{id}      # Actualizar producto
-DELETE /api/productos/{id}      # Desactivar producto
-```
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| GET | `/api/products/public/active` | Productos activos con imágenes, paginados. Acepta filtros por categoría, marca y búsqueda. |
+| GET | `/api/products/public/featured` | Productos destacados para mostrar en la página de inicio. |
+| GET | `/api/products/public/brands` | Marcas que tienen al menos un producto activo con imagen. |
+| GET | `/api/products/public/categories` | Categorías con conteo de productos activos. |
 
 ### Categorías
-```
-GET    /api/categorias          # Listar categorías
-GET    /api/categorias/{id}     # Obtener por ID
-POST   /api/categorias          # Crear categoría
-PUT    /api/categorias/{id}     # Actualizar categoría
-DELETE /api/categorias/{id}     # Desactivar categoría
-```
 
-**Especificación completa**: Ver [`ENDPOINTS.md`](ENDPOINTS.md)
+Requieren autenticación. Escritura solo para Administrador.
 
----
+| Método | Ruta | Rol | Descripción |
+|--------|------|-----|-------------|
+| GET | `/api/categories` | Autenticado | Listar categorías |
+| GET | `/api/categories/{id}` | Autenticado | Obtener categoría por ID |
+| POST | `/api/categories` | Administrador | Crear categoría |
+| PUT | `/api/categories/{id}` | Administrador | Actualizar categoría |
+| DELETE | `/api/categories/{id}` | Administrador | Eliminar categoría |
+| DELETE | `/api/categories/delete-all` | Administrador | Eliminar todas |
 
-## 🧪 Testing
+### Marcas
 
-### Pruebas Unitarias
-```csharp
-[Fact]
-public async Task GetByIdAsync_UsuarioExiste_RetornaUsuario()
-{
-    // Arrange
-    var mockRepo = new Mock<IUsuarioRepository>();
-    mockRepo.Setup(r => r.GetByIdAsync(1))
-        .ReturnsAsync(new Usuario { Id = 1, Email = "test@test.com" });
-    
-    // Act
-    var result = await _service.GetByIdAsync(1);
-    
-    // Assert
-    Assert.NotNull(result);
-    Assert.Equal("test@test.com", result.Email);
-}
-```
+Requieren autenticación. Escritura solo para Administrador.
 
-**Guía completa**: Ver [`BEST_PRACTICES.md`](BEST_PRACTICES.md#testing)
+| Método | Ruta | Rol | Descripción |
+|--------|------|-----|-------------|
+| GET | `/api/nombremarcas` | Autenticado | Listar marcas |
+| GET | `/api/nombremarcas/{id}` | Autenticado | Obtener marca por ID |
+| POST | `/api/nombremarcas` | Administrador | Crear marca |
+| PUT | `/api/nombremarcas/{id}` | Administrador | Actualizar marca |
+| DELETE | `/api/nombremarcas/{id}` | Administrador | Eliminar marca |
+| DELETE | `/api/nombremarcas/delete-all` | Administrador | Eliminar todas |
 
----
+### Usuarios
 
-## 📈 Roadmap
+Solo accesible para Administradores.
 
-### Fase 1: Fundamentos ✅
-- [x] Arquitectura de capas
-- [x] Entidades de dominio
-- [x] Autenticación JWT
-- [x] CRUD básico
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| GET | `/api/users` | Listar usuarios |
+| GET | `/api/users/{id}` | Obtener usuario por ID |
+| POST | `/api/users` | Crear usuario |
+| PUT | `/api/users/{id}` | Actualizar usuario |
+| DELETE | `/api/users/{id}` | Eliminar usuario |
 
-### Fase 2: Funcionalidades Avanzadas
-- [ ] Refresh tokens
-- [ ] Rate limiting
-- [x] Caching en memoria del backend
-- [ ] Notificaciones por email
+### Roles
 
-### Fase 3: Escalabilidad
-- [ ] Implementar CQRS
-- [ ] Event Sourcing
-- [ ] Microservicios
-- [ ] Docker/Kubernetes
+Solo accesible para Administradores.
 
-### Fase 4: Observabilidad
-- [ ] Application Insights
-- [ ] Health checks
-- [ ] Métricas con Prometheus
-- [ ] Dashboards con Grafana
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| GET | `/api/roles` | Listar roles |
+| GET | `/api/roles/{id}` | Obtener rol por ID |
+| POST | `/api/roles` | Crear rol |
+| PUT | `/api/roles/{id}` | Actualizar rol |
+| DELETE | `/api/roles/{id}` | Eliminar rol |
 
----
+### Contacto
 
-## 🤝 Contribución
+| Método | Ruta | Auth | Descripción |
+|--------|------|------|-------------|
+| POST | `/api/contact` | No | Enviar formulario de contacto por email |
 
-Las contribuciones son bienvenidas. Por favor:
+### Setup y monitoreo
 
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+| Método | Ruta | Auth | Descripción |
+|--------|------|------|-------------|
+| GET | `/api/setup/health` | No | Health check (estado del servidor y conexión a BD) |
+| GET | `/api/setup/fix-admin` | No | Resetear contraseña del admin a `Admin123!` |
+| GET | `/health` | No | Health check general |
+| GET | `/health/ready` | No | Health check con validación de BD |
+| GET | `/health/live` | No | Liveness check |
 
 ---
 
-## 📝 Licencia
+## Flujo de autenticación
 
-Este proyecto está bajo la Licencia MIT. Ver archivo `LICENSE` para más detalles.
-
----
-
-## 👥 Autores
-
-- **Tu Nombre** - *Desarrollo inicial* - [GitHub](https://github.com/tu-usuario)
-
----
-
-## 🙏 Agradecimientos
-
-- [Clean Architecture - Robert C. Martin](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
-- [Microsoft - ASP.NET Core Documentation](https://docs.microsoft.com/en-us/aspnet/core/)
-- [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/)
+1. El cliente envía `POST /api/auth/login` con `{ "username": "admin", "password": "Admin123!" }`.
+2. Si las credenciales son correctas, el servidor responde con un token JWT.
+3. Para los siguientes requests protegidos, el cliente envía el token en el header:
+   ```
+   Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
+   ```
+4. El token expira en 24 horas (configurable en `appsettings.json` bajo `Jwt:ExpirationHours`).
 
 ---
 
-## 📞 Soporte
+## Roles del sistema
 
-Para preguntas o reportar problemas, por favor abrir un [issue](https://github.com/tu-usuario/backendORCinverisones/issues).
+| ID | Nombre | Permisos |
+|----|--------|----------|
+| 1 | Administrador | Acceso total: gestión de productos, categorías, marcas, usuarios y roles |
+| 2 | Vendedor | Acceso de lectura a productos, categorías y marcas |
 
 ---
 
-<div align="center">
+## Notas técnicas
 
-**Desarrollado con ❤️ usando .NET Core y Clean Architecture**
-
-</div>
+- **Rate limiting:** Configurado para proteger contra abuso. 200 requests generales por ventana, 20 para login, 10 para importación masiva.
+- **Caché en memoria:** Las categorías y marcas se cachean por 2 horas para reducir consultas a la base de datos.
+- **Compresión:** Las respuestas se comprimen con Brotli y GZIP.
+- **Logging:** Se usa Serilog con salida a consola y archivos en la carpeta `logs/`.
+- **Swagger:** Disponible en `/swagger` en todos los ambientes para documentación interactiva de la API.
