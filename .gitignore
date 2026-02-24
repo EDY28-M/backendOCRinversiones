@@ -1,0 +1,30 @@
+## Build
+bin/
+obj/
+publish/
+
+## IDE
+.vs/
+*.user
+*.suo
+*.csproj.user
+
+## Configuración con secretos (NUNCA subir)
+appsettings.json
+appsettings.Development.json
+
+## Logs
+logs/
+*.log
+
+## Herramientas AI
+.aider*
+.aider.tags.cache.v4/
+
+## Otros
+*.swp
+*.swo
+*~
+Thumbs.db
+.DS_Store
+ 
