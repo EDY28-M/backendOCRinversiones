@@ -29,8 +29,8 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
 
         // Seed data
         builder.HasData(
-            new Role { Id = 1, Name = "Administrador", Description = "Acceso total al sistema", CreatedAt = DateTime.Now },
-            new Role { Id = 2, Name = "Vendedor", Description = "Acceso restringido a productos", CreatedAt = DateTime.Now }
+            new Role { Id = 1, Name = "Administrador", Description = "Acceso total al sistema", CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc) },
+            new Role { Id = 2, Name = "Vendedor", Description = "Acceso restringido a productos", CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc) }
         );
     }
 }

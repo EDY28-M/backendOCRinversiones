@@ -1,7 +1,9 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using backendORCinverisones.Application.DTOs.Auth;
 using backendORCinverisones.Application.Interfaces.Repositories;
@@ -13,16 +15,22 @@ public class AuthService : IAuthService
 {
     private readonly IUserRepository _userRepository;
     private readonly IPasswordService _passwordService;
+    private readonly IEmailService _emailService;
     private readonly IConfiguration _configuration;
+    private readonly ILogger<AuthService> _logger;
 
     public AuthService(
         IUserRepository userRepository, 
         IPasswordService passwordService,
-        IConfiguration configuration)
+        IEmailService emailService,
+        IConfiguration configuration,
+        ILogger<AuthService> logger)
     {
         _userRepository = userRepository;
         _passwordService = passwordService;
+        _emailService = emailService;
         _configuration = configuration;
+        _logger = logger;
     }
 
     public async Task<LoginResponseDto?> LoginAsync(LoginRequestDto request)
@@ -49,6 +57,86 @@ public class AuthService : IAuthService
         };
     }
 
+    public async Task<bool> ForgotPasswordAsync(string email)
+    {
+        var user = await _userRepository.GetByEmailAsync(email);
+        if (user == null || !user.IsActive)
+        {
+            _logger.LogWarning("🔒 Solicitud de reset para email no existente: {Email}", email);
+            // Retornar true por seguridad (no revelar si el email existe)
+            return true;
+        }
+
+        // Generar token seguro
+        var token = GenerateSecureToken();
+        user.PasswordResetToken = token;
+        user.PasswordResetTokenExpiry = DateTime.UtcNow.AddHours(1);
+        await _userRepository.UpdateAsync(user);
+
+        // Construir URL de reset
+        var frontendUrl = _configuration["AppSettings:FrontendUrl"] ?? "http://localhost:5173";
+        var resetLink = $"{frontendUrl}/admin/reset-password?token={token}";
+
+        _logger.LogInformation("🔑 Token de reset generado para: {Email}", email);
+
+        // Enviar email via Brevo con plantilla
+        var templateId = int.Parse(_configuration["EmailSettings:BrevoTemplateId"] ?? "4");
+        var templateParams = new Dictionary<string, object>
+        {
+            ["name"] = user.Username,
+            ["email"] = user.Email,
+            ["subject"] = "Restablecer contraseña",
+            ["message"] = $"Se ha solicitado un restablecimiento de contraseña para tu cuenta. Haz clic en el siguiente enlace para crear una nueva contraseña (válido por 1 hora): {resetLink}",
+            ["resetLink"] = resetLink,
+            ["senderName"] = _configuration["EmailSettings:SenderName"] ?? "ORC Inversiones"
+        };
+
+        var sent = await _emailService.SendTemplateEmailAsync(
+            toEmail: user.Email,
+            toName: user.Username,
+            templateId: templateId,
+            templateParams: templateParams);
+
+        if (!sent)
+        {
+            _logger.LogError("❌ No se pudo enviar email de recuperación a: {Email}", email);
+            // Igual retornar true por seguridad
+        }
+
+        return true;
+    }
+
+    public async Task<(bool Success, string Message)> ResetPasswordAsync(string token, string newPassword)
+    {
+        var user = await _userRepository.GetByResetTokenAsync(token);
+
+        if (user == null)
+        {
+            _logger.LogWarning("🔒 Intento de reset con token inválido");
+            return (false, "El enlace de recuperación no es válido o ya fue utilizado");
+        }
+
+        if (user.PasswordResetTokenExpiry == null || user.PasswordResetTokenExpiry < DateTime.UtcNow)
+        {
+            _logger.LogWarning("🔒 Token expirado para usuario: {Username}", user.Username);
+            // Limpiar token expirado
+            user.PasswordResetToken = null;
+            user.PasswordResetTokenExpiry = null;
+            await _userRepository.UpdateAsync(user);
+            return (false, "El enlace de recuperación ha expirado. Solicita uno nuevo");
+        }
+
+        // Actualizar contraseña
+        user.PasswordHash = _passwordService.HashPassword(newPassword);
+        user.PasswordResetToken = null;
+        user.PasswordResetTokenExpiry = null;
+        user.UpdatedAt = DateTime.UtcNow;
+        await _userRepository.UpdateAsync(user);
+
+        _logger.LogInformation("✅ Contraseña actualizada para: {Username}", user.Username);
+        return (true, "Contraseña actualizada correctamente");
+    }
+
     public string GenerateJwtToken(int userId, string username, string roleName)
     {
         var key = new SymmetricSecurityKey(
@@ -72,5 +160,16 @@ public class AuthService : IAuthService
         );
 
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    private static string GenerateSecureToken()
+    {
+        var randomBytes = new byte[32];
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(randomBytes);
+        return Convert.ToBase64String(randomBytes)
+            .Replace("+", "-")
+            .Replace("/", "_")
+            .Replace("=", "");
     }
 }

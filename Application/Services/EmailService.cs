@@ -1,5 +1,6 @@
-using System.Net;
-using System.Net.Mail;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
 using backendORCinverisones.Application.Interfaces.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -8,27 +9,34 @@ using Microsoft.AspNetCore.Hosting;
 namespace backendORCinverisones.Application.Services;
 
 /// <summary>
-/// Servicio para envío de correos electrónicos mediante SMTP
+/// Servicio para envío de correos electrónicos mediante la API HTTP de Brevo
+/// Endpoint: POST https://api.brevo.com/v3/smtp/email
+/// Docs: https://developers.brevo.com/docs/send-a-transactional-email
 /// </summary>
 public class EmailService : IEmailService
 {
-    private const string PlaceholderPassword = "CHANGE_ME_APP_PASSWORD";
-    private const string PlaceholderPasswordEs = "TU_CONTRASEÑA_DE_APLICACION_AQUI";
+    private const string BrevoApiUrl = "https://api.brevo.com/v3/smtp/email";
 
     private readonly IConfiguration _configuration;
     private readonly ILogger<EmailService> _logger;
     private readonly IWebHostEnvironment _environment;
+    private readonly IHttpClientFactory _httpClientFactory;
 
     public EmailService(
         IConfiguration configuration,
         ILogger<EmailService> logger,
-        IWebHostEnvironment environment)
+        IWebHostEnvironment environment,
+        IHttpClientFactory httpClientFactory)
     {
         _configuration = configuration;
         _logger = logger;
         _environment = environment;
+        _httpClientFactory = httpClientFactory;
     }
 
+    /// <summary>
+    /// Envía un email con contenido HTML/texto estático via Brevo API
+    /// </summary>
     public async Task<bool> SendEmailAsync(
         string toEmail,
         string subject,
@@ -40,120 +48,132 @@ public class EmailService : IEmailService
     {
         cancellationToken.ThrowIfCancellationRequested();
 
+        var apiKey = _configuration["EmailSettings:BrevoApiKey"];
+        var senderEmail = _configuration["EmailSettings:SenderEmail"];
+        var senderName = _configuration["EmailSettings:SenderName"] ?? "ORC Inversiones";
+
+        if (!ValidateConfig(apiKey, senderEmail, toEmail, subject))
+            return SimulateIfDev(toEmail, subject);
+
+        var payload = new Dictionary<string, object>
+        {
+            ["sender"] = new { name = senderName, email = senderEmail },
+            ["to"] = new object[] { new { email = toEmail, name = toEmail } },
+            ["subject"] = subject
+        };
+
+        if (isHtml)
+            payload["htmlContent"] = body;
+        else
+            payload["textContent"] = body;
+
+        if (!string.IsNullOrWhiteSpace(replyToEmail))
+            payload["replyTo"] = new { email = replyToEmail, name = replyToName ?? replyToEmail };
+
+        return await SendToBrevoAsync(payload, apiKey!, toEmail, cancellationToken);
+    }
+
+    /// <summary>
+    /// Envía un email usando una plantilla de Brevo con parámetros dinámicos.
+    /// El sender, subject y body se toman de la plantilla.
+    /// </summary>
+    public async Task<bool> SendTemplateEmailAsync(
+        string toEmail,
+        string toName,
+        int templateId,
+        Dictionary<string, object>? templateParams = null,
+        string? replyToEmail = null,
+        string? replyToName = null,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var apiKey = _configuration["EmailSettings:BrevoApiKey"];
+
+        if (string.IsNullOrWhiteSpace(apiKey))
+        {
+            _logger.LogWarning("⚠️ BrevoApiKey no configurada en EmailSettings");
+            return SimulateIfDev(toEmail, $"Template #{templateId}");
+        }
+
+        var payload = new Dictionary<string, object>
+        {
+            ["to"] = new object[] { new { email = toEmail, name = toName } },
+            ["templateId"] = templateId
+        };
+
+        if (templateParams != null && templateParams.Count > 0)
+            payload["params"] = templateParams;
+
+        if (!string.IsNullOrWhiteSpace(replyToEmail))
+            payload["replyTo"] = new { email = replyToEmail, name = replyToName ?? replyToEmail };
+
+        return await SendToBrevoAsync(payload, apiKey!, toEmail, cancellationToken);
+    }
+
+    // ─── Helpers ───────────────────────────────────────────
+
+    private async Task<bool> SendToBrevoAsync(
+        Dictionary<string, object> payload,
+        string apiKey,
+        string toEmail,
+        CancellationToken cancellationToken)
+    {
         try
         {
-            var smtpServer = _configuration["EmailSettings:SmtpServer"];
-            var smtpPort = int.Parse(_configuration["EmailSettings:SmtpPort"] ?? "587");
-            var senderEmail = _configuration["EmailSettings:SenderEmail"];
-            var senderName = _configuration["EmailSettings:SenderName"] ?? "ORC Inversiones";
-            var password = _configuration["EmailSettings:Password"];
-            var enableSsl = bool.Parse(_configuration["EmailSettings:EnableSsl"] ?? "true");
+            var jsonPayload = JsonSerializer.Serialize(payload);
+            _logger.LogInformation("📤 Enviando email via Brevo API a: {To}", toEmail);
+            _logger.LogDebug("📤 Brevo payload: {Payload}", jsonPayload);
 
-            // Validar configuración básica
-            if (string.IsNullOrWhiteSpace(smtpServer) || string.IsNullOrWhiteSpace(senderEmail))
+            using var httpClient = _httpClientFactory.CreateClient();
+            using var request = new HttpRequestMessage(HttpMethod.Post, BrevoApiUrl);
+            request.Headers.Add("api-key", apiKey);
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            request.Content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+
+            var response = await httpClient.SendAsync(request, cancellationToken);
+            var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
+
+            if (response.IsSuccessStatusCode)
             {
-                _logger.LogWarning("⚠️ Email no configurado correctamente. Configure EmailSettings en appsettings.json");
-                if (_environment.IsDevelopment())
-                {
-                    _logger.LogInformation("📧 [SIMULADO] Email para: {To}", toEmail);
-                    _logger.LogInformation("📧 [SIMULADO] Asunto: {Subject}", subject);
-                    return true;
-                }
-
-                return false;
+                _logger.LogInformation("✅ Email enviado exitosamente a: {To} | Response: {Response}", toEmail, responseBody);
+                return true;
             }
 
-            password = ResolvePassword(password);
+            _logger.LogError("❌ Brevo API error ({StatusCode}) a {To}: {Response}",
+                (int)response.StatusCode, toEmail, responseBody);
 
-            if (IsMissingPassword(password))
-            {
-                if (_environment.IsDevelopment())
-                {
-                    _logger.LogWarning("⚠️ Email sin password. Configura EMAIL_PASSWORD (recomendado) o EmailSettings:Password.");
-                    _logger.LogInformation("📧 [SIMULADO] Email para: {To}", toEmail);
-                    _logger.LogInformation("📧 [SIMULADO] Asunto: {Subject}", subject);
-                    _logger.LogInformation("📧 [SIMULADO] Para Gmail usa una 'Contraseña de aplicación' (2FA) y guárdala como secret/ENV.");
-                    return true;
-                }
-
-                _logger.LogError("❌ Email no configurado: falta EmailSettings:Password / EMAIL_PASSWORD en entorno no-Development.");
-                return false;
-            }
-
-            using var client = new SmtpClient(smtpServer, smtpPort)
-            {
-                Credentials = new NetworkCredential(senderEmail, password),
-                EnableSsl = enableSsl,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                Timeout = 30000,
-                UseDefaultCredentials = false
-            };
-
-            if (smtpServer.Contains("gmail.com", StringComparison.OrdinalIgnoreCase))
-            {
-                client.EnableSsl = true; // Gmail requiere TLS
-            }
-
-            using var message = new MailMessage
-            {
-                From = new MailAddress(senderEmail, senderName),
-                Subject = subject,
-                Body = body,
-                IsBodyHtml = isHtml
-            };
-
-            message.To.Add(toEmail);
-
-            if (!string.IsNullOrWhiteSpace(replyToEmail))
-            {
-                message.ReplyToList.Add(new MailAddress(replyToEmail, replyToName ?? replyToEmail));
-            }
-
-            await client.SendMailAsync(message);
-
-            _logger.LogInformation("✅ Email enviado exitosamente a: {To}", toEmail);
-            return true;
-        }
-        catch (SmtpException smtpEx)
-        {
-            _logger.LogError("❌ Error SMTP al enviar email a {To}: {Message}", toEmail, smtpEx.Message);
-            _logger.LogError("   StatusCode: {StatusCode}", smtpEx.StatusCode);
-
-            if (smtpEx.StatusCode == SmtpStatusCode.MustIssueStartTlsFirst)
-            {
-                _logger.LogError("   💡 Solución: Asegúrate de que EnableSsl esté en 'true' y uses el puerto 587 para Gmail");
-            }
-            else if (smtpEx.Message.Contains("Authentication", StringComparison.OrdinalIgnoreCase) ||
-                     smtpEx.Message.Contains("5.7.0", StringComparison.OrdinalIgnoreCase))
-            {
-                _logger.LogError("   💡 Solución: Verifica que la contraseña de aplicación sea correcta");
-                _logger.LogError("   💡 Para Gmail: Usa una 'Contraseña de aplicación', no tu contraseña normal");
-                _logger.LogError("   💡 Pasos: Google Account -> Seguridad -> Verificación en 2 pasos -> Contraseñas de aplicación");
-            }
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                _logger.LogError("   💡 API Key inválida. Ve a Brevo > Settings > SMTP & API > pestaña 'API Keys'");
+            else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                _logger.LogError("   💡 Verifica sender verificado en Brevo y que el templateId exista");
 
             return false;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "❌ Error al enviar email a {To}", toEmail);
+            _logger.LogError(ex, "❌ Error al enviar email via Brevo a {To}", toEmail);
             return false;
         }
     }
 
-    private string? ResolvePassword(string? configuredPassword)
+    private bool ValidateConfig(string? apiKey, string? senderEmail, string toEmail, string subject)
     {
-        if (!IsMissingPassword(configuredPassword))
-            return configuredPassword;
-
-        return Environment.GetEnvironmentVariable("EMAIL_PASSWORD")
-               ?? Environment.GetEnvironmentVariable("GMAIL_APP_PASSWORD")
-               ?? configuredPassword;
+        if (string.IsNullOrWhiteSpace(apiKey) || string.IsNullOrWhiteSpace(senderEmail))
+        {
+            _logger.LogWarning("⚠️ EmailSettings no configurado (BrevoApiKey o SenderEmail faltante)");
+            return false;
+        }
+        return true;
     }
 
-    private static bool IsMissingPassword(string? password)
+    private bool SimulateIfDev(string toEmail, string subject)
     {
-        return string.IsNullOrWhiteSpace(password) ||
-               password == PlaceholderPassword ||
-               password == PlaceholderPasswordEs;
+        if (_environment.IsDevelopment())
+        {
+            _logger.LogInformation("📧 [SIMULADO] Email para: {To} | Asunto: {Subject}", toEmail, subject);
+            return true;
+        }
+        return false;
     }
 }

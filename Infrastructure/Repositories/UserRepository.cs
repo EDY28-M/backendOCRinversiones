@@ -30,6 +30,13 @@ public class UserRepository : Repository<User>, IUserRepository
             .FirstOrDefaultAsync(u => u.Id == id);
     }
 
+    public async Task<User?> GetByResetTokenAsync(string token)
+    {
+        return await _dbSet
+            .Include(u => u.Role)
+            .FirstOrDefaultAsync(u => u.PasswordResetToken == token);
+    }
+
     public override async Task<IEnumerable<User>> GetAllAsync()
     {
         return await _dbSet

@@ -98,21 +98,21 @@ namespace backendORCinverisones.Migrations
                 table: "ProductImages",
                 column: "ProductId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Users_Roles_RoleId",
-                table: "Users",
-                column: "RoleId",
-                principalTable: "Roles",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+            // migrationBuilder.AddForeignKey(
+            //     name: "FK_Users_Roles_RoleId",
+            //     table: "Users",
+            //     column: "RoleId",
+            //     principalTable: "Roles",
+            //     principalColumn: "Id",
+            //     onDelete: ReferentialAction.Restrict);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Users_Roles_RoleId",
-                table: "Users");
+            // migrationBuilder.DropForeignKey(
+            //     name: "FK_Users_Roles_RoleId",
+            //     table: "Users");
 
             migrationBuilder.DropTable(
                 name: "ProductImages");

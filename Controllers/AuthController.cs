@@ -32,6 +32,32 @@ public class AuthController : ControllerBase
         return Ok(response);
     }
 
+    [HttpPost("forgot-password")]
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequestDto request)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        await _authService.ForgotPasswordAsync(request.Email);
+
+        // Siempre retornar 200 por seguridad (no revelar si el email existe)
+        return Ok(new { message = "Si el correo electrónico está registrado, recibirás un enlace para restablecer tu contraseña." });
+    }
+
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequestDto request)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var (success, message) = await _authService.ResetPasswordAsync(request.Token, request.NewPassword);
+
+        if (!success)
+            return BadRequest(new { message });
+
+        return Ok(new { message });
+    }
+
     [HttpPost("logout")]
     public IActionResult Logout()
     {

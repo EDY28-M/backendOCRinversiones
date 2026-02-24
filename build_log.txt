@@ -1,0 +1,9 @@
+﻿  Determinando los proyectos que se van a restaurar...
+  Todos los proyectos est├ín actualizados para la restauraci├│n.
+  backendORCinverisones -> C:\Users\USER\Downloads\MATIAS\backendOCRinversiones\bin\Debug\net10.0\backendORCinverisones.dll
+
+Compilaci├│n correcta.
+    0 Advertencia(s)
+    0 Errores
+
+Tiempo transcurrido 00:00:02.15

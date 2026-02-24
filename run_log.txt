@@ -1,0 +1,19 @@
+﻿Usando la configuraci├│n de inicio de C:\Users\USER\Downloads\MATIAS\backendOCRinversiones\Properties\launchSettings.json...
+Compilando...
+[10:54:03 INF] ­ƒùä´©Å Base de datos configurada
+[10:54:03 INF] ­ƒÜÇ Backend ORC Inversiones iniciado correctamente
+[10:54:03 INF] ­ƒôè Health checks disponibles en: /health, /health/ready, /health/live
+[10:54:03 INF] ­ƒöÑ Iniciando warmup de la aplicaci├│n...
+[10:54:03 INF] ­ƒöÑ [Warmup] Calentando conexi├│n a base de datos...
+[10:54:04 WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+[10:54:04 INF] ­ƒöÑ [Warmup] Conexi├│n DB: OK
+[10:54:04 INF] ­ƒöÑ [Warmup] Pre-compilando queries de EF Core...
+[10:54:04 INF] ­ƒöÑ [Warmup] Queries pre-compiladas correctamente
+[10:54:04 INF] ­ƒöÑ [Warmup] Pre-calentando BCrypt...
+[10:54:04 INF] ­ƒöÑ [Warmup] BCrypt listo
+[10:54:04 INF] ­ƒöÑ Warmup completado en 1375ms
+[10:54:05 INF] ­ƒîÉ CORS configurado para: http://localhost:5173, https://orcinversionesperu.com
+[10:54:05 INF] Now listening on: http://localhost:5095
+[10:54:05 INF] Application started. Press Ctrl+C to shut down.
+[10:54:05 INF] Hosting environment: Development
+[10:54:05 INF] Content root path: C:\Users\USER\Downloads\MATIAS\backendOCRinversiones

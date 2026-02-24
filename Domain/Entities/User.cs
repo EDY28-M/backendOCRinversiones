@@ -10,6 +10,10 @@ public class User
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
 
+    // Password recovery
+    public string? PasswordResetToken { get; set; }
+    public DateTime? PasswordResetTokenExpiry { get; set; }
+
     // Navigation properties
     public int RoleId { get; set; }
     public Role Role { get; set; } = null!;
