@@ -1,0 +1,61 @@
+# render.yaml — Blueprint de despliegue para Render.com
+# Docs: https://render.com/docs/blueprint-spec
+# =============================================================
+
+services:
+  - type: web
+    name: backend-orc-inversiones
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    # Render detecta automáticamente el puerto desde ASPNETCORE_URLS
+    # Pero también lo puedes indicar explícitamente:
+    # port: 10000
+
+    # Plan gratuito de Render (cambia a "standard" si necesitas más recursos)
+    plan: free
+
+    # Región (selecciona la más cercana a tu audiencia)
+    region: oregon
+
+    # Healthcheck — Render usa esto para saber si el servicio está listo
+    healthCheckPath: /health/live
+
+    # Variables de entorno — Configúralas en el dashboard de Render
+    # Environment Variables > Add from .env or manually
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+
+      - key: ASPNETCORE_URLS
+        value: http://+:10000
+
+      # 🔴 ESTOS debes configurarlos manualmente en el dashboard de Render:
+      - key: DATABASE_URL
+        sync: false   # No sincronizar desde aquí — configura en el dashboard
+
+      - key: JWT_KEY
+        sync: false
+
+      - key: JWT_ISSUER
+        value: ORCInversionesAPI
+
+      - key: JWT_AUDIENCE
+        value: ORCInversionesClient
+
+      - key: FRONTEND_URL
+        sync: false   # Ej: https://frontedocrinversiones.onrender.com
+
+      - key: CORS_ORIGINS
+        sync: false   # Ej: https://frontedocrinversiones.onrender.com,https://orcinversionesperu.com
+
+      - key: BREVO_API_KEY
+        sync: false
+
+      - key: SENDER_EMAIL
+        sync: false
+
+      - key: SENDER_NAME
+        value: "ORC Inversiones Perú"
+
+      - key: CONTACT_RECIPIENT_EMAIL
+        sync: false

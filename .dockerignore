@@ -1,5 +1,6 @@
 **/.dockerignore
 **/.env
+**/.env.*
 **/.git
 **/.gitignore
 **/.vs
@@ -8,6 +9,32 @@
 **/obj
 **/TestResults
 **/appsettings.Development.json
+**/logs
+**/image
+# Docs y scripts que no van al contenedor
 LICENSE
 README.md
 DEPLOY_RENDER.md
+DEPLOY_OPTIMIZATION.sh
+ARCHITECTURE.md
+BCRYPT_FIX.md
+BULK_IMPORT_FIX.md
+COMMANDS.md
+GETTING_STARTED.md
+JWT_SOLUCION.md
+JWT_TROUBLESHOOTING.md
+OPTIMIZACIONES_IMPLEMENTADAS.md
+OPTIMIZACIONES_NUEVAS.md
+PROJECT_SUMMARY.md
+# SQL scripts locales
+*.sql
+# Archivos de texto temporales
+*.txt
+*.ps1
+*.http
+*.user
+# Push error logs
+push_error*.txt
+build_log.txt
+restore_log.txt
+run_log.txt

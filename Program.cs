@@ -48,6 +48,10 @@ builder.Host.UseSerilog();
 // ============================================
 builder.WebHost.ConfigureKestrel(options =>
 {
+    // ✅ Render inyecta la variable PORT automáticamente
+    var port = int.Parse(Environment.GetEnvironmentVariable("PORT") ?? "10000");
+    options.ListenAnyIP(port);
+
     // Aumentar límites de conexión para alta concurrencia
     options.Limits.MaxConcurrentConnections = 1000;
     options.Limits.MaxConcurrentUpgradedConnections = 1000;

@@ -79,16 +79,14 @@ public class AuthService : IAuthService
 
         _logger.LogInformation("🔑 Token de reset generado para: {Email}", email);
 
-        // Enviar email via Brevo con plantilla
-        var templateId = int.Parse(_configuration["EmailSettings:BrevoTemplateId"] ?? "4");
+        // Enviar email via Brevo con plantilla #7 (Recuperación de contraseña)
+        var templateId = int.Parse(_configuration["EmailSettings:BrevoTemplateId"] ?? "7");
         var templateParams = new Dictionary<string, object>
         {
             ["name"] = user.Username,
             ["email"] = user.Email,
-            ["subject"] = "Restablecer contraseña",
-            ["message"] = $"Se ha solicitado un restablecimiento de contraseña para tu cuenta. Haz clic en el siguiente enlace para crear una nueva contraseña (válido por 1 hora): {resetLink}",
             ["resetLink"] = resetLink,
-            ["senderName"] = _configuration["EmailSettings:SenderName"] ?? "ORC Inversiones"
+            ["senderName"] = _configuration["EmailSettings:SenderName"] ?? "ORC Inversiones Perú"
         };
 
         var sent = await _emailService.SendTemplateEmailAsync(
