@@ -79,8 +79,8 @@ public class AuthService : IAuthService
 
         _logger.LogInformation("🔑 Token de reset generado para: {Email}", email);
 
-        // Enviar email via Brevo con plantilla #8 (Recuperación de contraseña)
-        var templateId = int.Parse(_configuration["EmailSettings:BrevoTemplateId"] ?? "8");
+        // Enviar email via Brevo con plantilla #1 (Recuperación de contraseña)
+        var templateId = int.Parse(_configuration["EmailSettings:BrevoTemplateId"] ?? "1");
         var templateParams = new Dictionary<string, object>
         {
             ["name"] = user.Username,
