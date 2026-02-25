@@ -36,7 +36,7 @@ public class ContactService : IContactService
         }
 
         var senderName = _configuration["EmailSettings:SenderName"] ?? "ORC Inversiones";
-        var templateId = int.Parse(_configuration["EmailSettings:BrevoTemplateId"] ?? "4");
+        var templateId = int.Parse(_configuration["EmailSettings:ContactTemplateId"] ?? "4");
 
         // Parámetros dinámicos para la plantilla de Brevo
         var templateParams = new Dictionary<string, object>
