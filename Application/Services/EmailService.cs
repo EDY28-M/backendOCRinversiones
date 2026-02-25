@@ -48,7 +48,7 @@ public class EmailService : IEmailService
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var apiKey = _configuration["EmailSettings:BrevoApiKey"];
+        var apiKey = GetBrevoApiKey();
         var senderEmail = _configuration["EmailSettings:SenderEmail"];
         var senderName = _configuration["EmailSettings:SenderName"] ?? "ORC Inversiones";
 
@@ -88,7 +88,7 @@ public class EmailService : IEmailService
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var apiKey = _configuration["EmailSettings:BrevoApiKey"];
+        var apiKey = GetBrevoApiKey();
 
         if (string.IsNullOrWhiteSpace(apiKey))
         {
@@ -112,6 +112,25 @@ public class EmailService : IEmailService
     }
 
     // ─── Helpers ───────────────────────────────────────────
+
+    /// <summary>
+    /// Lee la API key de Brevo con fallback a env var directa.
+    /// Evita el problema de template literals ${...} en appsettings.Production.json
+    /// </summary>
+    private string? GetBrevoApiKey()
+    {
+        var key = _configuration["EmailSettings:BrevoApiKey"];
+
+        // Si el config tiene un template sin resolver (ej: "${BREVO_API_KEY}"), leer env var directo
+        if (string.IsNullOrWhiteSpace(key) || key.StartsWith("${"))
+            key = Environment.GetEnvironmentVariable("BREVO_API_KEY")
+               ?? Environment.GetEnvironmentVariable("EmailSettings__BrevoApiKey");
+
+        _logger.LogInformation("🔑 API Key Brevo (primeros 12 chars): {Prefix}...",
+            key?.Length >= 12 ? key[..12] : "(vacía o muy corta)");
+
+        return key;
+    }
 
     private async Task<bool> SendToBrevoAsync(
         Dictionary<string, object> payload,
