@@ -295,8 +295,22 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
     {
-        var corsOrigins = builder.Configuration["CorsOrigins"]?.Split(',', StringSplitOptions.RemoveEmptyEntries) 
-                          ?? new[] { "http://localhost:5173", "https://frontedocrinversiones.onrender.com","https://orcinversionesperu.com","https://frontedocrinversiones.orcinversionespe.workers.dev " };
+        // Leer orígenes desde env var (sin templates ${...})
+        var rawOrigins = Environment.GetEnvironmentVariable("CorsOrigins")
+                      ?? builder.Configuration["CorsOrigins"];
+
+        // Si el valor es un template sin resolver o está vacío, usar los conocidos
+        var corsOrigins = (!string.IsNullOrWhiteSpace(rawOrigins) && !rawOrigins.StartsWith("${"))
+            ? rawOrigins.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            : new[]
+            {
+                "http://localhost:5173",
+                "http://localhost:5174",
+                "https://frontedocrinversiones.onrender.com",
+                "https://orcinversionesperu.com",
+                "https://www.orcinversionesperu.com",
+                "https://backendocrinversiones.onrender.com"
+            };
 
         Log.Information("🌐 CORS configurado para: {Origins}", string.Join(", ", corsOrigins));
 
