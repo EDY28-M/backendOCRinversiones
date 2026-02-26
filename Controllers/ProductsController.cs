@@ -108,12 +108,13 @@ public class ProductsController : ControllerBase
         [FromQuery] int pageSize = 12,
         [FromQuery] string? q = null,
         [FromQuery] int? categoryId = null,
-        [FromQuery] bool onlyWithImages = true)
+        [FromQuery] bool onlyWithImages = true,
+        [FromQuery] bool onlyActive = true)
     {
         try
         {
             var (items, total) = await _productRepository.GetAvailableProductsPagedAsync(
-                page, pageSize, q, categoryId, onlyWithImages, onlyActive: true);
+                page, pageSize, q, categoryId, onlyWithImages, onlyActive: onlyActive);
 
             var response = new PaginatedProductsResponseDto
             {

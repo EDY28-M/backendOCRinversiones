@@ -50,8 +50,11 @@ builder.Host.UseSerilog();
 // ============================================
 builder.WebHost.ConfigureKestrel(options =>
 {
-    // ✅ Render inyecta la variable PORT automáticamente
-    var port = int.Parse(Environment.GetEnvironmentVariable("PORT") ?? "10000");
+    // ✅ Render inyecta PORT; en desarrollo local usar 5095 (coincide con frontend .env)
+    var portStr = Environment.GetEnvironmentVariable("PORT");
+    var port = int.Parse(!string.IsNullOrEmpty(portStr)
+        ? portStr
+        : (builder.Environment.IsDevelopment() ? "5095" : "10000"));
     options.ListenAnyIP(port);
 
     // Aumentar límites de conexión para alta concurrencia
